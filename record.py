@@ -55,4 +55,22 @@ def add_subtask(task_id, subtask_name):
     con.close()
 
 
-add_task(1, "Read", 1, "2023-12-30", "Basic", "pending", "Read for your exam")
+def number_of_tasks():
+    """Returns the number of uncompleted tasks"""
+    con = sqlite3.connect("tasks.db")
+    c = con.cursor()
+    c.execute("SELECT COUNT(*) FROM tasks")
+    result = c.fetchone()
+    num_records = result[0]
+    con.close()
+
+    return num_records
+
+def add_label(label_name):
+    """Adds a new label"""
+    con = sqlite3.connect("tasks.db")
+    c = con.cursor()
+    c.execute(f"INSERT INTO labels (label_name) VALUES ({label_name})")
+    con.commit()
+    con.close()
+

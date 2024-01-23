@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTextEdit, QPushButton, QLabel
 import sys
-import record
 from interface_ui import Ui_MainWindow
 
 
@@ -14,17 +13,6 @@ class MainWindow(QMainWindow):
         self.ui.icons_only_widget.hide()
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.home_btn_2.setChecked(True)
-
-    def on_stackWidget_currentChanged(self, index):
-        btn_list = self.ui.icons_only_widget.findChildren(QPushButton) \
-                   + self.ui.full_name_widget.findChildren(QPushButton)
-
-        for btn in btn_list:
-            if index in [4, 5]:
-                btn.setAutoExclusive(False)
-                btn.setChecked(False)
-            else:
-                btn.setAutoExclusive(True)
 
     def on_home_btn_1_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -53,6 +41,12 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+
+    # # Loading stylesheet file
+    # with open("style.qss", "r") as style_file:
+    #     style_str = style_file.read()
+    # app.setStyleSheet(style_str)
+
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
