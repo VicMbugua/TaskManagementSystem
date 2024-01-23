@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>icons/211650_close_circled_icon.svg</file>
+    <file>icons/99903_tasks_icon.png</file>
+    <file>icons/134216_menu_lines_hamburger_icon.svg</file>
+    <file>icons/216242_home_icon.svg</file>
+    <file>icons/290104_calendar_clock_date_event_schedule_icon.svg</file>
+    <file>icons/1564534_customer_man_user_account_profile_icon.svg</file>
+    <file>icons/3844432_magnifier_search_zoom_icon.svg</file>
+    <file>icons/9040503_list_task_icon.svg</file>
+    <file>icons/9054813_bx_task_icon.svg</file>
+    <file>icons/9104111_list_checklist_done_complete_task_icon.svg</file>
+  </qresource>
+</RCC>
