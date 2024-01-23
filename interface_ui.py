@@ -227,7 +227,7 @@ class Ui_MainWindow(object):
         self.exit_btn_2.setText(_translate("MainWindow", "Exit"))
         self.menu_btn.setToolTip(_translate("MainWindow", "Menu"))
         self.label_3.setText(_translate("MainWindow", "TASK MANAGEMENT SYSTEM"))
-        self.pushButton_12.setToolTip(_translate("MainWindow", "Users Page"))
+        self.pushButton_12.setToolTip(_translate("MainWindow", "User"))
         self.stackedWidget.setToolTip(_translate("MainWindow", "Home"))
         self.label_4.setText(_translate("MainWindow", "HOME PAGE"))
         self.label_5.setText(_translate("MainWindow", "TASKS PAGE"))

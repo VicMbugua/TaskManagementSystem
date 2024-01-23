@@ -229,7 +229,7 @@
           <item>
            <widget class="QPushButton" name="pushButton_12">
             <property name="toolTip">
-             <string>Users Page</string>
+             <string>User</string>
             </property>
             <property name="text">
              <string/>
