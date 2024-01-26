@@ -32,3 +32,4 @@
 #full_name_widget QPushButton:checked {
     background-color: rgb(4, 4, 92);
 }
+

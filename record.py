@@ -21,7 +21,6 @@ def add_task(user_id, task_name, priority, due_date, label_name, status, descrip
     con.commit()
     con.close()
 
-
 def remove_task(task_id):
     """Removes a task from the tasks table of the specified task_id."""
     con = sqlite3.connect("tasks.db")
