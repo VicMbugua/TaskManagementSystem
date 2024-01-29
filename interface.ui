@@ -280,6 +280,9 @@
                 <iconset resource="resources.qrc">
                  <normaloff>:/icon/icons/9040503_list_task_icon.svg</normaloff>:/icon/icons/9040503_list_task_icon.svg</iconset>
                </property>
+               <property name="shortcut">
+                <string>Alt+T</string>
+               </property>
                <property name="checkable">
                 <bool>true</bool>
                </property>
@@ -435,9 +438,6 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
-         <property name="toolTip">
-          <string>Home</string>
-         </property>
          <property name="currentIndex">
           <number>1</number>
          </property>
@@ -465,11 +465,24 @@
           <widget class="QTableView" name="tasks_list">
            <property name="geometry">
             <rect>
-             <x>40</x>
-             <y>150</y>
-             <width>511</width>
-             <height>301</height>
+             <x>10</x>
+             <y>130</y>
+             <width>551</width>
+             <height>341</height>
             </rect>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="add_task_btn">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>60</y>
+             <width>75</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Add Task</string>
            </property>
           </widget>
          </widget>
