@@ -8,23 +8,6 @@ from add_task_ui import Ui_AddTask
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
 import sqlite3
 
-# class ButtonDelegate(QItemDelegate):
-#     def __init__(self, parent = None):
-#         super().__init__(parent)
-        
-#     def createEditor(self, parent, option, index):
-#         button = QPushButton("Edit", parent)
-#         button.clicked.connect(self.buttonClicked)
-#         return button
-    
-#     def setEditorData(self, editor, index):
-#         editor.setText(index.data())
-        
-#     def buttonClicked(self):
-#         button = self.sender()
-#         index = self.parent().indexAt(button.pos())
-        
-#         print(f"row {index.row()}, column {index.column()}")
         
 class ButtonDelegate(QStyledItemDelegate):
     def __init__(self, parent=None):
@@ -91,7 +74,6 @@ class DatabaseManager:
         else:
             self.cursor.execute(query)
         return self.cursor.fetchall()
-        
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -192,52 +174,6 @@ class MainWindow(QMainWindow):
         window = MainWindow()
         window.display_tasks()
         
-        
-class AddTask(QMainWindow):
-    def __init__(self):
-        super(AddTask, self).__init__()
-        self.window = QDialog()
-        self.ui = Ui_AddTask()
-        self.ui.setupUi(self.window)
-        
-        self.ui.due_edit.setMinimumDate(QDate.currentDate())
-        
-'''
-class TasksPage(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.display_tasks()
-        self.ui.add_task_btn.clicked.connect(self.open_add_task)
-    
-    def tasks_page(self):
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.display_tasks()
-        self.ui.add_task_btn.clicked.connect(self.open_add_task)
-    
-    def display_tasks(self):
-        db = QSqlDatabase.addDatabase("QSQLITE")
-        db.setDatabaseName("tasks.db")
-        if not db.open():
-            print("Error: could not open database")
-            
-        model = QSqlTableModel()
-        model.setTable("tasks")
-        model.select()
-        
-        self.table = self.ui.tasks_list
-        self.table.setModel(model)
-        
-        
-    def open_add_task(self):
-        self.window = QDialog()
-        self.ui = Ui_AddTask()
-        self.ui.setupUi(self.window)
-        self.window.show()
-            
-'''
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -247,10 +183,8 @@ if __name__ == "__main__":
     #     style_str = style_file.read()
     # app.setStyleSheet(style_str)
     
-
     window = MainWindow()
     window.setWindowTitle("Task Management System")
     window.display_tasks()
     window.show()
     sys.exit(app.exec())
-    
