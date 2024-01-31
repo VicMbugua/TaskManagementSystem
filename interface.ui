@@ -471,6 +471,9 @@
              <height>341</height>
             </rect>
            </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
           </widget>
           <widget class="QPushButton" name="add_task_btn">
            <property name="geometry">

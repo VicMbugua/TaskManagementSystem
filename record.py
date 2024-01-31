@@ -32,7 +32,7 @@ def remove_task(task_id):
 
 def task_completed(task_id):
     """Marks a task complete by adding the task to the tasks_done table then removes the task from the tasks table
-     of the specified task_id."""
+    of the specified task_id."""
     con = sqlite3.connect("tasks.db")
     c = con.cursor()
     c.execute(f"""
@@ -62,7 +62,6 @@ def number_of_tasks():
     result = c.fetchone()
     num_records = result[0]
     con.close()
-
     return num_records
 
 def add_label(label_name):
@@ -72,4 +71,3 @@ def add_label(label_name):
     c.execute(f"INSERT INTO labels (label_name) VALUES ({label_name})")
     con.commit()
     con.close()
-

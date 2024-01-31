@@ -193,6 +193,7 @@ class Ui_MainWindow(object):
         self.tasks_page.setObjectName("tasks_page")
         self.tasks_list = QtWidgets.QTableView(self.tasks_page)
         self.tasks_list.setGeometry(QtCore.QRect(10, 130, 551, 341))
+        self.tasks_list.setAlternatingRowColors(True)
         self.tasks_list.setObjectName("tasks_list")
         self.add_task_btn = QtWidgets.QPushButton(self.tasks_page)
         self.add_task_btn.setGeometry(QtCore.QRect(390, 60, 75, 23))
