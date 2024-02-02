@@ -439,7 +439,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="home_page">
           <widget class="QLabel" name="no_of_tasks">
@@ -490,22 +490,14 @@
           </widget>
          </widget>
          <widget class="QWidget" name="completed_tasks_page">
-          <widget class="QLabel" name="label_6">
+          <widget class="QTableView" name="completed_tasks">
            <property name="geometry">
             <rect>
-             <x>160</x>
-             <y>190</y>
-             <width>231</width>
-             <height>51</height>
+             <x>35</x>
+             <y>111</y>
+             <width>491</width>
+             <height>331</height>
             </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>COMPLETED TASKS PAGE</string>
            </property>
           </widget>
          </widget>

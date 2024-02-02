@@ -58,7 +58,7 @@ def number_of_tasks():
     """Returns the number of uncompleted tasks"""
     con = sqlite3.connect("tasks.db")
     c = con.cursor()
-    c.execute("SELECT COUNT(*) FROM tasks")
+    c.execute("SELECT COUNT(*) FROM tasks WHERE status = 'Not Started' OR status = 'Started'")
     result = c.fetchone()
     num_records = result[0]
     con.close()
@@ -69,5 +69,13 @@ def add_label(label_name):
     con = sqlite3.connect("tasks.db")
     c = con.cursor()
     c.execute(f"INSERT INTO labels (label_name) VALUES ({label_name})")
+    con.commit()
+    con.close()
+    
+def edit_task(task_id, task_name, priority, due_date, label_name, status, description):
+    """Edits a task"""
+    con = sqlite3.connect("tasks.db")
+    c = con.cursor()
+    c.execute(f"UPDATE tasks SET task_name = '{task_name}', priority = {priority}, due_date = '{due_date}', label_name = '{label_name}', status = '{status}', description = '{description}' WHERE task_id = {task_id}")
     con.commit()
     con.close()

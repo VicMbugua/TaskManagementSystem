@@ -201,12 +201,9 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.tasks_page)
         self.completed_tasks_page = QtWidgets.QWidget()
         self.completed_tasks_page.setObjectName("completed_tasks_page")
-        self.label_6 = QtWidgets.QLabel(self.completed_tasks_page)
-        self.label_6.setGeometry(QtCore.QRect(160, 190, 231, 51))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_6.setFont(font)
-        self.label_6.setObjectName("label_6")
+        self.completed_tasks = QtWidgets.QTableView(self.completed_tasks_page)
+        self.completed_tasks.setGeometry(QtCore.QRect(35, 111, 491, 331))
+        self.completed_tasks.setObjectName("completed_tasks")
         self.stackedWidget.addWidget(self.completed_tasks_page)
         self.calender_page = QtWidgets.QWidget()
         self.calender_page.setObjectName("calender_page")
@@ -222,7 +219,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
@@ -257,6 +254,5 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "TASK MANAGEMENT SYSTEM"))
         self.user_btn.setToolTip(_translate("MainWindow", "User"))
         self.add_task_btn.setText(_translate("MainWindow", "Add Task"))
-        self.label_6.setText(_translate("MainWindow", "COMPLETED TASKS PAGE"))
         self.label_7.setText(_translate("MainWindow", "CALENDER PAGE"))
 import resources_rc
