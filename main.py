@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QDate, QObject, Qt, QModelIndex, QVariant
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, qApp, QDialog, QMessageBox, QStyledItemDelegate, QInputDialog, QComboBox, QAbstractItemView, QHeaderView
+from PyQt5.QtCore import QDate, QObject, Qt, QModelIndex, QVariant,QSortFilterProxyModel
+from PyQt5.QtWidgets import QMainWindow, QApplication, QAction, QPushButton, qApp, QDialog, QMessageBox, QStyledItemDelegate, QInputDialog, QComboBox, QAbstractItemView, QHeaderView
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 import sys
 import record
@@ -60,16 +60,38 @@ class MainWindow(QMainWindow):
                 self.model.setItem(row_num, col_num, item)
         self.table.setModel(self.model)
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.table.setColumnHidden(0, True)
+        proxy_model = QSortFilterProxyModel()
+        proxy_model.setSourceModel(self.table.model())
+        self.table.setModel(proxy_model)
+        self.table.setSortingEnabled(True)
         for row in range(self.model.rowCount()):
-            button = QComboBox()
-            button.addItems(["Done", "Edit", "Delete"])
-            button.currentIndexChanged.connect(lambda index, row=row: self.handle_action(index, row))
-            self.table.setIndexWidget(self.model.index(row, self.model.columnCount() - 1), button)
+            self.button = QComboBox()
+            self.button.addItems(["Select...","Done", "Edit", "Delete"])
+            self.button.currentIndexChanged.connect(lambda index, row=row: self.handle_action(index, row))
+            self.table.setIndexWidget(self.model.index(row, self.model.columnCount() - 1), self.button)
+            self.button.setCurrentText("Select...")
         self.show()
         
     def handle_action(self, index, row):
         selected_action = self.sender().currentText()
         record_id = self.model.index(row, 0).data()
+        if selected_action == "Done":
+            print(f"Done selected for record {record_id}")
+        elif selected_action == "Edit":
+            print(f"Edit selected for record {record_id}")
+            self.open_add_task()
+        elif selected_action == "Delete":
+            confirmation = QMessageBox()
+            confirmation.setText("Are you sure you want to delete")
+            confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            confirmation.setDefaultButton(QMessageBox.Cancel)
+            confirmation.setIcon(QMessageBox.Warning)
+            response = confirmation.exec()
+            if response == QMessageBox.Yes:
+                print(f"Delete selected for record {record_id}")
+                self.display_tasks()
+        
         
     def handle_edit_button(self):
         button = qApp.focusWidget()
@@ -133,7 +155,7 @@ class MainWindow(QMainWindow):
         msg_box.setWindowTitle("Success")
         msg_box.exec()
         self.handle_reset_btn()
-        MainWindow().display_tasks()
+        self.display_tasks()
         
 
 if __name__ == "__main__":
