@@ -1,12 +1,11 @@
-from PyQt5.QtCore import QDate, QObject, Qt, QModelIndex, QVariant,QSortFilterProxyModel
-from PyQt5.QtWidgets import QMainWindow, QApplication, QAction, QPushButton, qApp, QDialog, QMessageBox, QStyledItemDelegate, QInputDialog, QComboBox, QAbstractItemView, QHeaderView
+from PyQt5.QtCore import QDate, Qt
+from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog, QMessageBox, QComboBox, QAbstractItemView
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 import sys
 import record
 from interface_ui import Ui_MainWindow
 from add_task_ui import Ui_AddTask
 from edit_task_ui import Ui_EditTask
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
 import sqlite3
 
 
@@ -94,6 +93,7 @@ class MainWindow(QMainWindow):
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table.setColumnHidden(0, True)
         table.resizeColumnsToContents()
+        table.setColumnWidth(self.tasks_model.columnCount() - 1, 100)
         table.setSortingEnabled(True)
         table.sortByColumn(self.tasks_model.columnCount() - 2, Qt.AscendingOrder)
         for row in range(self.tasks_model.rowCount()):
@@ -140,6 +140,8 @@ class MainWindow(QMainWindow):
                 record.remove_task(task_id)
                 self.display_tasks()
                 self.display_number_of_tasks()
+            else:
+                self.display_tasks()
     
     def open_edit_task(self, task_id):
         self.edit_window = QDialog()
@@ -207,15 +209,22 @@ class MainWindow(QMainWindow):
         description = self.task_ui.description.toPlainText()
         status = self.task_ui.status.currentText()
         user_id = 1
-        record.add_task(user_id, task_name, priority, due_date, label_name, status, description)
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Information)
-        msg_box.setText(f"Successfully added {task_name}.")
-        msg_box.setWindowTitle("Success")
-        msg_box.exec()
-        self.handle_reset_btn()
-        self.display_tasks()
-        self.display_number_of_tasks()
+        if task_name != "":
+            record.add_task(user_id, task_name, priority, due_date, label_name, status, description)
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Information)
+            msg_box.setText(f"Successfully added {task_name}.")
+            msg_box.setWindowTitle("Success")
+            msg_box.exec()
+            self.handle_reset_btn()
+            self.display_tasks()
+            self.display_number_of_tasks()
+        else:
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Warning)
+            msg_box.setText("Please enter a task name.")
+            msg_box.setWindowTitle("Invalid")
+            msg_box.exec()
 
 # TASKS PAGE END
 
@@ -278,6 +287,8 @@ class MainWindow(QMainWindow):
             response = confirmation.exec()
             if response == QMessageBox.Yes:
                 record.remove_task(task_id)
+                self.display_completed_tasks()
+            else:
                 self.display_completed_tasks()
 
 # COMPLETED TASKS PAGE END

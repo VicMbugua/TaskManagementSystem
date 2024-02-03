@@ -16,7 +16,7 @@ class Ui_AddTask(object):
         AddTask.setObjectName("AddTask")
         AddTask.resize(457, 393)
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(11)
         AddTask.setFont(font)
         self.label = QtWidgets.QLabel(AddTask)
         self.label.setGeometry(QtCore.QRect(16, 29, 81, 21))
@@ -56,10 +56,10 @@ class Ui_AddTask(object):
         self.description.setGeometry(QtCore.QRect(20, 190, 351, 111))
         self.description.setObjectName("description")
         self.save_btn = QtWidgets.QPushButton(AddTask)
-        self.save_btn.setGeometry(QtCore.QRect(330, 340, 75, 23))
+        self.save_btn.setGeometry(QtCore.QRect(190, 340, 75, 23))
         self.save_btn.setObjectName("save_btn")
         self.reset_btn = QtWidgets.QPushButton(AddTask)
-        self.reset_btn.setGeometry(QtCore.QRect(130, 340, 75, 23))
+        self.reset_btn.setGeometry(QtCore.QRect(50, 340, 75, 23))
         self.reset_btn.setObjectName("reset_btn")
         self.label_5 = QtWidgets.QLabel(AddTask)
         self.label_5.setGeometry(QtCore.QRect(200, 120, 51, 21))
@@ -76,8 +76,12 @@ class Ui_AddTask(object):
         self.label_name.addItem("")
         self.label_name.addItem("")
         self.label_name.addItem("")
+        self.cancel_btn = QtWidgets.QPushButton(AddTask)
+        self.cancel_btn.setGeometry(QtCore.QRect(330, 340, 75, 23))
+        self.cancel_btn.setObjectName("cancel_btn")
 
         self.retranslateUi(AddTask)
+        self.cancel_btn.clicked.connect(AddTask.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(AddTask)
 
     def retranslateUi(self, AddTask):
@@ -101,3 +105,4 @@ class Ui_AddTask(object):
         self.label_name.setItemText(0, _translate("AddTask", "Personal"))
         self.label_name.setItemText(1, _translate("AddTask", "Work"))
         self.label_name.setItemText(2, _translate("AddTask", "School"))
+        self.cancel_btn.setText(_translate("AddTask", "Cancel"))
