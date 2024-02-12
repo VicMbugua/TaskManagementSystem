@@ -261,22 +261,5 @@
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>cancel_btn</sender>
-   <signal>clicked()</signal>
-   <receiver>AddTask</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>362</x>
-     <y>361</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>375</x>
-     <y>441</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

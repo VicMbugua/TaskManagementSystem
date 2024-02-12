@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\interface.ui'
+# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\resources\interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -45,13 +45,13 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icon/icons/134216_menu_lines_hamburger_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.menu_btn.setIcon(icon)
-        self.menu_btn.setCheckable(True)
-        self.menu_btn.setAutoRepeat(True)
+        self.menu_btn.setCheckable(False)
+        self.menu_btn.setAutoRepeat(False)
         self.menu_btn.setObjectName("menu_btn")
         self.horizontalLayout_4.addWidget(self.menu_btn)
-        self.label = QtWidgets.QLabel(self.widget_4)
-        self.label.setObjectName("label")
-        self.horizontalLayout_4.addWidget(self.label)
+        self.menu_label = QtWidgets.QLabel(self.widget_4)
+        self.menu_label.setObjectName("menu_label")
+        self.horizontalLayout_4.addWidget(self.menu_label)
         self.verticalLayout_3.addWidget(self.widget_4)
         self.widget_2 = QtWidgets.QWidget(self.widget_3)
         self.widget_2.setObjectName("widget_2")
@@ -91,24 +91,24 @@ class Ui_MainWindow(object):
         self.completed_tasks_btn_1.setAutoExclusive(True)
         self.completed_tasks_btn_1.setObjectName("completed_tasks_btn_1")
         self.verticalLayout_2.addWidget(self.completed_tasks_btn_1)
-        self.calender_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
-        self.calender_btn_1.setText("")
+        self.calendar_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
+        self.calendar_btn_1.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/icon/icons/290104_calendar_clock_date_event_schedule_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.calender_btn_1.setIcon(icon4)
-        self.calender_btn_1.setCheckable(True)
-        self.calender_btn_1.setAutoExclusive(True)
-        self.calender_btn_1.setObjectName("calender_btn_1")
-        self.verticalLayout_2.addWidget(self.calender_btn_1)
+        self.calendar_btn_1.setIcon(icon4)
+        self.calendar_btn_1.setCheckable(True)
+        self.calendar_btn_1.setAutoExclusive(True)
+        self.calendar_btn_1.setObjectName("calendar_btn_1")
+        self.verticalLayout_2.addWidget(self.calendar_btn_1)
         spacerItem = QtWidgets.QSpacerItem(20, 325, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem)
-        self.pushButton_5 = QtWidgets.QPushButton(self.icons_only_widget)
-        self.pushButton_5.setText("")
+        self.exit_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
+        self.exit_btn_1.setText("")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/icon/icons/211650_close_circled_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_5.setIcon(icon5)
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.verticalLayout_2.addWidget(self.pushButton_5)
+        self.exit_btn_1.setIcon(icon5)
+        self.exit_btn_1.setObjectName("exit_btn_1")
+        self.verticalLayout_2.addWidget(self.exit_btn_1)
         self.horizontalLayout.addWidget(self.icons_only_widget)
         self.full_name_widget = QtWidgets.QWidget(self.widget_2)
         self.full_name_widget.setObjectName("full_name_widget")
@@ -135,12 +135,12 @@ class Ui_MainWindow(object):
         self.completed_tasks_btn_2.setAutoExclusive(True)
         self.completed_tasks_btn_2.setObjectName("completed_tasks_btn_2")
         self.verticalLayout.addWidget(self.completed_tasks_btn_2)
-        self.calender_btn_2 = QtWidgets.QPushButton(self.full_name_widget)
-        self.calender_btn_2.setIcon(icon4)
-        self.calender_btn_2.setCheckable(True)
-        self.calender_btn_2.setAutoExclusive(True)
-        self.calender_btn_2.setObjectName("calender_btn_2")
-        self.verticalLayout.addWidget(self.calender_btn_2)
+        self.calendar_btn_2 = QtWidgets.QPushButton(self.full_name_widget)
+        self.calendar_btn_2.setIcon(icon4)
+        self.calendar_btn_2.setCheckable(True)
+        self.calendar_btn_2.setAutoExclusive(True)
+        self.calendar_btn_2.setObjectName("calendar_btn_2")
+        self.verticalLayout.addWidget(self.calendar_btn_2)
         spacerItem1 = QtWidgets.QSpacerItem(20, 325, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
         self.exit_btn_2 = QtWidgets.QPushButton(self.full_name_widget)
@@ -205,54 +205,51 @@ class Ui_MainWindow(object):
         self.completed_tasks.setGeometry(QtCore.QRect(35, 111, 491, 331))
         self.completed_tasks.setObjectName("completed_tasks")
         self.stackedWidget.addWidget(self.completed_tasks_page)
-        self.calender_page = QtWidgets.QWidget()
-        self.calender_page.setObjectName("calender_page")
-        self.label_7 = QtWidgets.QLabel(self.calender_page)
+        self.calendar_page = QtWidgets.QWidget()
+        self.calendar_page.setObjectName("calendar_page")
+        self.label_7 = QtWidgets.QLabel(self.calendar_page)
         self.label_7.setGeometry(QtCore.QRect(210, 200, 151, 51))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.label_7.setFont(font)
         self.label_7.setObjectName("label_7")
-        self.stackedWidget.addWidget(self.calender_page)
+        self.stackedWidget.addWidget(self.calendar_page)
         self.verticalLayout_4.addWidget(self.stackedWidget)
         self.horizontalLayout_2.addWidget(self.widget)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(3)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
-        self.calender_btn_1.toggled['bool'].connect(self.calender_btn_2.setChecked) # type: ignore
+        self.calendar_btn_1.toggled['bool'].connect(self.calendar_btn_2.setChecked) # type: ignore
         self.home_btn_2.toggled['bool'].connect(self.home_btn_1.setChecked) # type: ignore
         self.tasks_btn_2.toggled['bool'].connect(self.tasks_btn_1.setChecked) # type: ignore
         self.completed_tasks_btn_2.toggled['bool'].connect(self.completed_tasks_btn_1.setChecked) # type: ignore
         self.exit_btn_2.clicked.connect(MainWindow.close) # type: ignore
-        self.pushButton_5.clicked.connect(MainWindow.close) # type: ignore
-        self.calender_btn_2.toggled['bool'].connect(self.calender_btn_1.setChecked) # type: ignore
-        self.menu_btn.toggled['bool'].connect(self.label.setHidden) # type: ignore
-        self.menu_btn.toggled['bool'].connect(self.icons_only_widget.setVisible) # type: ignore
-        self.menu_btn.toggled['bool'].connect(self.full_name_widget.setHidden) # type: ignore
+        self.exit_btn_1.clicked.connect(MainWindow.close) # type: ignore
+        self.calendar_btn_2.toggled['bool'].connect(self.calendar_btn_1.setChecked) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menu_btn.setToolTip(_translate("MainWindow", "<html><head/><body><p>Menu</p></body></html>"))
-        self.label.setText(_translate("MainWindow", "MENU"))
+        self.menu_label.setText(_translate("MainWindow", "MENU"))
         self.home_btn_1.setToolTip(_translate("MainWindow", "Home"))
         self.tasks_btn_1.setToolTip(_translate("MainWindow", "Tasks"))
         self.completed_tasks_btn_1.setToolTip(_translate("MainWindow", "Completed Tasks"))
-        self.calender_btn_1.setToolTip(_translate("MainWindow", "Calender"))
-        self.pushButton_5.setToolTip(_translate("MainWindow", "Exit"))
+        self.calendar_btn_1.setToolTip(_translate("MainWindow", "<html><head/><body><p>Calendar</p></body></html>"))
+        self.exit_btn_1.setToolTip(_translate("MainWindow", "Exit"))
         self.home_btn_2.setText(_translate("MainWindow", "Home"))
         self.tasks_btn_2.setText(_translate("MainWindow", "Tasks"))
         self.tasks_btn_2.setShortcut(_translate("MainWindow", "Alt+T"))
         self.completed_tasks_btn_2.setText(_translate("MainWindow", "Completed Tasks"))
-        self.calender_btn_2.setText(_translate("MainWindow", "Calender"))
+        self.calendar_btn_2.setText(_translate("MainWindow", "Calendar"))
         self.exit_btn_2.setText(_translate("MainWindow", "Exit"))
         self.label_3.setText(_translate("MainWindow", "TASK MANAGEMENT SYSTEM"))
         self.user_btn.setToolTip(_translate("MainWindow", "User"))
         self.add_task_btn.setText(_translate("MainWindow", "Add Task"))
-        self.label_7.setText(_translate("MainWindow", "CALENDER PAGE"))
-import resources_rc
+        self.label_7.setText(_translate("MainWindow", "CALENDAR PAGE"))
+import ui.resources_rc as resources_rc

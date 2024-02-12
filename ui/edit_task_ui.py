@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\edit_task.ui'
+# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\ui\edit_task.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -30,7 +30,7 @@ class Ui_EditTask(object):
         self.label_3.setGeometry(QtCore.QRect(260, 80, 61, 21))
         self.label_3.setObjectName("label_3")
         self.cancel_btn = QtWidgets.QPushButton(EditTask)
-        self.cancel_btn.setGeometry(QtCore.QRect(70, 360, 75, 23))
+        self.cancel_btn.setGeometry(QtCore.QRect(350, 360, 75, 23))
         self.cancel_btn.setObjectName("cancel_btn")
         self.task_name = QtWidgets.QLineEdit(EditTask)
         self.task_name.setGeometry(QtCore.QRect(120, 30, 251, 21))
@@ -70,9 +70,12 @@ class Ui_EditTask(object):
         self.label_6 = QtWidgets.QLabel(EditTask)
         self.label_6.setGeometry(QtCore.QRect(30, 170, 91, 21))
         self.label_6.setObjectName("label_6")
-        self.edit_btn = QtWidgets.QPushButton(EditTask)
-        self.edit_btn.setGeometry(QtCore.QRect(300, 360, 75, 23))
-        self.edit_btn.setObjectName("edit_btn")
+        self.save_btn = QtWidgets.QPushButton(EditTask)
+        self.save_btn.setGeometry(QtCore.QRect(70, 360, 75, 23))
+        self.save_btn.setObjectName("save_btn")
+        self.reset_btn = QtWidgets.QPushButton(EditTask)
+        self.reset_btn.setGeometry(QtCore.QRect(200, 360, 75, 23))
+        self.reset_btn.setObjectName("reset_btn")
 
         self.retranslateUi(EditTask)
         QtCore.QMetaObject.connectSlotsByName(EditTask)
@@ -97,4 +100,5 @@ class Ui_EditTask(object):
         self.label_name.setItemText(2, _translate("EditTask", "School"))
         self.label_4.setText(_translate("EditTask", "Label"))
         self.label_6.setText(_translate("EditTask", "Description"))
-        self.edit_btn.setText(_translate("EditTask", "Edit"))
+        self.save_btn.setText(_translate("EditTask", "Save"))
+        self.reset_btn.setText(_translate("EditTask", "Reset"))

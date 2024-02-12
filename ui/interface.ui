@@ -76,15 +76,15 @@
               <normaloff>:/icon/icons/134216_menu_lines_hamburger_icon.svg</normaloff>:/icon/icons/134216_menu_lines_hamburger_icon.svg</iconset>
             </property>
             <property name="checkable">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="autoRepeat">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="menu_label">
             <property name="text">
              <string>MENU</string>
             </property>
@@ -187,9 +187,9 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="calender_btn_1">
+              <widget class="QPushButton" name="calendar_btn_1">
                <property name="toolTip">
-                <string>Calender</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calendar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
                 <string/>
@@ -220,7 +220,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="exit_btn_1">
                <property name="toolTip">
                 <string>Exit</string>
                </property>
@@ -312,9 +312,9 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="calender_btn_2">
+              <widget class="QPushButton" name="calendar_btn_2">
                <property name="text">
-                <string>Calender</string>
+                <string>Calendar</string>
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
@@ -439,7 +439,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="home_page">
           <widget class="QLabel" name="no_of_tasks">
@@ -501,7 +501,7 @@
            </property>
           </widget>
          </widget>
-         <widget class="QWidget" name="calender_page">
+         <widget class="QWidget" name="calendar_page">
           <widget class="QLabel" name="label_7">
            <property name="geometry">
             <rect>
@@ -517,7 +517,7 @@
             </font>
            </property>
            <property name="text">
-            <string>CALENDER PAGE</string>
+            <string>CALENDAR PAGE</string>
            </property>
           </widget>
          </widget>
@@ -582,9 +582,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>calender_btn_1</sender>
+   <sender>calendar_btn_1</sender>
    <signal>toggled(bool)</signal>
-   <receiver>calender_btn_2</receiver>
+   <receiver>calendar_btn_2</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -662,7 +662,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_5</sender>
+   <sender>exit_btn_1</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
@@ -678,9 +678,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>calender_btn_2</sender>
+   <sender>calendar_btn_2</sender>
    <signal>toggled(bool)</signal>
-   <receiver>calender_btn_1</receiver>
+   <receiver>calendar_btn_1</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -690,54 +690,6 @@
     <hint type="destinationlabel">
      <x>22</x>
      <y>138</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>menu_btn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>31</x>
-     <y>12</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>68</x>
-     <y>17</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>menu_btn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>icons_only_widget</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>13</x>
-     <y>25</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>18</x>
-     <y>195</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>menu_btn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>full_name_widget</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>30</x>
-     <y>23</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>88</x>
-     <y>188</y>
     </hint>
    </hints>
   </connection>

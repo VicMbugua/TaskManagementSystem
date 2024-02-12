@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\add_task.ui'
+# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\resources\add_task.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -81,7 +81,6 @@ class Ui_AddTask(object):
         self.cancel_btn.setObjectName("cancel_btn")
 
         self.retranslateUi(AddTask)
-        self.cancel_btn.clicked.connect(AddTask.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(AddTask)
 
     def retranslateUi(self, AddTask):
