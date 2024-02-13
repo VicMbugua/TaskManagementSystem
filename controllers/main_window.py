@@ -7,7 +7,7 @@ from ui.add_task_ui import Ui_AddTask
 from ui.edit_task_ui import Ui_EditTask
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, username):
         super(MainWindow, self).__init__()
         
         self.ui = Ui_MainWindow()
@@ -20,11 +20,27 @@ class MainWindow(QMainWindow):
         self.edit_window = QDialog()
         self.edit_task_ui = Ui_EditTask()
         self.edit_task_ui.setupUi(self.edit_window)
-        self.window = QDialog()
+        self.add_window = QDialog()
         self.task_ui = Ui_AddTask()
-        self.task_ui.setupUi(self.window)
+        self.task_ui.setupUi(self.add_window)
         
         self.db_manager = DatabaseManager("data/tasks.db")
+        self.user_id = self.db_manager.fetch_data(f"SELECT user_id FROM users WHERE username = '{username}'")
+        self.user_id = int(self.user_id[0][0])
+        
+        
+        result = self.db_manager.number_of_tasks(self.user_id) - 1
+        
+        # if result == 0:
+        #     confirmation = QMessageBox()
+        #     confirmation.setText(f"Welcome. You do not have any tasks yet. Do you want to create one?")
+        #     confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        #     confirmation.setDefaultButton(QMessageBox.No)
+        #     confirmation.setIcon(QMessageBox.Information)
+        #     confirmation.setWindowTitle("Welcome")
+        #     response = confirmation.exec()
+        #     if response == QMessageBox.Yes:
+        #         self.open_add_task()
         
         self.ui.add_task_btn.clicked.connect(self.open_add_task)
         self.display_number_of_tasks()
@@ -67,8 +83,11 @@ class MainWindow(QMainWindow):
 # HOME PAGE BEGIN
 
     def display_number_of_tasks(self):
-        no_of_tasks = self.db_manager.number_of_tasks()
-        self.ui.no_of_tasks.setText(f"Number of tasks {no_of_tasks}")
+        no_of_tasks = self.db_manager.number_of_tasks(self.user_id) - 1
+        if no_of_tasks == 0:
+            self.ui.no_of_tasks.setText(f"You have no tasks.")
+        else:
+            self.ui.no_of_tasks.setText(f"Number of tasks {no_of_tasks}")
 
 # HOME PAGE END
 
@@ -76,7 +95,7 @@ class MainWindow(QMainWindow):
 
     def display_tasks(self):
         table = self.ui.tasks_list
-        query = "SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at FROM tasks WHERE status = 'Not Started' OR status = 'Started'"
+        query = f"SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at FROM tasks WHERE user_id = '{self.user_id}' AND (status = 'Not Started' OR status = 'Started')"
         result = self.db_manager.fetch_data(query)
         headers = ["Task ID","Tasks Name", "Priority", "Due Date", "Label", "Status", "Description", "Created At", "Edit"]
         self.tasks_model = QStandardItemModel(len(result), len(headers))
@@ -88,6 +107,7 @@ class MainWindow(QMainWindow):
         table.setModel(self.tasks_model)
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table.setColumnHidden(0, True)
+        table.setRowHidden(0, True)
         table.resizeColumnsToContents()
         table.setColumnWidth(self.tasks_model.columnCount() - 1, 100)
         table.setSortingEnabled(True)
@@ -205,7 +225,7 @@ class MainWindow(QMainWindow):
         self.task_ui.reset_btn.clicked.connect(self.handle_reset_btn)
         self.task_ui.save_btn.clicked.connect(self.handle_save_btn)
         self.task_ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
-        self.window.show()
+        self.add_window.show()
         
     def handle_reset_btn(self):
         self.task_ui.task_name.setText("")
@@ -223,9 +243,8 @@ class MainWindow(QMainWindow):
         label_name = self.task_ui.label_name.currentText()
         description = self.task_ui.description.toPlainText()
         status = self.task_ui.status.currentText()
-        user_id = 1
         if task_name != "":
-            self.db_manager.add_task(user_id, task_name, priority, due_date, label_name, status, description)
+            self.db_manager.add_task(self.user_id, task_name, priority, due_date, label_name, status, description)
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Information)
             msg_box.setText(f"Successfully added {task_name}.")
@@ -252,9 +271,9 @@ class MainWindow(QMainWindow):
             response = confirmation.exec()
             if response == QMessageBox.Yes:
                 self.display_tasks()
-                self.window.close()
+                self.add_window.close()
         else:
-            self.window.close()
+            self.add_window.close()
 
 # TASKS PAGE END
 
@@ -262,7 +281,7 @@ class MainWindow(QMainWindow):
 
     def display_completed_tasks(self):
         table = self.ui.completed_tasks
-        query = "SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at FROM tasks WHERE status = 'Completed'"
+        query = f"SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at FROM tasks WHERE status = 'Completed' AND user_id = '{self.user_id}'"
         result = self.db_manager.fetch_data(query)
         headers = ["Task ID","Tasks Name", "Priority", "Due Date", "Label", "Status", "Description", "Created At", "Edit"]
         self.completed_tasks_model = QStandardItemModel(len(result), len(headers))

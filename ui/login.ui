@@ -83,6 +83,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>User Name</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="password">
     <property name="geometry">
@@ -109,7 +112,7 @@
    <widget class="QPushButton" name="login">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>170</x>
       <y>160</y>
       <width>75</width>
       <height>23</height>
@@ -122,11 +125,14 @@
    <widget class="QPushButton" name="sign_up">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>40</x>
       <y>160</y>
       <width>75</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Create a new account.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>Sign Up</string>

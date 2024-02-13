@@ -2,6 +2,7 @@ from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget, QDialog, QMessageBox, QComboBox, QAbstractItemView
 from ui.login_ui import Ui_LogIn
 from data.database_manager import DatabaseManager
+from controllers.main_window import MainWindow
 
 
 class LogInWindow(QMainWindow):
@@ -48,7 +49,10 @@ class LogInWindow(QMainWindow):
             msg_box.exec()
             self.ui.password.setText("")
         else:
-            self.widget.setCurrentIndex(2)
+            self.widget.close()
+            window = MainWindow(username)
+            window.show()
+            
             
     def handle_sign_up(self):
         # window = SignUpWindow()

@@ -66,6 +66,10 @@ class Ui_SignUp(object):
 
         self.retranslateUi(SignUp)
         QtCore.QMetaObject.connectSlotsByName(SignUp)
+        SignUp.setTabOrder(self.username, self.password)
+        SignUp.setTabOrder(self.password, self.confirm_password)
+        SignUp.setTabOrder(self.confirm_password, self.sign_up)
+        SignUp.setTabOrder(self.sign_up, self.login)
 
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
@@ -73,6 +77,7 @@ class Ui_SignUp(object):
         self.label.setText(_translate("SignUp", "Register"))
         self.label_3.setText(_translate("SignUp", "Password"))
         self.password.setPlaceholderText(_translate("SignUp", "Password"))
+        self.username.setPlaceholderText(_translate("SignUp", "User Name"))
         self.label_2.setText(_translate("SignUp", "User Name"))
         self.confirm_password.setPlaceholderText(_translate("SignUp", "Password"))
         self.label_4.setText(_translate("SignUp", "Confirm Password"))

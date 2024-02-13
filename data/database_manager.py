@@ -1,10 +1,11 @@
-from datetime import date
+from datetime import date, timedelta
 import sqlite3
 
 class DatabaseManager:
     def __init__(self, db_file):
         self.connection = sqlite3.connect(db_file)
         self.cursor = self.connection.cursor()
+        
         
     def execute_query(self, query, params=None):
         if params:
@@ -26,6 +27,10 @@ class DatabaseManager:
         c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
         con.commit()
         con.close()
+        user_id = self.fetch_data(f"SELECT user_id FROM users WHERE username = '{username}'")
+        user_id = int(user_id[0][0])
+        due_date = date.today() + timedelta(days=25)
+        self.add_task(user_id, "Example", 1 , due_date, "Pleasure", "Not Started", "This is an example of a task.")
         
     def check_user(self, username):
         con = sqlite3.connect("data/tasks.db")
@@ -66,20 +71,6 @@ class DatabaseManager:
         con.commit()
         con.close()
 
-    def task_completed(self, task_id):
-        """Marks a task complete by adding the task to the tasks_done table then removes the task from the tasks table
-        of the specified task_id."""
-        con = sqlite3.connect("data/tasks.db")
-        c = con.cursor()
-        c.execute(f"""
-        INSERT INTO tasks_done (task_id, task_name, priority, start_date, end_date)
-        SELECT task_id, task_name, priority, start_date, end_date
-        FROM tasks
-        WHERE task_id = ?""", (task_id,))  # Copies the record from tasks table to tasks_done table.
-        c.execute(f"DELETE FROM tasks WHERE task_id = {task_id}")
-        con.commit()
-        con.close()
-
     def add_subtask(self, task_id, subtask_name):
         """Adds a new subtask to the subtasks table."""
         con = sqlite3.connect("data/tasks.db")
@@ -90,11 +81,11 @@ class DatabaseManager:
         con.commit()
         con.close()
 
-    def number_of_tasks(self):
+    def number_of_tasks(self, user_id):
         """Returns the number of uncompleted tasks"""
         con = sqlite3.connect("data/tasks.db")
         c = con.cursor()
-        c.execute("SELECT COUNT(*) FROM tasks WHERE status = 'Not Started' OR status = 'Started'")
+        c.execute(f"SELECT COUNT(*) FROM tasks WHERE user_id = {user_id} AND (status = 'Not Started' OR status = 'Started')")
         result = c.fetchone()
         num_records = result[0]
         con.close()
@@ -104,7 +95,7 @@ class DatabaseManager:
         """Adds a new label"""
         con = sqlite3.connect("data/tasks.db")
         c = con.cursor()
-        c.execute(f"INSERT INTO labels (label_name) VALUES ({label_name})")
+        c.execute(f"INSERT INTO labels (label_name) VALUES ('{label_name}')")
         con.commit()
         con.close()
         

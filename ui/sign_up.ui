@@ -81,6 +81,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>User Name</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -168,6 +171,13 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>username</tabstop>
+  <tabstop>password</tabstop>
+  <tabstop>confirm_password</tabstop>
+  <tabstop>sign_up</tabstop>
+  <tabstop>login</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

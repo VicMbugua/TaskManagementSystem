@@ -56,4 +56,3 @@ class SignUpWindow(QMainWindow):
             
     def handle_login(self):
         self.widget.setCurrentIndex(0)
-       
