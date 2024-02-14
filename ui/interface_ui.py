@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\resources\interface.ui'
+# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\ui\interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
         self.menu_btn.setSizePolicy(sizePolicy)
         self.menu_btn.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icon/icons/134216_menu_lines_hamburger_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/icons/134216_menu_lines_hamburger_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.menu_btn.setIcon(icon)
         self.menu_btn.setCheckable(False)
         self.menu_btn.setAutoRepeat(False)
@@ -67,7 +67,7 @@ class Ui_MainWindow(object):
         self.home_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
         self.home_btn_1.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/icon/icons/216242_home_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/icons/icons/216242_home_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home_btn_1.setIcon(icon1)
         self.home_btn_1.setCheckable(True)
         self.home_btn_1.setAutoExclusive(True)
@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
         self.tasks_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
         self.tasks_btn_1.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/icon/icons/9040503_list_task_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/icons/icons/9104111_list_checklist_done_complete_task_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tasks_btn_1.setIcon(icon2)
         self.tasks_btn_1.setCheckable(True)
         self.tasks_btn_1.setAutoExclusive(True)
@@ -85,7 +85,7 @@ class Ui_MainWindow(object):
         self.completed_tasks_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
         self.completed_tasks_btn_1.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/icon/icons/9104111_list_checklist_done_complete_task_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/icons/icons/9040503_list_task_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.completed_tasks_btn_1.setIcon(icon3)
         self.completed_tasks_btn_1.setCheckable(True)
         self.completed_tasks_btn_1.setAutoExclusive(True)
@@ -94,7 +94,7 @@ class Ui_MainWindow(object):
         self.calendar_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
         self.calendar_btn_1.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/icon/icons/290104_calendar_clock_date_event_schedule_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.calendar_btn_1.setIcon(icon4)
         self.calendar_btn_1.setCheckable(True)
         self.calendar_btn_1.setAutoExclusive(True)
@@ -105,7 +105,7 @@ class Ui_MainWindow(object):
         self.exit_btn_1 = QtWidgets.QPushButton(self.icons_only_widget)
         self.exit_btn_1.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icon/icons/211650_close_circled_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/icons/icons/211650_close_circled_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.exit_btn_1.setIcon(icon5)
         self.exit_btn_1.setObjectName("exit_btn_1")
         self.verticalLayout_2.addWidget(self.exit_btn_1)
@@ -172,7 +172,7 @@ class Ui_MainWindow(object):
         self.user_btn = QtWidgets.QPushButton(self.header_widget)
         self.user_btn.setText("")
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/icon/icons/1564534_customer_man_user_account_profile_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap(":/icons/icons/1564534_customer_man_user_account_profile_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.user_btn.setIcon(icon6)
         self.user_btn.setObjectName("user_btn")
         self.horizontalLayout_3.addWidget(self.user_btn)
@@ -191,19 +191,30 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.home_page)
         self.tasks_page = QtWidgets.QWidget()
         self.tasks_page.setObjectName("tasks_page")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.tasks_page)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.tasks_list = QtWidgets.QTableView(self.tasks_page)
-        self.tasks_list.setGeometry(QtCore.QRect(10, 130, 551, 341))
         self.tasks_list.setAlternatingRowColors(True)
         self.tasks_list.setObjectName("tasks_list")
-        self.add_task_btn = QtWidgets.QPushButton(self.tasks_page)
-        self.add_task_btn.setGeometry(QtCore.QRect(390, 60, 75, 23))
+        self.verticalLayout_5.addWidget(self.tasks_list)
+        self.widget_5 = QtWidgets.QWidget(self.tasks_page)
+        self.widget_5.setObjectName("widget_5")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.widget_5)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        spacerItem3 = QtWidgets.QSpacerItem(463, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem3)
+        self.add_task_btn = QtWidgets.QPushButton(self.widget_5)
         self.add_task_btn.setObjectName("add_task_btn")
+        self.horizontalLayout_5.addWidget(self.add_task_btn)
+        self.verticalLayout_5.addWidget(self.widget_5)
         self.stackedWidget.addWidget(self.tasks_page)
         self.completed_tasks_page = QtWidgets.QWidget()
         self.completed_tasks_page.setObjectName("completed_tasks_page")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.completed_tasks_page)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.completed_tasks = QtWidgets.QTableView(self.completed_tasks_page)
-        self.completed_tasks.setGeometry(QtCore.QRect(35, 111, 491, 331))
         self.completed_tasks.setObjectName("completed_tasks")
+        self.verticalLayout_6.addWidget(self.completed_tasks)
         self.stackedWidget.addWidget(self.completed_tasks_page)
         self.calendar_page = QtWidgets.QWidget()
         self.calendar_page.setObjectName("calendar_page")
@@ -219,7 +230,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
@@ -252,4 +263,4 @@ class Ui_MainWindow(object):
         self.user_btn.setToolTip(_translate("MainWindow", "User"))
         self.add_task_btn.setText(_translate("MainWindow", "Add Task"))
         self.label_7.setText(_translate("MainWindow", "CALENDAR PAGE"))
-import ui.resources_rc as resources_rc
+import ui.resources_rc

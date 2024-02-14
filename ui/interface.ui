@@ -73,7 +73,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/icon/icons/134216_menu_lines_hamburger_icon.svg</normaloff>:/icon/icons/134216_menu_lines_hamburger_icon.svg</iconset>
+              <normaloff>:/icons/icons/134216_menu_lines_hamburger_icon.svg</normaloff>:/icons/icons/134216_menu_lines_hamburger_icon.svg</iconset>
             </property>
             <property name="checkable">
              <bool>false</bool>
@@ -136,7 +136,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/216242_home_icon.svg</normaloff>:/icon/icons/216242_home_icon.svg</iconset>
+                 <normaloff>:/icons/icons/216242_home_icon.svg</normaloff>:/icons/icons/216242_home_icon.svg</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -156,7 +156,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/9040503_list_task_icon.svg</normaloff>:/icon/icons/9040503_list_task_icon.svg</iconset>
+                 <normaloff>:/icons/icons/9104111_list_checklist_done_complete_task_icon.svg</normaloff>:/icons/icons/9104111_list_checklist_done_complete_task_icon.svg</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -176,7 +176,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/9104111_list_checklist_done_complete_task_icon.svg</normaloff>:/icon/icons/9104111_list_checklist_done_complete_task_icon.svg</iconset>
+                 <normaloff>:/icons/icons/9040503_list_task_icon.svg</normaloff>:/icons/icons/9040503_list_task_icon.svg</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -196,7 +196,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/290104_calendar_clock_date_event_schedule_icon.svg</normaloff>:/icon/icons/290104_calendar_clock_date_event_schedule_icon.svg</iconset>
+                 <normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -229,7 +229,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/211650_close_circled_icon.svg</normaloff>:/icon/icons/211650_close_circled_icon.svg</iconset>
+                 <normaloff>:/icons/icons/211650_close_circled_icon.svg</normaloff>:/icons/icons/211650_close_circled_icon.svg</iconset>
                </property>
               </widget>
              </item>
@@ -261,7 +261,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/216242_home_icon.svg</normaloff>:/icon/icons/216242_home_icon.svg</iconset>
+                 <normaloff>:/icons/icons/216242_home_icon.svg</normaloff>:/icons/icons/216242_home_icon.svg</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -278,7 +278,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/9040503_list_task_icon.svg</normaloff>:/icon/icons/9040503_list_task_icon.svg</iconset>
+                 <normaloff>:/icons/icons/9104111_list_checklist_done_complete_task_icon.svg</normaloff>:/icons/icons/9104111_list_checklist_done_complete_task_icon.svg</iconset>
                </property>
                <property name="shortcut">
                 <string>Alt+T</string>
@@ -301,7 +301,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/9104111_list_checklist_done_complete_task_icon.svg</normaloff>:/icon/icons/9104111_list_checklist_done_complete_task_icon.svg</iconset>
+                 <normaloff>:/icons/icons/9040503_list_task_icon.svg</normaloff>:/icons/icons/9040503_list_task_icon.svg</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -318,7 +318,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/290104_calendar_clock_date_event_schedule_icon.svg</normaloff>:/icon/icons/290104_calendar_clock_date_event_schedule_icon.svg</iconset>
+                 <normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -348,7 +348,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/icon/icons/211650_close_circled_icon.svg</normaloff>:/icon/icons/211650_close_circled_icon.svg</iconset>
+                 <normaloff>:/icons/icons/211650_close_circled_icon.svg</normaloff>:/icons/icons/211650_close_circled_icon.svg</iconset>
                </property>
               </widget>
              </item>
@@ -429,7 +429,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/icon/icons/1564534_customer_man_user_account_profile_icon.svg</normaloff>:/icon/icons/1564534_customer_man_user_account_profile_icon.svg</iconset>
+              <normaloff>:/icons/icons/1564534_customer_man_user_account_profile_icon.svg</normaloff>:/icons/icons/1564534_customer_man_user_account_profile_icon.svg</iconset>
             </property>
            </widget>
           </item>
@@ -439,7 +439,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="home_page">
           <widget class="QLabel" name="no_of_tasks">
@@ -462,44 +462,48 @@
           </widget>
          </widget>
          <widget class="QWidget" name="tasks_page">
-          <widget class="QTableView" name="tasks_list">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>130</y>
-             <width>551</width>
-             <height>341</height>
-            </rect>
-           </property>
-           <property name="alternatingRowColors">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="add_task_btn">
-           <property name="geometry">
-            <rect>
-             <x>390</x>
-             <y>60</y>
-             <width>75</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Add Task</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QTableView" name="tasks_list">
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_5" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>463</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="add_task_btn">
+                <property name="text">
+                 <string>Add Task</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="completed_tasks_page">
-          <widget class="QTableView" name="completed_tasks">
-           <property name="geometry">
-            <rect>
-             <x>35</x>
-             <y>111</y>
-             <width>491</width>
-             <height>331</height>
-            </rect>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QTableView" name="completed_tasks"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="calendar_page">
           <widget class="QLabel" name="label_7">

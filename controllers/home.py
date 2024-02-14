@@ -8,10 +8,9 @@ class HomePage(QMainWindow):
         super(HomePage, self).__init__()
         self.ui = ui
         
-        
         # self.ui = Ui_MainWindow()
         # self.ui.setupUi(self)
-        self.display_number_of_tasks()
+        self.display_number_of_tasks() 
         print("hello")
         
     def display_number_of_tasks(self):
