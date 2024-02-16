@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\resources\add_task.ui'
+# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\ui\add_task.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -82,6 +82,14 @@ class Ui_AddTask(object):
 
         self.retranslateUi(AddTask)
         QtCore.QMetaObject.connectSlotsByName(AddTask)
+        AddTask.setTabOrder(self.task_name, self.due_date)
+        AddTask.setTabOrder(self.due_date, self.priority)
+        AddTask.setTabOrder(self.priority, self.label_name)
+        AddTask.setTabOrder(self.label_name, self.status)
+        AddTask.setTabOrder(self.status, self.description)
+        AddTask.setTabOrder(self.description, self.reset_btn)
+        AddTask.setTabOrder(self.reset_btn, self.save_btn)
+        AddTask.setTabOrder(self.save_btn, self.cancel_btn)
 
     def retranslateUi(self, AddTask):
         _translate = QtCore.QCoreApplication.translate

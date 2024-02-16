@@ -111,7 +111,7 @@
   <widget class="QComboBox" name="priority">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>330</x>
      <y>80</y>
      <width>61</width>
      <height>22</height>
@@ -208,7 +208,7 @@
   <widget class="QTextEdit" name="description">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>30</x>
      <y>200</y>
      <width>351</width>
      <height>111</height>
@@ -231,7 +231,7 @@
   <widget class="QPushButton" name="save_btn">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>250</x>
      <y>360</y>
      <width>75</width>
      <height>23</height>
@@ -244,7 +244,7 @@
   <widget class="QPushButton" name="reset_btn">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>150</x>
      <y>360</y>
      <width>75</width>
      <height>23</height>
@@ -255,6 +255,17 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>task_name</tabstop>
+  <tabstop>due_date</tabstop>
+  <tabstop>priority</tabstop>
+  <tabstop>label_name</tabstop>
+  <tabstop>status</tabstop>
+  <tabstop>description</tabstop>
+  <tabstop>reset_btn</tabstop>
+  <tabstop>save_btn</tabstop>
+  <tabstop>cancel_btn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

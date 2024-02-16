@@ -32,7 +32,7 @@ class LogInWindow(QMainWindow):
         elif valid_user is False:
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setText("User Name does not exist. Do you want to sign up?")
+            msg_box.setText("Username does not exist. Do you want to sign up?")
             msg_box.setWindowTitle("Invalid")
             msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
             msg_box.setDefaultButton(QMessageBox.No)

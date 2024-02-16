@@ -1,68 +1,14 @@
-from PyQt5.QtCore import QDate, Qt
+from PyQt5.QtCore import QDate, QModelIndex, Qt, QAbstractTableModel
 from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox, QComboBox, QAbstractItemView, QMenu, QAction, QPushButton, QItemDelegate, QWidget, QTableWidgetItem
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 from data.database_manager import DatabaseManager
 from ui.interface_ui import Ui_MainWindow
 from ui.add_task_ui import Ui_AddTask
 from ui.edit_task_ui import Ui_EditTask
+from controllers.subtasks import SubtasksWindow
+from controllers.edit_tasks import EditTaskWindow, AddTaskWindow
 
-class ButtonCellWidget(QWidget):
-    def __init__(self, model, row_number):
-        super().__init__()
-        self.tasks_model = model
-        self.row = row_number
-        button = QPushButton("Menu")
-        menu = QMenu()
-        done_action = QAction("Done", self)
-        edit_action = QAction("Edit", self)
-        delete_action = QAction("Delete", self)
-        done_action.triggered.connect(self.handle_done)
-        # edit_action.triggered.connect(lambda index, row=row: self.handle_edit(row))
-        # delete_action.triggered.connect(lambda index, row=row: self.handle_delete(row))
-        menu.addAction(done_action)
-        menu.addAction(edit_action)
-        menu.addAction(delete_action)
-        button.setMenu(menu)
-        
-    def handle_done(self):
-        row = self.parent().row()
-        task_id = self.tasks_model.index(self.row, 0).data()
-        db_manager = db_manager = DatabaseManager("data/tasks.db")
-        tasks_name = db_manager.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {task_id}")
-        tasks_name = tasks_name[0][0]
-        confirmation = QMessageBox()
-        confirmation.setText(f"Are you sure you want to mark {tasks_name} as done")
-        confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        confirmation.setDefaultButton(QMessageBox.Cancel)
-        confirmation.setIcon(QMessageBox.Warning)
-        confirmation.setWindowTitle("Confirmation")
-        response = confirmation.exec()
-        if response == QMessageBox.Yes:
-            query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {task_id}"
-            db_manager.execute_query(query)
-            self.display_tasks()
-            self.display_completed_tasks()
-            self.display_number_of_tasks()
-        
-    def handle_edit(self, row):
-        task_id = self.tasks_model.index(self.row, 0).data()
-        self.open_edit_task(task_id)
-        
-    def handle_delete(self, row):
-        task_id = self.tasks_model.index(self.row, 0).data()
-        db_manager = db_manager = DatabaseManager("data/tasks.db")
-        tasks_name = db_manager.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {task_id}")
-        tasks_name = tasks_name[0][0]
-        confirmation = QMessageBox()
-        confirmation.setText(f"Are you sure you want to delete {tasks_name}?")
-        confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        confirmation.setDefaultButton(QMessageBox.Cancel)
-        confirmation.setIcon(QMessageBox.Warning)
-        response = confirmation.exec()
-        if response == QMessageBox.Yes:
-            self.db_manager.remove_task(task_id)
-            self.display_tasks()
-            self.display_number_of_tasks()
 
 class MainWindow(QMainWindow):
     def __init__(self, username):
@@ -88,17 +34,7 @@ class MainWindow(QMainWindow):
         
         
         result = self.db_manager.number_of_tasks(self.user_id) - 1
-        
-        # if result == 0:
-        #     confirmation = QMessageBox()
-        #     confirmation.setText(f"Welcome. You do not have any tasks yet. Do you want to create one?")
-        #     confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        #     confirmation.setDefaultButton(QMessageBox.No)
-        #     confirmation.setIcon(QMessageBox.Information)
-        #     confirmation.setWindowTitle("Welcome")
-        #     response = confirmation.exec()
-        #     if response == QMessageBox.Yes:
-        #         self.open_add_task()
+        # add_task = AddTaskWindow(username)
         
         self.ui.add_task_btn.clicked.connect(self.open_add_task)
         self.display_number_of_tasks()
@@ -114,6 +50,10 @@ class MainWindow(QMainWindow):
             self.ui.full_name_widget.show()
             self.ui.menu_label.show()
             self.ui.icons_only_widget.hide()
+            
+    def open_task_window(self, username):
+        add_task = AddTaskWindow(username)
+        add_task.show()
         
     def on_home_btn_1_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -152,7 +92,7 @@ class MainWindow(QMainWindow):
 # TASKS PAGE BEGIN
 
     def display_tasks(self):
-        table = self.ui.tasks_list
+        self.table = self.ui.tasks_list
         query = f"SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at FROM tasks WHERE user_id = '{self.user_id}' AND (status = 'Not Started' OR status = 'Started')"
         result = self.db_manager.fetch_data(query)
         default_task = True
@@ -166,17 +106,19 @@ class MainWindow(QMainWindow):
             for col_num, col_data in enumerate(row_data):
                 item = QStandardItem(str(col_data))
                 self.tasks_model.setItem(row_num, col_num, item)
-        table.setModel(self.tasks_model)
-        table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        table.setColumnHidden(0, True)
+        self.table.setModel(self.tasks_model)
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.table.setColumnHidden(0, True)
         if default_task is True:
-            table.setRowHidden(0, True)
+            self.table.setRowHidden(0, True)
         else:
-            table.setRowHidden(0, False)
-        table.resizeColumnsToContents()
-        table.setColumnWidth(self.tasks_model.columnCount() - 1, 100)
-        table.setSortingEnabled(True)
-        table.sortByColumn(self.tasks_model.columnCount() - 2, Qt.AscendingOrder)
+            self.table.setRowHidden(0, False)
+        self.table.resizeColumnsToContents()
+        self.table.setColumnWidth(self.tasks_model.columnCount() - 1, 100)
+        self.table.setSortingEnabled(True)
+        self.table.clicked.connect(self.record_clicked)
+        self.subtask_dialog_open = False
+        self.table.sortByColumn(self.tasks_model.columnCount() - 2, Qt.AscendingOrder)
         for row in range(self.tasks_model.rowCount()):
             button = QPushButton("Menu")
             menu = QMenu()
@@ -190,9 +132,22 @@ class MainWindow(QMainWindow):
             menu.addAction(edit_action)
             menu.addAction(delete_action)
             button.setMenu(menu)
-            table.setIndexWidget(self.tasks_model.index(row, self.tasks_model.columnCount() - 1), button)
+            self.table.setIndexWidget(self.tasks_model.index(row, self.tasks_model.columnCount() - 1), button)
         self.show()
+        
+        
+    def record_clicked(self, index):
+        row = index.row()
+        task_id = self.tasks_model.index(row, 0).data()
+        if self.subtask_dialog_open is False:
+            self.subtask_dialog_open = True
+            self.subtask = SubtasksWindow(task_id, self)
+            self.subtask.show()
+        self.subtask.finished.connect(self.dialog_closed)
                 
+    def dialog_closed(self):
+        self.display_tasks()
+        
     def handle_done(self, row):
         task_id = self.tasks_model.index(row, 0).data()
         db_manager = db_manager = DatabaseManager("data/tasks.db")
@@ -324,7 +279,6 @@ class MainWindow(QMainWindow):
             msg_box.setText(f"Successfully added {task_name}.")
             msg_box.setWindowTitle("Success")
             msg_box.exec()
-            self.handle_reset_btn()
             self.display_tasks()
             self.display_number_of_tasks()
             self.add_window.close()
@@ -369,13 +323,13 @@ class MainWindow(QMainWindow):
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table.setColumnHidden(0, True)
         table.resizeColumnsToContents()
-        table.setColumnWidth(self.tasks_model.columnCount() - 1, 100)
+        table.setColumnWidth(self.completed_tasks_model.columnCount() - 1, 100)
         table.setSortingEnabled(True)
         table.sortByColumn(self.completed_tasks_model.columnCount() - 2, Qt.AscendingOrder)
         for row in range(self.completed_tasks_model.rowCount()):
             button = QPushButton("Menu")
             menu = QMenu()
-            done_action = QAction("Not_Done", self)
+            done_action = QAction("Not Done", self)
             delete_action = QAction("Delete", self)
             done_action.triggered.connect(lambda index, row=row: self.handle_not_done(row))
             delete_action.triggered.connect(lambda index, row=row: self.handle_delete2(row))

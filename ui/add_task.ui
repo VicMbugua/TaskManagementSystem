@@ -260,6 +260,17 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>task_name</tabstop>
+  <tabstop>due_date</tabstop>
+  <tabstop>priority</tabstop>
+  <tabstop>label_name</tabstop>
+  <tabstop>status</tabstop>
+  <tabstop>description</tabstop>
+  <tabstop>reset_btn</tabstop>
+  <tabstop>save_btn</tabstop>
+  <tabstop>cancel_btn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
