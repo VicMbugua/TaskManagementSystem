@@ -6,19 +6,16 @@ from ui.add_task_ui import Ui_AddTask
 from data.database_manager import DatabaseManager
 
 
-
 class EditTaskWindow(QDialog):
-    def __init__(self, task_id):
-        super(EditTaskWindow, self).__init__()
+    def __init__(self, task_id, parent):
+        super(EditTaskWindow, self).__init__(parent)
         self.edit_window = QDialog()
         self.ui = Ui_EditTask()
         self.ui.setupUi(self)
         
         self.db_manager = DatabaseManager("data/tasks.db")
+        self.parent = parent
         
-        self.open_edit_task(task_id)
-        
-    def open_edit_task(self, task_id):
         self.ui.due_date.setMinimumDate(QDate.currentDate())
         query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
         self.result = self.db_manager.fetch_data(query)
@@ -31,9 +28,8 @@ class EditTaskWindow(QDialog):
         self.ui.priority.setCurrentIndex(self.ui.priority.findData(self.result[0][1], Qt.DisplayRole))
         self.ui.description.setText(self.result[0][5])
         self.ui.save_btn.clicked.connect(lambda: self.handle_edit_btn(task_id))
-        self.ui.cancel_btn.clicked.connect(self.handle_close_btn)
+        self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
         self.ui.reset_btn.clicked.connect(lambda: self.handle_edit_reset_btn(task_id))
-        self.edit_window.show()
         
     def handle_edit_btn(self, task_id):
         task_name = self.ui.task_name.text()
@@ -49,7 +45,9 @@ class EditTaskWindow(QDialog):
         msg_box.setText(f"Successfully edited {task_name}.")
         msg_box.setWindowTitle("Success")
         msg_box.exec()
-        self.edit_window.close()
+        self.parent.display_tasks()
+        self.parent.display_filtered_tasks()
+        self.close()
         
     def handle_edit_reset_btn(self, task_id):
         query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
@@ -63,7 +61,7 @@ class EditTaskWindow(QDialog):
         self.ui.priority.setCurrentIndex(self.ui.priority.findData(self.result[0][1], Qt.DisplayRole))
         self.ui.description.setText(self.result[0][5])
     
-    def handle_close_btn(self):
+    def handle_cancel_btn(self):
         current_task_name = self.result[0][0]
         new_task_name = self.ui.task_name.text()
         if new_task_name != current_task_name:
@@ -74,22 +72,21 @@ class EditTaskWindow(QDialog):
             confirmation.setIcon(QMessageBox.Warning)
             response = confirmation.exec()
             if response == QMessageBox.Yes:
-                # self.display_tasks()
-                self.edit_window.close()
+                self.close()
         else:
-            self.edit_window.close()
+            self.close()
 
 
 class AddTaskWindow(QDialog):
-    def __init__(self, username):
-        super(AddTaskWindow, self).__init__()
+    def __init__(self, user_id, parent):
+        super(AddTaskWindow, self).__init__(parent)
         
         self.ui = Ui_AddTask()
         self.ui.setupUi(self)
         
+        self.parent = parent
         self.db_manager = DatabaseManager("data/tasks.db")
-        self.user_id = self.db_manager.fetch_data(f"SELECT user_id FROM users WHERE username = '{username}'")
-        self.user_id = int(self.user_id[0][0])
+        self.user_id = user_id
         
         self.ui.due_date.setMinimumDate(QDate.currentDate())
         self.ui.reset_btn.clicked.connect(self.handle_reset_btn)
@@ -119,9 +116,10 @@ class AddTaskWindow(QDialog):
             msg_box.setText(f"Successfully added {task_name}.")
             msg_box.setWindowTitle("Success")
             msg_box.exec()
-            self.display_tasks()
-            self.display_number_of_tasks()
-            self.add_window.close()
+            self.handle_reset_btn()
+            self.parent.display_tasks()
+            self.parent.display_filtered_tasks()
+            self.parent.display_number_of_tasks()
         else:
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Warning)
@@ -139,7 +137,7 @@ class AddTaskWindow(QDialog):
             confirmation.setIcon(QMessageBox.Warning)
             response = confirmation.exec()
             if response == QMessageBox.Yes:
-                self.display_tasks()
-                self.add_window.close()
+                self.handle_reset_btn()
+                self.close()
         else:
-            self.add_window.close()
+            self.close()

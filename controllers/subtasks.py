@@ -14,12 +14,12 @@ class SubtasksWindow(QDialog):
         self.db = DatabaseManager("data/tasks.db")
         task_name = self.db.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {self.task_id}")
         self.task_name = task_name[0][0]
-        self.ui.task_name.setText(self.task_name)
+        self.ui.task_name.setText(f"Subtasks for {self.task_name}")
         
         self.ui.add_subtask_btn.clicked.connect(self.add_subtask)
-        self.display_subtasks()
+    #     self.display_subtasks()
         
-    def display_subtasks(self):
+    # def display_subtasks(self):
         table = self.ui.subtasks_table
         query = f"SELECT subtask_id, subtask_name, status FROM subtasks WHERE task_id = {self.task_id}"
         result = self.db.fetch_data(query)

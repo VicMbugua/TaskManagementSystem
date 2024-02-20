@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtCore import QRegExp
 from ui.sign_up_ui import Ui_SignUp
 from data.database_manager import DatabaseManager
 
@@ -9,8 +11,12 @@ class SignUpWindow(QMainWindow):
         self.ui = Ui_SignUp()
         self.ui.setupUi(self)
         
-        self.widget = widget
+        regex = QRegExp("[a-z]+")
+        validator = QRegExpValidator(regex, self.ui.username)
+        self.ui.username.setValidator(validator)
         
+        self.widget = widget
+        self.ui.error_message.setText("")
         self.ui.sign_up.clicked.connect(self.handle_sign_up)
         self.ui.login.clicked.connect(self.handle_login)
         
@@ -23,28 +29,18 @@ class SignUpWindow(QMainWindow):
         
         username_exists = self.db_manager.check_user(username)
         if username == "" or password == "" or confirm_password == "":
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setText("Please fill all the fields before continuing.")
-            msg_box.setWindowTitle("Invalid")
-            msg_box.exec()
+            self.ui.error_message.setText("Please fill all the fields before continuing.")
         elif username_exists is True:
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setText("Username already exists!")
-            msg_box.setWindowTitle("Invalid")
-            msg_box.exec()
             self.ui.username.setText("")
             self.ui.password.setText("")
             self.ui.confirm_password.setText("")
+            self.ui.error_message.setText("Username already exists!")
+            self.ui.username.setFocus()
         elif password != confirm_password:
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setText("Passwords don't match!")
-            msg_box.setWindowTitle("Invalid")
-            msg_box.exec()
             self.ui.password.setText("")
             self.ui.confirm_password.setText("")
+            self.ui.error_message.setText("Passwords don't match!")
+            self.ui.password.setFocus()
         else:
             self.db_manager.add_user(username, password)
             msg_box = QMessageBox()

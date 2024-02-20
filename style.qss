@@ -20,13 +20,19 @@
     width: 250px;
 }
 
-#full_name_widget QPushButton, QLabel{
+#full_name_widget QPushButton{
     border: none;
     height: 30px;
+    text-align: left;
+    padding-left: 5px;
 }
 
 #full_name_widget QPushButton:hover {
     background-color: rgba(83, 83, 230, 0.521);
+}
+
+#full_name_widget QPushButton[objectName="exit_btn_2"]:hover {
+    background-color: rgba(231, 16, 16, 0.719);
 }
 
 #full_name_widget QPushButton:checked {

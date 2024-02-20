@@ -93,6 +93,7 @@ class Ui_SubtaskWindow(object):
 
         self.retranslateUi(SubtaskWindow)
         self.cancel_btn.clicked.connect(SubtaskWindow.close) # type: ignore
+        self.subtask_name.returnPressed.connect(self.add_subtask_btn.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(SubtaskWindow)
         SubtaskWindow.setTabOrder(self.subtask_name, self.add_subtask_btn)
         SubtaskWindow.setTabOrder(self.add_subtask_btn, self.cancel_btn)

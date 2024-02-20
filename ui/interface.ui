@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>734</width>
-    <height>523</height>
+    <width>750</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="font">
@@ -71,7 +71,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Menu&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>Menu</string>
             </property>
             <property name="text">
              <string/>
@@ -90,6 +90,11 @@
           </item>
           <item>
            <widget class="QLabel" name="menu_label">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>MENU</string>
             </property>
@@ -194,7 +199,7 @@
              <item>
               <widget class="QPushButton" name="calendar_btn_1">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calendar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>Calendar</string>
                </property>
                <property name="text">
                 <string/>
@@ -258,9 +263,6 @@
              </property>
              <item>
               <widget class="QPushButton" name="home_btn_2">
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
                <property name="text">
                 <string>Home</string>
                </property>
@@ -427,7 +429,7 @@
           <item>
            <widget class="QPushButton" name="user_btn">
             <property name="toolTip">
-             <string>User</string>
+             <string>Click to see user options</string>
             </property>
             <property name="text">
              <string/>
@@ -450,10 +452,10 @@
           <widget class="QLabel" name="no_of_tasks">
            <property name="geometry">
             <rect>
-             <x>240</x>
-             <y>30</y>
-             <width>281</width>
-             <height>151</height>
+             <x>20</x>
+             <y>20</y>
+             <width>331</width>
+             <height>51</height>
             </rect>
            </property>
            <property name="font">
@@ -462,7 +464,17 @@
             </font>
            </property>
            <property name="text">
-            <string/>
+            <string>Number of tasks</string>
+           </property>
+          </widget>
+          <widget class="QTableView" name="filtered_tasks">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>120</y>
+             <width>551</width>
+             <height>391</height>
+            </rect>
            </property>
           </widget>
          </widget>
@@ -514,7 +526,7 @@
            <item>
             <widget class="QTableView" name="tasks_list">
              <property name="alternatingRowColors">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -747,8 +759,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>503</y>
+     <x>139</x>
+     <y>552</y>
     </hint>
     <hint type="destinationlabel">
      <x>117</x>
@@ -763,8 +775,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>21</x>
-     <y>511</y>
+     <x>30</x>
+     <y>552</y>
     </hint>
     <hint type="destinationlabel">
      <x>23</x>

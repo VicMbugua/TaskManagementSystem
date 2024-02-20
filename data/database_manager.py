@@ -6,7 +6,6 @@ class DatabaseManager:
         self.connection = sqlite3.connect(db_file)
         self.cursor = self.connection.cursor()
         
-        
     def execute_query(self, query, params=None):
         if params:
             self.cursor.execute(query, params)
@@ -31,6 +30,13 @@ class DatabaseManager:
         user_id = int(user_id[0][0])
         due_date = date.today() + timedelta(days=25)
         self.add_task(user_id, "Example", 1 , due_date, "Pleasure", "Not Started", "This is an example of a task.")
+        
+    def remove_user(self, user_id):
+        con = sqlite3.connect("data/tasks.db")
+        c = con.cursor()
+        c.execute(f"DELETE FROM users WHERE user_id = {user_id}")
+        con.commit()
+        con.close()
         
     def check_user(self, username):
         con = sqlite3.connect("data/tasks.db")
