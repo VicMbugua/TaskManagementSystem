@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>750</width>
-    <height>562</height>
+    <width>614</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="font">
@@ -71,7 +71,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Menu</string>
+             <string>Collapse menu</string>
             </property>
             <property name="text">
              <string/>
@@ -85,6 +85,9 @@
             </property>
             <property name="autoRepeat">
              <bool>false</bool>
+            </property>
+            <property name="autoDefault">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -154,6 +157,9 @@
                <property name="autoExclusive">
                 <bool>true</bool>
                </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -172,6 +178,9 @@
                 <bool>true</bool>
                </property>
                <property name="autoExclusive">
+                <bool>true</bool>
+               </property>
+               <property name="autoDefault">
                 <bool>true</bool>
                </property>
               </widget>
@@ -194,6 +203,9 @@
                <property name="autoExclusive">
                 <bool>true</bool>
                </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -212,6 +224,9 @@
                 <bool>true</bool>
                </property>
                <property name="autoExclusive">
+                <bool>true</bool>
+               </property>
+               <property name="autoDefault">
                 <bool>true</bool>
                </property>
               </widget>
@@ -240,6 +255,9 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/211650_close_circled_icon.svg</normaloff>:/icons/icons/211650_close_circled_icon.svg</iconset>
+               </property>
+               <property name="autoDefault">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -276,6 +294,9 @@
                <property name="autoExclusive">
                 <bool>true</bool>
                </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -294,6 +315,9 @@
                 <bool>true</bool>
                </property>
                <property name="autoExclusive">
+                <bool>true</bool>
+               </property>
+               <property name="autoDefault">
                 <bool>true</bool>
                </property>
               </widget>
@@ -316,6 +340,9 @@
                <property name="autoExclusive">
                 <bool>true</bool>
                </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -331,6 +358,9 @@
                 <bool>true</bool>
                </property>
                <property name="autoExclusive">
+                <bool>true</bool>
+               </property>
+               <property name="autoDefault">
                 <bool>true</bool>
                </property>
               </widget>
@@ -356,6 +386,9 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/211650_close_circled_icon.svg</normaloff>:/icons/icons/211650_close_circled_icon.svg</iconset>
+               </property>
+               <property name="autoDefault">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -438,6 +471,9 @@
              <iconset resource="resources.qrc">
               <normaloff>:/icons/icons/1564534_customer_man_user_account_profile_icon.svg</normaloff>:/icons/icons/1564534_customer_man_user_account_profile_icon.svg</iconset>
             </property>
+            <property name="autoDefault">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -446,37 +482,59 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="home_page">
-          <widget class="QLabel" name="no_of_tasks">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>20</y>
-             <width>331</width>
-             <height>51</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>15</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Number of tasks</string>
-           </property>
-          </widget>
-          <widget class="QTableView" name="filtered_tasks">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>120</y>
-             <width>551</width>
-             <height>391</height>
-            </rect>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QLabel" name="no_of_tasks">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>15</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Number of tasks</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTableView" name="filtered_tasks">
+             <property name="tabKeyNavigation">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="tasks_page">
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -525,8 +583,11 @@
            </item>
            <item>
             <widget class="QTableView" name="tasks_list">
-             <property name="alternatingRowColors">
+             <property name="tabKeyNavigation">
               <bool>false</bool>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -556,6 +617,9 @@
                <widget class="QPushButton" name="add_task_btn">
                 <property name="text">
                  <string>Add Task</string>
+                </property>
+                <property name="autoDefault">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -604,29 +668,35 @@
             </widget>
            </item>
            <item>
-            <widget class="QTableView" name="completed_tasks"/>
+            <widget class="QTableView" name="completed_tasks">
+             <property name="tabKeyNavigation">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
          <widget class="QWidget" name="calendar_page">
-          <widget class="QLabel" name="label_7">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>200</y>
-             <width>151</width>
-             <height>51</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>CALENDAR PAGE</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="font">
+              <font>
+               <pointsize>13</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Calendar View</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCalendarWidget" name="calendar"/>
+           </item>
+           <item>
+            <widget class="QTableView" name="calendar_table"/>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
@@ -636,6 +706,24 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>menu_btn</tabstop>
+  <tabstop>user_btn</tabstop>
+  <tabstop>home_btn_1</tabstop>
+  <tabstop>tasks_btn_1</tabstop>
+  <tabstop>completed_tasks_btn_1</tabstop>
+  <tabstop>calendar_btn_1</tabstop>
+  <tabstop>exit_btn_1</tabstop>
+  <tabstop>home_btn_2</tabstop>
+  <tabstop>tasks_btn_2</tabstop>
+  <tabstop>completed_tasks_btn_2</tabstop>
+  <tabstop>calendar_btn_2</tabstop>
+  <tabstop>exit_btn_2</tabstop>
+  <tabstop>filtered_tasks</tabstop>
+  <tabstop>add_task_btn</tabstop>
+  <tabstop>tasks_list</tabstop>
+  <tabstop>completed_tasks</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

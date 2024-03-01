@@ -73,6 +73,7 @@ class Ui_SubtaskWindow(object):
         self.horizontalLayout_4.addItem(spacerItem1)
         self.verticalLayout.addWidget(self.widget_4)
         self.subtasks_table = QtWidgets.QTableView(SubtaskWindow)
+        self.subtasks_table.setTabKeyNavigation(False)
         self.subtasks_table.setObjectName("subtasks_table")
         self.verticalLayout.addWidget(self.subtasks_table)
         self.widget = QtWidgets.QWidget(SubtaskWindow)

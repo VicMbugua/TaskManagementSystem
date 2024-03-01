@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ManageAccount(object):
     def setupUi(self, ManageAccount):
         ManageAccount.setObjectName("ManageAccount")
-        ManageAccount.resize(458, 339)
+        ManageAccount.resize(458, 333)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(ManageAccount)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.widget_2 = QtWidgets.QWidget(ManageAccount)
@@ -44,24 +44,25 @@ class Ui_ManageAccount(object):
         self.change_username_btn = QtWidgets.QPushButton(self.widget)
         self.change_username_btn.setCheckable(True)
         self.change_username_btn.setAutoExclusive(True)
-        self.change_username_btn.setAutoDefault(True)
+        self.change_username_btn.setAutoDefault(False)
         self.change_username_btn.setObjectName("change_username_btn")
         self.verticalLayout.addWidget(self.change_username_btn)
         self.change_password_btn = QtWidgets.QPushButton(self.widget)
         self.change_password_btn.setCheckable(True)
         self.change_password_btn.setAutoExclusive(True)
-        self.change_password_btn.setAutoDefault(True)
+        self.change_password_btn.setAutoDefault(False)
         self.change_password_btn.setObjectName("change_password_btn")
         self.verticalLayout.addWidget(self.change_password_btn)
         self.delete_account_btn = QtWidgets.QPushButton(self.widget)
         self.delete_account_btn.setCheckable(True)
         self.delete_account_btn.setAutoExclusive(True)
-        self.delete_account_btn.setAutoDefault(True)
+        self.delete_account_btn.setAutoDefault(False)
         self.delete_account_btn.setObjectName("delete_account_btn")
         self.verticalLayout.addWidget(self.delete_account_btn)
         spacerItem1 = QtWidgets.QSpacerItem(20, 155, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
         self.exit_btn = QtWidgets.QPushButton(self.widget)
+        self.exit_btn.setAutoDefault(True)
         self.exit_btn.setObjectName("exit_btn")
         self.verticalLayout.addWidget(self.exit_btn)
         self.horizontalLayout_2.addWidget(self.widget)
@@ -290,12 +291,12 @@ class Ui_ManageAccount(object):
         self.retranslateUi(ManageAccount)
         self.stackedWidget.setCurrentIndex(2)
         self.exit_btn.clicked.connect(ManageAccount.close) # type: ignore
-        self.current_password.returnPressed.connect(self.new_password.setFocus) # type: ignore
-        self.new_password.returnPressed.connect(self.confirm_new_password.setFocus) # type: ignore
-        self.confirm_new_password.returnPressed.connect(self.change_password_btn_2.click) # type: ignore
         self.new_username.returnPressed.connect(self.password.setFocus) # type: ignore
         self.password.returnPressed.connect(self.change_username_btn_2.click) # type: ignore
         self.password_2.returnPressed.connect(self.delete_account_btn_2.click) # type: ignore
+        self.current_password.returnPressed.connect(self.new_password.setFocus) # type: ignore
+        self.new_password.returnPressed.connect(self.confirm_new_password.setFocus) # type: ignore
+        self.confirm_new_password.returnPressed.connect(self.change_password_btn_2.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(ManageAccount)
         ManageAccount.setTabOrder(self.change_username_btn, self.change_password_btn)
         ManageAccount.setTabOrder(self.change_password_btn, self.delete_account_btn)
@@ -315,7 +316,7 @@ class Ui_ManageAccount(object):
 
     def retranslateUi(self, ManageAccount):
         _translate = QtCore.QCoreApplication.translate
-        ManageAccount.setWindowTitle(_translate("ManageAccount", "Dialog"))
+        ManageAccount.setWindowTitle(_translate("ManageAccount", "Manage Account"))
         self.label.setText(_translate("ManageAccount", "Manage Account"))
         self.change_username_btn.setText(_translate("ManageAccount", "Change Username"))
         self.change_password_btn.setText(_translate("ManageAccount", "Change Password"))

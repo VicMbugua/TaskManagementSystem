@@ -11,22 +11,17 @@ class SignUpWindow(QMainWindow):
         self.ui = Ui_SignUp()
         self.ui.setupUi(self)
         
-        regex = QRegExp("[a-z]+")
-        validator = QRegExpValidator(regex, self.ui.username)
-        self.ui.username.setValidator(validator)
-        
         self.widget = widget
         self.ui.error_message.setText("")
         self.ui.sign_up.clicked.connect(self.handle_sign_up)
         self.ui.login.clicked.connect(self.handle_login)
         
-        self.db_manager = DatabaseManager("data/tasks.db")
+        self.db_manager = DatabaseManager()
         
     def handle_sign_up(self):
-        username = self.ui.username.text()
+        username = self.ui.username.text().lower().strip()
         password = self.ui.password.text()
         confirm_password = self.ui.confirm_password.text()
-        
         username_exists = self.db_manager.check_user(username)
         if username == "" or password == "" or confirm_password == "":
             self.ui.error_message.setText("Please fill all the fields before continuing.")
@@ -34,12 +29,12 @@ class SignUpWindow(QMainWindow):
             self.ui.username.setText("")
             self.ui.password.setText("")
             self.ui.confirm_password.setText("")
-            self.ui.error_message.setText("Username already exists!")
+            self.ui.error_message.setText("Username already exists")
             self.ui.username.setFocus()
         elif password != confirm_password:
             self.ui.password.setText("")
             self.ui.confirm_password.setText("")
-            self.ui.error_message.setText("Passwords don't match!")
+            self.ui.error_message.setText("Passwords don't match")
             self.ui.password.setFocus()
         else:
             self.db_manager.add_user(username, password)
@@ -51,4 +46,9 @@ class SignUpWindow(QMainWindow):
             self.widget.setCurrentIndex(0)
             
     def handle_login(self):
+        self.ui.username.setFocus()
+        self.ui.username.setText("")
+        self.ui.password.setText("")
+        self.ui.confirm_password.setText("")
+        self.ui.error_message.setText("")
         self.widget.setCurrentIndex(0)

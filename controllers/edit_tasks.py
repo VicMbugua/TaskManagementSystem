@@ -13,7 +13,7 @@ class EditTaskWindow(QDialog):
         self.ui = Ui_EditTask()
         self.ui.setupUi(self)
         
-        self.db_manager = DatabaseManager("data/tasks.db")
+        self.db_manager = DatabaseManager()
         self.parent = parent
         
         self.ui.due_date.setMinimumDate(QDate.currentDate())
@@ -45,8 +45,7 @@ class EditTaskWindow(QDialog):
         msg_box.setText(f"Successfully edited {task_name}.")
         msg_box.setWindowTitle("Success")
         msg_box.exec()
-        self.parent.display_tasks()
-        self.parent.display_filtered_tasks()
+        self.parent.refresh_table()
         self.close()
         
     def handle_edit_reset_btn(self, task_id):
@@ -85,7 +84,7 @@ class AddTaskWindow(QDialog):
         self.ui.setupUi(self)
         
         self.parent = parent
-        self.db_manager = DatabaseManager("data/tasks.db")
+        self.db_manager = DatabaseManager()
         self.user_id = user_id
         
         self.ui.due_date.setMinimumDate(QDate.currentDate())
@@ -117,15 +116,16 @@ class AddTaskWindow(QDialog):
             msg_box.setWindowTitle("Success")
             msg_box.exec()
             self.handle_reset_btn()
-            self.parent.display_tasks()
-            self.parent.display_filtered_tasks()
+            self.parent.refresh_table()
             self.parent.display_number_of_tasks()
+            self.close()
         else:
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Warning)
             msg_box.setText("Please enter a task name.")
             msg_box.setWindowTitle("Invalid")
             msg_box.exec()
+            self.ui.task_name.setFocus()
             
     def handle_cancel_btn(self):
         task_name = self.ui.task_name.text()
