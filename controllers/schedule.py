@@ -1,5 +1,4 @@
 from data.database_manager import DatabaseManager
-from PyQt5.QtCore import QDate
 from datetime import datetime, date
 
 
@@ -8,7 +7,8 @@ class Schedule:
         self.user_id = user_id
         self.db_manager = DatabaseManager()
 
-    def arrange_tasks(self):
+    def arrange_tasks(self)-> list:
+        """Arranges the uncompleted tasks according to importance."""
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started')"""
         result = self.db_manager.fetch_data(query)

@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QStackedWidget, QMainWindow
-from controllers.login import LogInWindow
+from controllers.login import LoginWindow
 from controllers.sign_up import SignUpWindow
 
 
@@ -9,7 +9,7 @@ class MyApp(QMainWindow):
         super().__init__()
         widget = QStackedWidget()
         widget.setFixedSize(330, 300)
-        login_window = LogInWindow(widget)
+        login_window = LoginWindow(widget)
         sign_up_window = SignUpWindow(widget)
         widget.addWidget(login_window)
         widget.addWidget(sign_up_window)

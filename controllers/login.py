@@ -5,9 +5,9 @@ from data.database_manager import DatabaseManager
 from controllers.main_window import MainWindow
 
 
-class LogInWindow(QMainWindow):
+class LoginWindow(QMainWindow):
     def __init__(self, widget):
-        super(LogInWindow, self).__init__()
+        super(LoginWindow, self).__init__()
 
         self.ui = Ui_LogIn()
         self.ui.setupUi(self)
@@ -19,6 +19,7 @@ class LogInWindow(QMainWindow):
         self.db_manager = DatabaseManager()
 
     def handle_login(self):
+        """Checks if the username and password are correct then logins the user if they are correct."""
         username = self.ui.username.text().lower().strip()
         password = self.ui.password.text()
 
@@ -31,9 +32,7 @@ class LogInWindow(QMainWindow):
         elif valid_user is False:
             self.ui.username.setText("")
             self.ui.password.setText("")
-            self.ui.error_message.setText(
-                "Username does not exist."
-            )
+            self.ui.error_message.setText("Username does not exist.")
             self.ui.username.setFocus()
         elif valid_password is False:
             self.ui.password.setText("")
@@ -51,6 +50,7 @@ class LogInWindow(QMainWindow):
             window.show()
 
     def handle_sign_up(self):
+        """Opens the sign up window."""
         self.ui.username.setFocus()
         self.ui.username.setText("")
         self.ui.password.setText("")

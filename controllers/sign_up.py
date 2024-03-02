@@ -1,6 +1,4 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
-from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtCore import QRegExp
 from ui.sign_up_ui import Ui_SignUp
 from data.database_manager import DatabaseManager
 
@@ -19,6 +17,7 @@ class SignUpWindow(QMainWindow):
         self.db_manager = DatabaseManager()
         
     def handle_sign_up(self):
+        """Creates a new user if the username is available."""
         username = self.ui.username.text().lower().strip()
         password = self.ui.password.text()
         confirm_password = self.ui.confirm_password.text()
@@ -43,9 +42,10 @@ class SignUpWindow(QMainWindow):
             msg_box.setText("User added successfully. You can now login.")
             msg_box.setWindowTitle("Success")
             msg_box.exec()
-            self.widget.setCurrentIndex(0)
+            self.handle_login()
             
     def handle_login(self):
+        """Opens the login window."""
         self.ui.username.setFocus()
         self.ui.username.setText("")
         self.ui.password.setText("")

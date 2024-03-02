@@ -1,13 +1,20 @@
 from PyQt5.QtCore import Qt
 from ui.subtasks_ui import Ui_SubtaskWindow
-from PyQt5.QtWidgets import QDialog, QCheckBox, QAbstractItemView, QPushButton, QMessageBox
+from PyQt5.QtWidgets import (
+    QDialog,
+    QCheckBox,
+    QAbstractItemView,
+    QPushButton,
+    QMessageBox,
+)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from data.database_manager import DatabaseManager
 
 
-class SubtasksWindow(QDialog):
+class SubtasksDialog(QDialog):
     def __init__(self, task_id, parent=None):
-        super(SubtasksWindow, self).__init__(parent)
+        """Responsible for the subtask dialog."""
+        super(SubtasksDialog, self).__init__(parent)
 
         self.ui = Ui_SubtaskWindow()
         self.ui.setupUi(self)
@@ -22,12 +29,13 @@ class SubtasksWindow(QDialog):
 
         self.ui.add_subtask_btn.clicked.connect(self.add_subtask)
         self.display_subtasks()
-        
+
     def display_subtasks(self):
+        """Shows a list of subtasks of the given task."""
         table = self.ui.subtasks_table
         query = f"SELECT subtask_id, subtask_name, status FROM subtasks WHERE task_id = {self.task_id}"
         result = self.db_manager.fetch_data(query)
-        headers = ["Check","Subtask ID","Subtask Name", "Status", "Remove"]
+        headers = ["Check", "Subtask ID", "Subtask Name", "Status", "Remove"]
         self.subtasks_model = QStandardItemModel(len(result), len(headers))
         self.subtasks_model.setHorizontalHeaderLabels(headers)
         for row_num, row_data in enumerate(result):
@@ -48,7 +56,9 @@ class SubtasksWindow(QDialog):
                 checkbox.setChecked(True)
             else:
                 checkbox.setChecked(False)
-            checkbox.toggled.connect(lambda checked, row=row: self.on_checkbox_toggled(checked, row))
+            checkbox.toggled.connect(
+                lambda checked, row=row: self.on_checkbox_toggled(checked, row)
+            )
             table.setIndexWidget(
                 self.subtasks_model.index(row, 0),
                 checkbox,
@@ -63,17 +73,32 @@ class SubtasksWindow(QDialog):
                 button,
             )
             
+    def add_subtask(self):
+        """Saves the new subtask entered."""
+        subtask_name = self.ui.subtask_name.text()
+        if subtask_name != "":
+            self.db_manager.add_subtask(self.task_id, subtask_name)
+            self.ui.subtask_name.setText("")
+            self.ui.subtask_name.setFocus()
+            self.display_subtasks()
+
     def on_checkbox_toggled(self, checked, row):
+        """Changes the status of the given subtask."""
         if checked:
             subtask_id = self.subtasks_model.index(row, 1).data()
-            self.db_manager.execute_query(f"UPDATE subtasks SET status = 'Completed' WHERE subtask_id = {subtask_id}")
+            self.db_manager.execute_query(
+                f"UPDATE subtasks SET status = 'Completed' WHERE subtask_id = {subtask_id}"
+            )
             self.display_subtasks()
         else:
             subtask_id = self.subtasks_model.index(row, 1).data()
-            self.db_manager.execute_query(f"UPDATE subtasks SET status = 'Not complete' WHERE subtask_id = {subtask_id}")
+            self.db_manager.execute_query(
+                f"UPDATE subtasks SET status = 'Not complete' WHERE subtask_id = {subtask_id}"
+            )
             self.display_subtasks()
-            
+
     def handle_remove(self, row):
+        """Removes the given subtask."""
         subtask_id = self.subtasks_model.index(row, 1).data()
         subtask_name = self.subtasks_model.index(row, 2).data()
         confirmation = QMessageBox()
@@ -86,9 +111,4 @@ class SubtasksWindow(QDialog):
             self.db_manager.remove_subtask(subtask_id)
             self.display_subtasks()
 
-    def add_subtask(self):
-        subtask_name = self.ui.subtask_name.text()
-        if subtask_name != "":
-            self.db_manager.add_subtask(self.task_id, subtask_name)
-            self.ui.subtask_name.setText("")
-            self.display_subtasks()
+    

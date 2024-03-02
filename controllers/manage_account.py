@@ -3,9 +3,9 @@ from PyQt5.QtWidgets import QDialog, QMessageBox
 from data.database_manager import DatabaseManager
 
 
-class ManageAccount(QDialog):
+class ManageAccountDialog(QDialog):
     def __init__(self, user_id, widget, parent=None):
-        super(ManageAccount, self).__init__(parent)
+        super(ManageAccountDialog, self).__init__(parent)
 
         self.ui = Ui_ManageAccount()
         self.ui.setupUi(self)
@@ -42,11 +42,13 @@ class ManageAccount(QDialog):
         self.ui.stackedWidget.setCurrentIndex(2)
 
     def handle_reset(self):
+        """Clears the fields in the change username page."""
         self.ui.new_username.setText("")
         self.ui.password.setText("")
         self.ui.new_username.setFocus()
 
     def handle_change_username(self):
+        """Change the username if the new username is available."""
         new_username = self.ui.new_username.text()
         username_exists = self.db_manager.check_user(new_username)
         password = self.ui.password.text()
@@ -80,12 +82,14 @@ class ManageAccount(QDialog):
             self.ui.password.setText("")
 
     def handle_reset_2(self):
+        """Clears the fields in the change password page."""
         self.ui.current_password.setText("")
         self.ui.new_password.setText("")
         self.ui.confirm_new_password.setText("")
         self.ui.current_password.setFocus()
 
     def handle_change_password(self):
+        """Changes the user's password."""
         current_password = self.ui.current_password.text()
         new_password = self.ui.new_password.text()
         confirm_new_password = self.ui.confirm_new_password.text()
@@ -119,6 +123,7 @@ class ManageAccount(QDialog):
             self.ui.confirm_new_password.setText("")
 
     def delete_account(self):
+        """Deletes the user's account."""
         password = self.ui.password_2.text()
         valid_password = self.db_manager.check_password(self.username, password)
         if password == "":
@@ -141,5 +146,6 @@ class ManageAccount(QDialog):
                 self.widget.show()
 
     def handle_reset_3(self):
+        """Clears the field in the delete account page."""
         self.ui.password_2.setText("")
         self.ui.password_2.setFocus()
