@@ -1,5 +1,4 @@
-import PyQt5
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow
 from ui.login_ui import Ui_LogIn
 from data.database_manager import DatabaseManager
 from controllers.main_window import MainWindow
@@ -18,13 +17,13 @@ class LoginWindow(QMainWindow):
         self.ui.login.clicked.connect(self.handle_login)
         self.db_manager = DatabaseManager()
 
-    def handle_login(self):
+    def handle_login(self) -> None:
         """Checks if the username and password are correct then logins the user if they are correct."""
-        username = self.ui.username.text().lower().strip()
-        password = self.ui.password.text()
+        username: str = self.ui.username.text().lower().strip()
+        password: str = self.ui.password.text()
 
-        valid_user = self.db_manager.check_user(username)
-        valid_password = self.db_manager.check_password(username, password)
+        valid_user: bool = self.db_manager.check_user(username)
+        valid_password: bool = self.db_manager.check_password(username, password)
         if username == "" or password == "":
             self.ui.error_message.setText(
                 "Please fill all the fields before continuing."
@@ -49,7 +48,7 @@ class LoginWindow(QMainWindow):
             window = MainWindow(self.user_id, self.widget)
             window.show()
 
-    def handle_sign_up(self):
+    def handle_sign_up(self) -> None:
         """Opens the sign up window."""
         self.ui.username.setFocus()
         self.ui.username.setText("")

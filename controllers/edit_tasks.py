@@ -7,7 +7,7 @@ from data.database_manager import DatabaseManager
 
 
 class EditTaskDialog(QDialog):
-    def __init__(self, task_id, parent):
+    def __init__(self, task_id: int, parent) -> None:
         super(EditTaskDialog, self).__init__(parent)
         self.edit_window = QDialog()
         self.ui = Ui_EditTask()
@@ -35,7 +35,7 @@ class EditTaskDialog(QDialog):
         self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
         self.ui.reset_btn.clicked.connect(lambda: self.handle_edit_reset_btn(task_id))
 
-    def handle_edit_btn(self, task_id):
+    def handle_edit_btn(self, task_id: int) -> None:
         """Saves the edited information of the edited task."""
         task_name = self.ui.task_name.text()
         date = self.ui.due_date.date()
@@ -55,7 +55,7 @@ class EditTaskDialog(QDialog):
         self.parent.refresh_table()
         self.close()
 
-    def handle_edit_reset_btn(self, task_id):
+    def handle_edit_reset_btn(self, task_id: int) -> None:
         """Resets the fields to their original value."""
         query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
         self.result = self.db_manager.fetch_data(query)
@@ -72,7 +72,7 @@ class EditTaskDialog(QDialog):
         )
         self.ui.description.setText(self.result[0][5])
 
-    def handle_cancel_btn(self):
+    def handle_cancel_btn(self) -> None:
         """Closes the edit dialog without saving anything."""
         current_task_name = self.result[0][0]
         new_task_name = self.ui.task_name.text()
@@ -90,7 +90,7 @@ class EditTaskDialog(QDialog):
 
 
 class AddTaskDialog(QDialog):
-    def __init__(self, user_id, parent):
+    def __init__(self, user_id: int, parent) -> None:
         super(AddTaskDialog, self).__init__(parent)
 
         self.ui = Ui_AddTask()
@@ -99,13 +99,14 @@ class AddTaskDialog(QDialog):
         self.parent = parent
         self.db_manager = DatabaseManager()
         self.user_id = user_id
-
+        
+        self.ui.priority.setCurrentIndex(4)
         self.ui.due_date.setMinimumDate(QDate.currentDate())
         self.ui.reset_btn.clicked.connect(self.handle_reset_btn)
         self.ui.save_btn.clicked.connect(self.handle_save_btn)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
 
-    def handle_reset_btn(self):
+    def handle_reset_btn(self) -> None:
         """Clears everything entered in the fields."""
         self.ui.task_name.setText("")
         self.ui.label_name.setCurrentIndex(0)
@@ -114,7 +115,7 @@ class AddTaskDialog(QDialog):
         self.ui.status.setCurrentIndex(0)
         self.ui.description.setText("")
 
-    def handle_save_btn(self):
+    def handle_save_btn(self) -> None:
         """Saves the new task to the database."""
         task_name = self.ui.task_name.text()
         date = self.ui.due_date.date()
@@ -150,7 +151,7 @@ class AddTaskDialog(QDialog):
             msg_box.exec()
             self.ui.task_name.setFocus()
 
-    def handle_cancel_btn(self):
+    def handle_cancel_btn(self) -> None:
         """Closes the add task dialog without saving anything."""
         task_name = self.ui.task_name.text()
         if task_name != "":

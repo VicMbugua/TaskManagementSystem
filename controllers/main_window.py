@@ -230,6 +230,10 @@ class MainWindow(QMainWindow):
     # HOME PAGE END
 
     # TASKS PAGE BEGIN
+    # TODO: Add search functionality.
+    # TODO: Add a view by label functionality.
+    # TODO: Add a view by due date functionality.
+    
 
     def display_tasks(self):
         """Shows a list of all uncompleted tasks present."""

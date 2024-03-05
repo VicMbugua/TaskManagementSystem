@@ -183,6 +183,7 @@ class Ui_AddTask(object):
         self.status.setItemText(1, _translate("AddTask", "Started"))
         self.label_6.setText(_translate("AddTask", "Description"))
         self.description.setWhatsThis(_translate("AddTask", "<html><head/><body><p>Additional information about the task.</p></body></html>"))
+        self.description.setPlaceholderText(_translate("AddTask", "Add a description..."))
         self.reset_btn.setWhatsThis(_translate("AddTask", "<html><head/><body><p>Clears all the entries made.</p></body></html>"))
         self.reset_btn.setText(_translate("AddTask", "Reset"))
         self.save_btn.setWhatsThis(_translate("AddTask", "<html><head/><body><p>Saves the new task entered.</p></body></html>"))
