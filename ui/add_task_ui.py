@@ -144,16 +144,16 @@ class Ui_AddTask(object):
         self.verticalLayout.addLayout(self.horizontalLayout_6)
 
         self.retranslateUi(AddTask)
-        self.task_name.returnPressed.connect(self.description.setFocus) # type: ignore
+        self.priority.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(AddTask)
         AddTask.setTabOrder(self.task_name, self.due_date)
         AddTask.setTabOrder(self.due_date, self.priority)
         AddTask.setTabOrder(self.priority, self.label_name)
         AddTask.setTabOrder(self.label_name, self.status)
         AddTask.setTabOrder(self.status, self.description)
-        AddTask.setTabOrder(self.description, self.reset_btn)
-        AddTask.setTabOrder(self.reset_btn, self.save_btn)
-        AddTask.setTabOrder(self.save_btn, self.cancel_btn)
+        AddTask.setTabOrder(self.description, self.save_btn)
+        AddTask.setTabOrder(self.save_btn, self.reset_btn)
+        AddTask.setTabOrder(self.reset_btn, self.cancel_btn)
 
     def retranslateUi(self, AddTask):
         _translate = QtCore.QCoreApplication.translate

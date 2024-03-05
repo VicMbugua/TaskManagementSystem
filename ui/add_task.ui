@@ -170,6 +170,9 @@
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The priority, 1 being the highest and 5 being the lowest.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
        <item>
         <property name="text">
          <string>1</string>
@@ -420,27 +423,10 @@
   <tabstop>label_name</tabstop>
   <tabstop>status</tabstop>
   <tabstop>description</tabstop>
-  <tabstop>reset_btn</tabstop>
   <tabstop>save_btn</tabstop>
+  <tabstop>reset_btn</tabstop>
   <tabstop>cancel_btn</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>task_name</sender>
-   <signal>returnPressed()</signal>
-   <receiver>description</receiver>
-   <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>263</x>
-     <y>78</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>211</x>
-     <y>219</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

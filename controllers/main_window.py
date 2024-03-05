@@ -13,12 +13,13 @@ from controllers.edit_tasks import AddTaskDialog, EditTaskDialog
 from controllers.manage_account import ManageAccountDialog
 from controllers.schedule import Schedule
 from controllers.subtasks import SubtasksDialog
+from controllers.add_project import AddProjectDialog
 from data.database_manager import DatabaseManager
 from ui.interface_ui import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, user_id, widget, parent=None):
+    def __init__(self, user_id, widget, parent=None) -> None:
         super(MainWindow, self).__init__(parent)
 
         self.ui = Ui_MainWindow()
@@ -44,6 +45,11 @@ class MainWindow(QMainWindow):
         user_button.setMenu(user_menu)
         user_button.setStyleSheet("::menu-indicator {image:none;}")
 
+        self.project_name = "Default"
+        self.project_list()
+            
+        self.ui.project.currentIndexChanged.connect(self.handle_project_change)
+        self.ui.add_project_btn.clicked.connect(self.open_add_project)
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.display_number_of_tasks()
         self.display_filtered_tasks()
@@ -53,7 +59,7 @@ class MainWindow(QMainWindow):
 
         self.ui.calendar.selectionChanged.connect(self.date_changed)
 
-    def on_menu_btn_pressed(self):
+    def on_menu_btn_pressed(self) -> None:
         if self.ui.full_name_widget.isVisible():
             self.ui.menu_btn.setToolTip("Expand menu")
             self.ui.full_name_widget.hide()
@@ -65,17 +71,33 @@ class MainWindow(QMainWindow):
             self.ui.menu_label.show()
             self.ui.icons_only_widget.hide()
 
-    def logout(self):
+    def logout(self) -> None:
         """It logs you out of the application."""
         self.widget.show()
         self.close()
+        
+    def project_list(self) -> None:
+        self.ui.project.clear()
+        projects = self.db_manager.fetch_data(f"SELECT project_name FROM projects WHERE user_id = {self.user_id}")
+        print(projects)
+        for row in projects:
+            self.ui.project.addItem(row[0])
+        
+    def handle_project_change(self, index) -> None:
+        self.project_name = self.ui.project.itemText(index)
+        print(self.project_name)
+        self.refresh_table()
+        
+    def open_add_project(self) -> None:
+        add_project = AddProjectDialog(self.user_id, self)
+        add_project.show()
 
-    def open_task_dialog(self):
+    def open_task_dialog(self) -> None:
         """Opens the dialog responsible for adding new tasks."""
-        add_task = AddTaskDialog(self.user_id, self)
+        add_task = AddTaskDialog(self.user_id, self.project_name, self)
         add_task.show()
 
-    def open_manage_account(self):
+    def open_manage_account(self) -> None:
         """Opens the dialog responsible for managing the user's account."""
         manage_account = ManageAccountDialog(self.user_id, self.widget, self)
         manage_account.show()
@@ -238,11 +260,13 @@ class MainWindow(QMainWindow):
     def display_tasks(self):
         """Shows a list of all uncompleted tasks present."""
         self.tasks_table = self.ui.tasks_list
+        project_id = self.db_manager.fetch_data(f"SELECT project_id FROM projects WHERE user_id = {self.user_id} AND project_name = '{self.project_name}'")
+        project_id = project_id[0][0]
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
-        FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started')"""
+        FROM tasks WHERE user_id = {self.user_id} AND project_id = {project_id} AND (status = 'Not Started' OR status = 'Started')"""
         result = self.db_manager.fetch_data(query)
         default_task = True
-        if len(result) > 1:
+        if len(result) > 1 and self.project_name == "Default":
             result.pop(0)
             default_task = False
         headers = [
@@ -266,7 +290,7 @@ class MainWindow(QMainWindow):
         self.tasks_table.setModel(self.tasks_model)
         self.tasks_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tasks_table.setColumnHidden(0, True)
-        if default_task is True:
+        if default_task is True and self.project_name == "Default":
             self.tasks_table.setRowHidden(0, True)
         else:
             self.tasks_table.setRowHidden(0, False)

@@ -69,7 +69,7 @@ class SubtasksDialog(QDialog):
             button.setToolTip("Click to remove subtask")
             button.clicked.connect(lambda index, row=row: self.handle_remove(row))
             table.setIndexWidget(
-                self.subtasks_model.index(row, 4),
+                self.subtasks_model.index(row, self.subtasks_model.columnCount() - 1),
                 button,
             )
             

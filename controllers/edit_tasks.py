@@ -9,7 +9,7 @@ from data.database_manager import DatabaseManager
 class EditTaskDialog(QDialog):
     def __init__(self, task_id: int, parent) -> None:
         super(EditTaskDialog, self).__init__(parent)
-        self.edit_window = QDialog()
+
         self.ui = Ui_EditTask()
         self.ui.setupUi(self)
 
@@ -90,7 +90,7 @@ class EditTaskDialog(QDialog):
 
 
 class AddTaskDialog(QDialog):
-    def __init__(self, user_id: int, parent) -> None:
+    def __init__(self, user_id: int, project_name: str, parent) -> None:
         super(AddTaskDialog, self).__init__(parent)
 
         self.ui = Ui_AddTask()
@@ -98,20 +98,24 @@ class AddTaskDialog(QDialog):
 
         self.parent = parent
         self.db_manager = DatabaseManager()
+        project_id = self.db_manager.fetch_data(f"SELECT project_id FROM projects WHERE user_id = {user_id} AND project_name = '{project_name}'")
+        self.project_id: int = project_id[0][0]
         self.user_id = user_id
-        
+        self.ui.task_name.setFocus()
         self.ui.priority.setCurrentIndex(4)
         self.ui.due_date.setMinimumDate(QDate.currentDate())
         self.ui.reset_btn.clicked.connect(self.handle_reset_btn)
         self.ui.save_btn.clicked.connect(self.handle_save_btn)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
 
+        # self.setWindowFlags(Qt.WA_DontShowOnScreen | Qt.Window)
+
     def handle_reset_btn(self) -> None:
         """Clears everything entered in the fields."""
         self.ui.task_name.setText("")
         self.ui.label_name.setCurrentIndex(0)
         self.ui.due_date.setDate(QDate.currentDate())
-        self.ui.priority.setCurrentIndex(0)
+        self.ui.priority.setCurrentIndex(4)
         self.ui.status.setCurrentIndex(0)
         self.ui.description.setText("")
 
@@ -127,6 +131,7 @@ class AddTaskDialog(QDialog):
         if task_name != "":
             self.db_manager.add_task(
                 self.user_id,
+                self.project_id,
                 task_name,
                 priority,
                 due_date,

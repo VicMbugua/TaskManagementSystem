@@ -4,7 +4,7 @@ from data.database_manager import DatabaseManager
 
 
 class ManageAccountDialog(QDialog):
-    def __init__(self, user_id, widget, parent=None):
+    def __init__(self, user_id: int, widget, parent=None):
         super(ManageAccountDialog, self).__init__(parent)
 
         self.ui = Ui_ManageAccount()
@@ -15,7 +15,7 @@ class ManageAccountDialog(QDialog):
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.change_username_btn.setChecked(True)
         self.widget = widget
-        self.db_manager = DatabaseManager("tasks.db")
+        self.db_manager = DatabaseManager()
         self.user_id = user_id
         username = self.db_manager.fetch_data(
             f"SELECT username FROM users WHERE user_id = {self.user_id}"

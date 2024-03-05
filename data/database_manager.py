@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from datetime import date, timedelta
+from datetime import date, datetime
 
 
 class DatabaseManager:
@@ -66,29 +66,38 @@ class DatabaseManager:
         connection.commit()
         connection.close()
 
-    def fetch_data(self, query, params=None) -> list:
-        connection = sqlite3.connect(self.db_file)
-        cursor = connection.cursor()
-        cursor.execute(query)
-        return cursor.fetchall()
-        # connection.close()
-        # return result
+    def fetch_data(self, query) -> list:
+        try:
+            connection = sqlite3.connect(self.db_file)
+            cursor = connection.cursor()
+            cursor.execute(query)
+            results = cursor.fetchall()
+            connection.commit()
+            return results
+        except sqlite3.Error as error:
+            return []
+        finally:
+            if connection:
+                connection.close()
 
     def add_user(self, username: str, password: str) -> None:
         """Adds a new user to the database."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(
             "INSERT INTO users (username, password) VALUES (?, ?)", (username, password)
         )
-        con.commit()
-        con.close()
+        connection.commit()
+        connection.close()
         user_id: list = self.fetch_data(
             f"SELECT user_id FROM users WHERE username = '{username}'"
         )
         user_id: int = int(user_id[0][0])
+        self.add_project(user_id, "Default")
+        project_id = self.fetch_data(f"SELECT project_id FROM projects WHERE user_id = {user_id} AND project_name = 'Default'")
+        project_id = project_id[0][0]
         self.add_task(
-            user_id,
+            user_id, project_id,
             "Example",
             1,
             "1970-01-01",
@@ -99,18 +108,18 @@ class DatabaseManager:
 
     def remove_user(self, user_id: int) -> None:
         """Removes a user from the database."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(f"DELETE FROM users WHERE user_id = {user_id}")
-        con.commit()
-        con.close()
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(f"DELETE FROM users WHERE user_id = {user_id}")
+        connection.commit()
+        connection.close()
 
     def check_user(self, username: str) -> bool:
         """Checks if the username given already exists in the database."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(f"SELECT COUNT(*) FROM users WHERE username = '{username}'")
-        result = c.fetchone()
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(f"SELECT COUNT(*) FROM users WHERE username = '{username}'")
+        result = cursor.fetchone()
         if result[0] == 1:
             return True
         else:
@@ -118,31 +127,42 @@ class DatabaseManager:
 
     def check_password(self, username: str, password: str) -> bool:
         """Checks if the password is correct for the given username."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(
             f"SELECT COUNT(*) FROM users WHERE username = '{
                 username}' AND password = '{password}'"
         )
-        result = c.fetchone()
+        result = cursor.fetchone()
         if result[0] == 1:
             return True
         else:
             return False
+        
+    def add_project(self, user_id, project_name):
+        now = datetime.now()
+        created_at = now.strftime("%Y-%m-%d %H:%M:%S")
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO projects (user_id, project_name, created_at) VALUES (?, ?, ?)", (user_id, project_name, created_at))
+        connection.commit()
+        connection.close()
 
     def add_task(
-            self, user_id: int, task_name: str, priority: int, due_date: str, label_name: str, status: str, description: str
+            self, user_id: int, project_id: int, task_name: str, priority: int, due_date: str, label_name: str, status: str, description: str
     ):
         """Adds a new task to the tasks table."""
-        created_at = date.today()
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(
+        now = datetime.now()
+        created_at = now.strftime("%Y-%m-%d %H:%M:%S")
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(
             """
-        INSERT INTO tasks (user_id, task_name, priority, due_date, label_name, status, description, created_at) VALUES 
-        (?, ?, ?, ?, ?, ?, ?, ?)""",
+        INSERT INTO tasks (user_id, project_id, task_name, priority, due_date, label_name, status, description, created_at) VALUES 
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 user_id,
+                project_id,
                 task_name,
                 priority,
                 due_date,
@@ -152,60 +172,62 @@ class DatabaseManager:
                 created_at,
             ),
         )
-        con.commit()
-        con.close()
+        connection.commit()
+        connection.close()
 
     def remove_task(self, task_id: int) -> None:
         """Removes a task from the tasks table of the specified task_id."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(f"DELETE FROM tasks WHERE task_id = {task_id}")
-        con.commit()
-        con.close()
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(f"DELETE FROM tasks WHERE task_id = {task_id}")
+        connection.commit()
+        connection.close()
 
     def add_subtask(self, task_id: int, subtask_name: str) -> None:
         """Adds a new subtask to the subtasks table."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        created_at = date.today()
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        now = datetime.now()
+        created_at = now.strftime("%Y-%m-%d %H:%M:%S")
+        # created_at = date.today()
         status = "Not complete"
-        c.execute(
+        cursor.execute(
             "INSERT INTO subtasks (task_id, subtask_name, status, created_at) VALUES (?, ?, ?, ?)",
             (task_id, subtask_name, status, created_at),
         )
-        con.commit()
-        con.close()
+        connection.commit()
+        connection.close()
 
     def remove_subtask(self, subtask_id: int) -> None:
         """Removes a subtask from the subtask table."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(f"DELETE FROM subtasks WHERE subtask_id = {subtask_id}")
-        con.commit()
-        con.close()
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(f"DELETE FROM subtasks WHERE subtask_id = {subtask_id}")
+        connection.commit()
+        connection.close()
 
     def number_of_tasks(self, user_id: int) -> int:
         """Returns the number of uncompleted tasks"""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(
             f"SELECT COUNT(*) FROM tasks WHERE user_id = {
                 user_id} AND (status = 'Not Started' OR status = 'Started')"
         )
-        result = c.fetchone()
+        result = cursor.fetchone()
         num_records: int = result[0]
-        con.close()
+        connection.close()
         return num_records
 
     def edit_task(
             self, task_id: int, task_name: str, priority: int, due_date: str, label_name: str, status: str, description: str
     ) -> None:
         """Edits the given task."""
-        con = sqlite3.connect(self.db_file)
-        c = con.cursor()
-        c.execute(
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(
             f"UPDATE tasks SET task_name = '{task_name}', priority = {priority}, due_date = '{due_date}', label_name = '{
                 label_name}', status = '{status}', description = '{description}' WHERE task_id = {task_id}"
         )
-        con.commit()
-        con.close()
+        connection.commit()
+        connection.close()

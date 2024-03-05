@@ -482,7 +482,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -538,6 +538,48 @@
          </widget>
          <widget class="QWidget" name="tasks_page">
           <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QWidget" name="widget_8" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Chose project:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="project"/>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>175</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="add_project_btn">
+                <property name="text">
+                 <string>Add Project</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item>
             <widget class="QWidget" name="widget_6" native="true">
              <property name="sizePolicy">
@@ -847,8 +889,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>139</x>
-     <y>552</y>
+     <x>151</x>
+     <y>498</y>
     </hint>
     <hint type="destinationlabel">
      <x>117</x>
@@ -863,8 +905,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>30</x>
-     <y>552</y>
+     <x>36</x>
+     <y>498</y>
     </hint>
     <hint type="destinationlabel">
      <x>23</x>

@@ -380,27 +380,10 @@
   <tabstop>label_name</tabstop>
   <tabstop>status</tabstop>
   <tabstop>description</tabstop>
-  <tabstop>reset_btn</tabstop>
   <tabstop>save_btn</tabstop>
+  <tabstop>reset_btn</tabstop>
   <tabstop>cancel_btn</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>task_name</sender>
-   <signal>returnPressed()</signal>
-   <receiver>description</receiver>
-   <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>189</x>
-     <y>80</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>187</x>
-     <y>223</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
