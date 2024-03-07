@@ -50,6 +50,7 @@ class MainWindow(QMainWindow):
             
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
+        self.ui.delete_project_btn.clicked.connect(self.delete_project)
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.display_number_of_tasks()
         self.display_filtered_tasks()
@@ -79,18 +80,36 @@ class MainWindow(QMainWindow):
     def project_list(self) -> None:
         self.ui.project.clear()
         projects = self.db_manager.fetch_data(f"SELECT project_name FROM projects WHERE user_id = {self.user_id}")
-        print(projects)
         for row in projects:
             self.ui.project.addItem(row[0])
         
     def handle_project_change(self, index) -> None:
         self.project_name = self.ui.project.itemText(index)
-        print(self.project_name)
         self.refresh_table()
         
     def open_add_project(self) -> None:
         add_project = AddProjectDialog(self.user_id, self)
         add_project.show()
+        
+    def delete_project(self) -> None:
+        if self.project_name == "Default":
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Information)
+            msg_box.setText("You cannot delete the default project.")
+            msg_box.setWindowTitle("Information")
+            msg_box.exec()
+        else:
+            confirmation = QMessageBox()
+            confirmation.setText(f"Are you sure you want to delete the project \"{self.project_name}\"?")
+            confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            confirmation.setDefaultButton(QMessageBox.Cancel)
+            confirmation.setIcon(QMessageBox.Warning)
+            response = confirmation.exec()
+            if response == QMessageBox.Yes:
+                self.db_manager.execute_query(f"DELETE FROM projects WHERE project_name = '{self.project_name}'")
+                index: int = self.ui.project.findText(self.project_name)
+                self.ui.project.removeItem(index)
+                self.ui.project.setCurrentIndex(0)
 
     def open_task_dialog(self) -> None:
         """Opens the dialog responsible for adding new tasks."""

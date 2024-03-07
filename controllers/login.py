@@ -1,7 +1,10 @@
+import ctypes
+from PyQt5.QtCore import QEvent, Qt
 from PyQt5.QtWidgets import QMainWindow
 from ui.login_ui import Ui_LogIn
 from data.database_manager import DatabaseManager
 from controllers.main_window import MainWindow
+from controllers.sign_up import SignUpWindow
 
 
 class LoginWindow(QMainWindow):
@@ -16,6 +19,22 @@ class LoginWindow(QMainWindow):
         self.ui.sign_up.clicked.connect(self.handle_sign_up)
         self.ui.login.clicked.connect(self.handle_login)
         self.db_manager = DatabaseManager()
+        self.installEventFilter(self)
+        self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
+        self.toggle_caps_lock_label()
+        
+    def eventFilter(self, obj, event) -> bool:
+        if event.type() == QEvent.KeyPress:
+            if event.key() == Qt.Key_CapsLock:
+                self.caps_lock_on = not self.caps_lock_on
+                self.toggle_caps_lock_label()
+        return super().eventFilter(obj, event)
+    
+    def toggle_caps_lock_label(self):
+        if self.caps_lock_on:
+            self.ui.caps_lock.setText("Caps lock is on")
+        else:
+            self.ui.caps_lock.setText("")
 
     def handle_login(self) -> None:
         """Checks if the username and password are correct then logins the user if they are correct."""

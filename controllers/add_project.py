@@ -14,6 +14,7 @@ class AddProjectDialog(QDialog):
         self.parent = parent
         
         self.user_id = user_id
+        self.ui.error_message.setText("")
         
         self.ui.save_btn.clicked.connect(self.handle_save)
         
@@ -28,6 +29,7 @@ class AddProjectDialog(QDialog):
             self.ui.error_message.setText("Please enter a project name.")
         elif valid_name is False:
             self.ui.error_message.setText("Project name already exists.")
+            self.ui.project_name.setText("")
         else:
             self.db_manager.add_project(self.user_id, project_name)
             msg_box = QMessageBox()
@@ -36,7 +38,7 @@ class AddProjectDialog(QDialog):
             msg_box.setWindowTitle("Success")
             msg_box.exec()
             self.ui.project_name.setText("")
-            # self.parent.project_name = project_name
-            # self.parent.project_list()
-            # self.parent.ui.project.setCurrentText(project_name)
+            self.parent.project_name = project_name
+            self.parent.ui.project.addItem(project_name)
+            self.parent.ui.project.setCurrentText(project_name)
             self.close()

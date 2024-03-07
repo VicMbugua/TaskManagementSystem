@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_LogIn(object):
     def setupUi(self, LogIn):
         LogIn.setObjectName("LogIn")
-        LogIn.resize(314, 271)
+        LogIn.resize(343, 271)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -98,6 +98,10 @@ class Ui_LogIn(object):
         self.error_message.setAlignment(QtCore.Qt.AlignCenter)
         self.error_message.setObjectName("error_message")
         self.verticalLayout.addWidget(self.error_message)
+        self.caps_lock = QtWidgets.QLabel(self.centralwidget)
+        self.caps_lock.setAlignment(QtCore.Qt.AlignCenter)
+        self.caps_lock.setObjectName("caps_lock")
+        self.verticalLayout.addWidget(self.caps_lock)
         spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem6)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
@@ -129,6 +133,7 @@ class Ui_LogIn(object):
         self.label_3.setText(_translate("LogIn", "Password"))
         self.password.setPlaceholderText(_translate("LogIn", "Password"))
         self.error_message.setText(_translate("LogIn", "Error message"))
+        self.caps_lock.setText(_translate("LogIn", "Cap locks"))
         self.sign_up.setToolTip(_translate("LogIn", "<html><head/><body><p>Create a new account.</p></body></html>"))
         self.sign_up.setText(_translate("LogIn", "Sign Up"))
         self.login.setText(_translate("LogIn", "Log In"))

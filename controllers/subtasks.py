@@ -72,7 +72,7 @@ class SubtasksDialog(QDialog):
                 self.subtasks_model.index(row, self.subtasks_model.columnCount() - 1),
                 button,
             )
-            
+
     def add_subtask(self):
         """Saves the new subtask entered."""
         subtask_name = self.ui.subtask_name.text()
@@ -110,5 +110,3 @@ class SubtasksDialog(QDialog):
         if response == QMessageBox.Yes:
             self.db_manager.remove_subtask(subtask_id)
             self.display_subtasks()
-
-    

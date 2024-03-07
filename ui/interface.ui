@@ -577,6 +577,13 @@
                 </property>
                </widget>
               </item>
+              <item>
+               <widget class="QPushButton" name="delete_project_btn">
+                <property name="text">
+                 <string>Delete Project</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
