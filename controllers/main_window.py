@@ -51,7 +51,9 @@ class MainWindow(QMainWindow):
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
         self.ui.delete_project_btn.clicked.connect(self.delete_project)
+        self.ui.delete_project_btn.setToolTip(f"Delete {self.project_name} project")
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
+        self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
         self.display_number_of_tasks()
         self.display_filtered_tasks()
         self.display_tasks()
@@ -86,6 +88,9 @@ class MainWindow(QMainWindow):
     def handle_project_change(self, index) -> None:
         self.project_name = self.ui.project.itemText(index)
         self.refresh_table()
+        self.ui.delete_project_btn.setToolTip(f"Delete {self.project_name} project")
+        self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
+        
         
     def open_add_project(self) -> None:
         add_project = AddProjectDialog(self.user_id, self)
@@ -95,7 +100,7 @@ class MainWindow(QMainWindow):
         if self.project_name == "Default":
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText("You cannot delete the default project.")
+            msg_box.setText("You cannot delete the Default project.")
             msg_box.setWindowTitle("Information")
             msg_box.exec()
         else:

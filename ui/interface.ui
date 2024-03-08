@@ -18,6 +18,10 @@
   <property name="windowTitle">
    <string>Task Management System</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/icons/9054813_bx_task_icon.svg</normaloff>:/icons/icons/9054813_bx_task_icon.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
@@ -555,7 +559,11 @@
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="project"/>
+               <widget class="QComboBox" name="project">
+                <property name="toolTip">
+                 <string>Click to see other projects</string>
+                </property>
+               </widget>
               </item>
               <item>
                <spacer name="horizontalSpacer_6">
@@ -740,7 +748,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QCalendarWidget" name="calendar"/>
+            <widget class="QCalendarWidget" name="calendar">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QTableView" name="calendar_table"/>
