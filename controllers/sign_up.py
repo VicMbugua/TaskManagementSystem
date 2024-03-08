@@ -23,6 +23,16 @@ class SignUpWindow(QMainWindow):
         
         if isinstance(widget, SignUpWindow):
             self.show()
+            
+    def showEvent(self, event) -> None:
+        super().showEvent(event)
+        self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
+        self.toggle_caps_lock_label()
+        self.ui.username.setFocus()
+        self.ui.username.setText("")
+        self.ui.password.setText("")
+        self.ui.confirm_password.setText("")
+        self.ui.error_message.setText("")
         
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
@@ -67,9 +77,4 @@ class SignUpWindow(QMainWindow):
             
     def handle_login(self):
         """Opens the login window."""
-        self.ui.username.setFocus()
-        self.ui.username.setText("")
-        self.ui.password.setText("")
-        self.ui.confirm_password.setText("")
-        self.ui.error_message.setText("")
         self.widget.setCurrentIndex(0)

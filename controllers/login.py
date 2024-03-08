@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QMainWindow
 from ui.login_ui import Ui_LogIn
 from data.database_manager import DatabaseManager
 from controllers.main_window import MainWindow
-from controllers.sign_up import SignUpWindow
 
 
 class LoginWindow(QMainWindow):
@@ -22,6 +21,15 @@ class LoginWindow(QMainWindow):
         self.installEventFilter(self)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
         self.toggle_caps_lock_label()
+        
+    def showEvent(self, event) -> None:
+        super().showEvent(event)
+        self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
+        self.toggle_caps_lock_label()
+        self.ui.username.setFocus()
+        self.ui.username.setText("")
+        self.ui.password.setText("")
+        self.ui.error_message.setText("")
         
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
@@ -56,9 +64,6 @@ class LoginWindow(QMainWindow):
             self.ui.password.setText("")
             self.ui.error_message.setText("Wrong password. Please try again.")
         else:
-            self.ui.username.setText("")
-            self.ui.password.setText("")
-            self.ui.username.setFocus()
             self.widget.close()
             self.user_id = self.db_manager.fetch_data(
                 f"SELECT user_id FROM users WHERE username = '{username}'"
@@ -69,8 +74,4 @@ class LoginWindow(QMainWindow):
 
     def handle_sign_up(self) -> None:
         """Opens the sign up window."""
-        self.ui.username.setFocus()
-        self.ui.username.setText("")
-        self.ui.password.setText("")
-        self.ui.error_message.setText("")
         self.widget.setCurrentIndex(1)
