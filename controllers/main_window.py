@@ -11,7 +11,8 @@ from PyQt5.QtWidgets import (
 )
 from controllers.edit_tasks import AddTaskDialog, EditTaskDialog
 from controllers.manage_account import ManageAccountDialog
-from controllers.schedule import Schedule
+from controllers.arrange import Schedule
+from controllers.schedule import ScheduleDialog
 from controllers.subtasks import SubtasksDialog
 from controllers.add_project import AddProjectDialog
 from data.database_manager import DatabaseManager
@@ -330,12 +331,16 @@ class MainWindow(QMainWindow):
             button.setToolTip("Click to manage the task.")
             button.setAutoDefault(True)
             menu = QMenu()
+            schedule_action = QAction("Schedule", self)
             done_action = QAction("Done", self)
             edit_action = QAction("Edit", self)
             delete_action = QAction("Delete", self)
             started_action = QAction("Started", self)
             not_started_action = QAction("Not Started", self)
             status = self.tasks_model.index(row, 5).data()
+            schedule_action.triggered.connect(
+                lambda index, row=row: self.handle_schedule(row, self.tasks_model)
+            )
             done_action.triggered.connect(
                 lambda index, row=row: self.handle_done(row, self.tasks_model)
             )
@@ -351,6 +356,7 @@ class MainWindow(QMainWindow):
             not_started_action.triggered.connect(
                 lambda index, row=row: self.handle_not_started(row, self.tasks_model)
             )
+            menu.addAction(schedule_action)
             if status == "Not Started":
                 menu.addAction(started_action)
             else:
@@ -370,6 +376,11 @@ class MainWindow(QMainWindow):
         task_id = self.tasks_model.index(row, 0).data()
         subtask = SubtasksDialog(task_id, self)
         subtask.show()
+        
+    def handle_schedule(self, row, model):
+        task_id = model.index(row, 0).data()
+        schedule_dialog = ScheduleDialog(task_id, self)
+        schedule_dialog.show()
 
     def handle_done(self, row, model):
         """Marks a given task as done."""
