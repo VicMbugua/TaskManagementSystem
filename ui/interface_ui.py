@@ -336,7 +336,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(3)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
@@ -368,17 +368,25 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Task Management System"))
         self.menu_btn.setToolTip(_translate("MainWindow", "Collapse menu"))
+        self.menu_btn.setShortcut(_translate("MainWindow", "Alt+M"))
         self.menu_label.setText(_translate("MainWindow", "MENU"))
-        self.home_btn_1.setToolTip(_translate("MainWindow", "Home"))
-        self.tasks_btn_1.setToolTip(_translate("MainWindow", "Tasks"))
-        self.completed_tasks_btn_1.setToolTip(_translate("MainWindow", "Completed Tasks"))
-        self.calendar_btn_1.setToolTip(_translate("MainWindow", "Calendar"))
+        self.home_btn_1.setToolTip(_translate("MainWindow", "Home (Alt+H)"))
+        self.home_btn_1.setShortcut(_translate("MainWindow", "Alt+H"))
+        self.tasks_btn_1.setToolTip(_translate("MainWindow", "Tasks (Alt+T)"))
+        self.tasks_btn_1.setShortcut(_translate("MainWindow", "Alt+T"))
+        self.completed_tasks_btn_1.setToolTip(_translate("MainWindow", "Completed Tasks (Alt+C)"))
+        self.completed_tasks_btn_1.setShortcut(_translate("MainWindow", "Alt+C"))
+        self.calendar_btn_1.setToolTip(_translate("MainWindow", "Calendar (Alt+L)"))
+        self.calendar_btn_1.setShortcut(_translate("MainWindow", "Alt+L"))
         self.exit_btn_1.setToolTip(_translate("MainWindow", "Exit"))
         self.home_btn_2.setText(_translate("MainWindow", "Home"))
+        self.home_btn_2.setShortcut(_translate("MainWindow", "Alt+H"))
         self.tasks_btn_2.setText(_translate("MainWindow", "Tasks"))
         self.tasks_btn_2.setShortcut(_translate("MainWindow", "Alt+T"))
         self.completed_tasks_btn_2.setText(_translate("MainWindow", "Completed Tasks"))
+        self.completed_tasks_btn_2.setShortcut(_translate("MainWindow", "Alt+C"))
         self.calendar_btn_2.setText(_translate("MainWindow", "Calendar"))
+        self.calendar_btn_2.setShortcut(_translate("MainWindow", "Alt+L"))
         self.exit_btn_2.setText(_translate("MainWindow", "Exit"))
         self.label_3.setText(_translate("MainWindow", "TASK MANAGEMENT SYSTEM"))
         self.user_btn.setToolTip(_translate("MainWindow", "Click to see user options"))
@@ -389,6 +397,8 @@ class Ui_MainWindow(object):
         self.delete_project_btn.setText(_translate("MainWindow", "Delete Project"))
         self.label.setText(_translate("MainWindow", "Tasks List"))
         self.add_task_btn.setText(_translate("MainWindow", "Add Task"))
+        self.add_task_btn.setShortcut(_translate("MainWindow", "Ctrl+T"))
         self.label_2.setText(_translate("MainWindow", "Completed Tasks"))
         self.label_4.setText(_translate("MainWindow", "Calendar View"))
+        self.calendar.setToolTip(_translate("MainWindow", "Click to see tasks scheduled for that date"))
 import ui.resources_rc

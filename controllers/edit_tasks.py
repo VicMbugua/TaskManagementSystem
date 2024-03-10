@@ -18,32 +18,32 @@ class EditTaskDialog(QDialog):
 
         self.ui.due_date.setMinimumDate(QDate.currentDate())
         query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
-        self.result = self.db_manager.fetch_data(query)
-        self.ui.task_name.setText(self.result[0][0])
-        self.ui.label_name.setEditText(self.result[0][3])
-        date = self.result[0][2]
+        self.task_result = self.db_manager.fetch_data(query)
+        self.ui.task_name.setText(self.task_result[0][0])
+        self.ui.label_name.setEditText(self.task_result[0][3])
+        date = self.task_result[0][2]
         due_date = QDate.fromString(date, "yyyy-MM-dd")
         self.ui.due_date.setDate(due_date)
         self.ui.status.setCurrentIndex(
-            self.ui.status.findData(self.result[0][4], Qt.DisplayRole)
+            self.ui.status.findData(self.task_result[0][4], Qt.DisplayRole)
         )
         self.ui.priority.setCurrentIndex(
-            self.ui.priority.findData(self.result[0][1], Qt.DisplayRole)
+            self.ui.priority.findData(self.task_result[0][1], Qt.DisplayRole)
         )
-        self.ui.description.setText(self.result[0][5])
+        self.ui.description.setText(self.task_result[0][5])
         self.ui.save_btn.clicked.connect(lambda: self.handle_edit_btn(task_id))
         self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
         self.ui.reset_btn.clicked.connect(lambda: self.handle_edit_reset_btn(task_id))
 
     def handle_edit_btn(self, task_id: int) -> None:
         """Saves the edited information of the edited task."""
-        task_name = self.ui.task_name.text()
+        task_name: str = self.ui.task_name.text()
         date = self.ui.due_date.date()
-        due_date = date.toString("yyyy-MM-dd")
-        priority = self.ui.priority.currentText()
-        label_name = self.ui.label_name.currentText()
-        description = self.ui.description.toPlainText()
-        status = self.ui.status.currentText()
+        due_date: str = date.toString("yyyy-MM-dd")
+        priority: int = int(self.ui.priority.currentText())
+        label_name: str = self.ui.label_name.currentText()
+        description: str = self.ui.description.toPlainText()
+        status: str = self.ui.status.currentText()
         self.db_manager.edit_task(
             task_id, task_name, priority, due_date, label_name, status, description
         )
@@ -58,23 +58,23 @@ class EditTaskDialog(QDialog):
     def handle_edit_reset_btn(self, task_id: int) -> None:
         """Resets the fields to their original value."""
         query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
-        self.result = self.db_manager.fetch_data(query)
-        self.ui.task_name.setText(self.result[0][0])
-        self.ui.label_name.setEditText(self.result[0][3])
-        date = self.result[0][2]
+        self.task_result = self.db_manager.fetch_data(query)
+        self.ui.task_name.setText(self.task_result[0][0])
+        self.ui.label_name.setEditText(self.task_result[0][3])
+        date = self.task_result[0][2]
         due_date = QDate.fromString(date, "yyyy-MM-dd")
         self.ui.due_date.setDate(due_date)
         self.ui.status.setCurrentIndex(
-            self.ui.status.findData(self.result[0][4], Qt.DisplayRole)
+            self.ui.status.findData(self.task_result[0][4], Qt.DisplayRole)
         )
         self.ui.priority.setCurrentIndex(
-            self.ui.priority.findData(self.result[0][1], Qt.DisplayRole)
+            self.ui.priority.findData(self.task_result[0][1], Qt.DisplayRole)
         )
-        self.ui.description.setText(self.result[0][5])
+        self.ui.description.setText(self.task_result[0][5])
 
     def handle_cancel_btn(self) -> None:
         """Closes the edit dialog without saving anything."""
-        current_task_name = self.result[0][0]
+        current_task_name = self.task_result[0][0]
         new_task_name = self.ui.task_name.text()
         if new_task_name != current_task_name:
             confirmation = QMessageBox()
@@ -121,13 +121,13 @@ class AddTaskDialog(QDialog):
 
     def handle_save_btn(self) -> None:
         """Saves the new task to the database."""
-        task_name = self.ui.task_name.text()
-        date = self.ui.due_date.date()
-        due_date = date.toString("yyyy-MM-dd")
-        priority = self.ui.priority.currentText()
-        label_name = self.ui.label_name.currentText()
-        description = self.ui.description.toPlainText()
-        status = self.ui.status.currentText()
+        task_name: str = self.ui.task_name.text()
+        date: str = self.ui.due_date.date()
+        due_date: str = date.toString("yyyy-MM-dd")
+        priority: int = int(self.ui.priority.currentText())
+        label_name: str = self.ui.label_name.currentText()
+        description: str = self.ui.description.toPlainText()
+        status: str = self.ui.status.currentText()
         if task_name != "":
             self.db_manager.add_task(
                 self.user_id,

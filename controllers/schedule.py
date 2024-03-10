@@ -21,7 +21,7 @@ class ScheduleDialog(QDialog):
         
         self.ui.start_date.setMinimumDate(QDate.currentDate())
         self.ui.start_date.dateChanged.connect(self.start_date_changed)
-        # self.ui.due_date.setMinimumDate(QDate.currentDate())
+        self.ui.due_date.setMinimumDate(QDate.currentDate())
         self.ui.end_date.setMinimumDate(QDate.currentDate())
         result = self.db_manager.fetch_data(f"SELECT due_date FROM tasks WHERE task_id = {self.task_id}")
         self.due_date = result[0][0]
@@ -34,11 +34,14 @@ class ScheduleDialog(QDialog):
         self.ui.end_date.setDate(QDate.currentDate().addDays(7))
         
         self.ui.repeat.toggled.connect(lambda checked: self.handle_repeat(checked))
+        self.ui.save_btn.clicked.connect(self.save_schedule)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel)
         
     def start_date_changed(self, new_date):
         self.ui.end_date.setMinimumDate(new_date)
         self.ui.end_date.setDate(new_date.addDays(7))
+        self.ui.due_date.setMinimumDate(new_date)
+        
         
     def start_time_changed(self, new_time):
         self.ui.end_time.setMinimumTime(new_time)
@@ -55,7 +58,6 @@ class ScheduleDialog(QDialog):
             self.ui.thursday.setEnabled(True)
             self.ui.friday.setEnabled(True)
             self.ui.saturday.setEnabled(True)
-            start_date = self.ui.start_date.date()
         else:
             self.ui.end_date.setEnabled(False)
             self.ui.sunday.setEnabled(False)
@@ -65,6 +67,56 @@ class ScheduleDialog(QDialog):
             self.ui.thursday.setEnabled(False)
             self.ui.friday.setEnabled(False)
             self.ui.saturday.setEnabled(False)
+            
+    def save_schedule(self):
+        start_date = self.ui.start_date.date()
+        start_time = self.ui.start_time.time()
+        end_time = self.ui.end_time.time()
+        if self.ui.repeat.isChecked():
+            end_date = self.ui.end_date.date()
+            day_of_week = start_date.dayOfWeek()
+            print(day_of_week)
+            day_index = 1
+            no_of_days = start_date.daysTo(end_date)
+            print(no_of_days)
+            list_of_dates = []
+            j = 0
+            for i in range(no_of_days // 7 + 2):
+                if self.ui.monday.isChecked() and day_of_week <= day_index and j <= no_of_days:
+                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
+                j = j + 1 if day_of_week <= day_index else j
+                day_index += 1
+                if self.ui.tuesday.isChecked() and day_of_week <= day_index and j <= no_of_days:
+                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
+                j = j + 1 if day_of_week <= day_index else j
+                day_index += 1
+                if self.ui.wednesday.isChecked() and day_of_week <= day_index and j <= no_of_days:
+                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
+                j = j + 1 if day_of_week <= day_index else j
+                day_index += 1
+                if self.ui.thursday.isChecked() and day_of_week <= day_index and j <= no_of_days:
+                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
+                j = j + 1 if day_of_week <= day_index else j
+                day_index += 1
+                if self.ui.friday.isChecked() and day_of_week <= day_index and j <= no_of_days:
+                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
+                j = j + 1 if day_of_week <= day_index else j
+                day_index += 1
+                if self.ui.saturday.isChecked() and day_of_week <= day_index and j <= no_of_days:
+                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
+                j = j + 1 if day_of_week <= day_index else j
+                day_index += 1
+                if self.ui.sunday.isChecked() and day_of_week <= day_index and j <= no_of_days:
+                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
+                j = j + 1 if day_of_week <= day_index else j
+                day_index = 1
+                day_of_week = 1
+            print(list_of_dates)
+            for date in list_of_dates:
+                print(f"{date} {start_time.toString("HH:mm")} {end_time.toString("HH:mm")}")
+    
+    def handle_save(self):
+        pass
             
     def handle_cancel(self):
         confirmation = QMessageBox()

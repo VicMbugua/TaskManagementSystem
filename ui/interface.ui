@@ -84,6 +84,9 @@
              <iconset resource="resources.qrc">
               <normaloff>:/icons/icons/134216_menu_lines_hamburger_icon.svg</normaloff>:/icons/icons/134216_menu_lines_hamburger_icon.svg</iconset>
             </property>
+            <property name="shortcut">
+             <string>Alt+M</string>
+            </property>
             <property name="checkable">
              <bool>false</bool>
             </property>
@@ -146,7 +149,7 @@
              <item>
               <widget class="QPushButton" name="home_btn_1">
                <property name="toolTip">
-                <string>Home</string>
+                <string>Home (Alt+H)</string>
                </property>
                <property name="text">
                 <string/>
@@ -154,6 +157,9 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/216242_home_icon.svg</normaloff>:/icons/icons/216242_home_icon.svg</iconset>
+               </property>
+               <property name="shortcut">
+                <string>Alt+H</string>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -169,7 +175,7 @@
              <item>
               <widget class="QPushButton" name="tasks_btn_1">
                <property name="toolTip">
-                <string>Tasks</string>
+                <string>Tasks (Alt+T)</string>
                </property>
                <property name="text">
                 <string/>
@@ -177,6 +183,9 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/9104111_list_checklist_done_complete_task_icon.svg</normaloff>:/icons/icons/9104111_list_checklist_done_complete_task_icon.svg</iconset>
+               </property>
+               <property name="shortcut">
+                <string>Alt+T</string>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -192,7 +201,7 @@
              <item>
               <widget class="QPushButton" name="completed_tasks_btn_1">
                <property name="toolTip">
-                <string>Completed Tasks</string>
+                <string>Completed Tasks (Alt+C)</string>
                </property>
                <property name="text">
                 <string/>
@@ -200,6 +209,9 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/9040503_list_task_icon.svg</normaloff>:/icons/icons/9040503_list_task_icon.svg</iconset>
+               </property>
+               <property name="shortcut">
+                <string>Alt+C</string>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -215,7 +227,7 @@
              <item>
               <widget class="QPushButton" name="calendar_btn_1">
                <property name="toolTip">
-                <string>Calendar</string>
+                <string>Calendar (Alt+L)</string>
                </property>
                <property name="text">
                 <string/>
@@ -223,6 +235,9 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</iconset>
+               </property>
+               <property name="shortcut">
+                <string>Alt+L</string>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -292,6 +307,9 @@
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/216242_home_icon.svg</normaloff>:/icons/icons/216242_home_icon.svg</iconset>
                </property>
+               <property name="shortcut">
+                <string>Alt+H</string>
+               </property>
                <property name="checkable">
                 <bool>true</bool>
                </property>
@@ -338,6 +356,9 @@
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/9040503_list_task_icon.svg</normaloff>:/icons/icons/9040503_list_task_icon.svg</iconset>
                </property>
+               <property name="shortcut">
+                <string>Alt+C</string>
+               </property>
                <property name="checkable">
                 <bool>true</bool>
                </property>
@@ -357,6 +378,9 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</normaloff>:/icons/icons/290104_calendar_clock_date_event_schedule_icon.svg</iconset>
+               </property>
+               <property name="shortcut">
+                <string>Alt+L</string>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -486,7 +510,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -675,6 +699,9 @@
                 <property name="text">
                  <string>Add Task</string>
                 </property>
+                <property name="shortcut">
+                 <string>Ctrl+T</string>
+                </property>
                 <property name="autoDefault">
                  <bool>true</bool>
                 </property>
@@ -751,6 +778,9 @@
             <widget class="QCalendarWidget" name="calendar">
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="toolTip">
+              <string>Click to see tasks scheduled for that date</string>
              </property>
             </widget>
            </item>
