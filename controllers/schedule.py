@@ -80,40 +80,43 @@ class ScheduleDialog(QDialog):
             no_of_days = start_date.daysTo(end_date)
             print(no_of_days)
             list_of_dates = []
-            j = 0
+            n = 0
             for i in range(no_of_days // 7 + 2):
-                if self.ui.monday.isChecked() and day_of_week <= day_index and j <= no_of_days:
-                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
-                j = j + 1 if day_of_week <= day_index else j
+                if self.ui.monday.isChecked() and day_of_week <= day_index and n <= no_of_days:
+                    list_of_dates.append(start_date.addDays(n).toString("yyyy-MM-dd"))
+                n = n + 1 if day_of_week <= day_index else n
                 day_index += 1
-                if self.ui.tuesday.isChecked() and day_of_week <= day_index and j <= no_of_days:
-                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
-                j = j + 1 if day_of_week <= day_index else j
+                if self.ui.tuesday.isChecked() and day_of_week <= day_index and n <= no_of_days:
+                    list_of_dates.append(start_date.addDays(n).toString("yyyy-MM-dd"))
+                n = n + 1 if day_of_week <= day_index else n
                 day_index += 1
-                if self.ui.wednesday.isChecked() and day_of_week <= day_index and j <= no_of_days:
-                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
-                j = j + 1 if day_of_week <= day_index else j
+                if self.ui.wednesday.isChecked() and day_of_week <= day_index and n <= no_of_days:
+                    list_of_dates.append(start_date.addDays(n).toString("yyyy-MM-dd"))
+                n = n + 1 if day_of_week <= day_index else n
                 day_index += 1
-                if self.ui.thursday.isChecked() and day_of_week <= day_index and j <= no_of_days:
-                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
-                j = j + 1 if day_of_week <= day_index else j
+                if self.ui.thursday.isChecked() and day_of_week <= day_index and n <= no_of_days:
+                    list_of_dates.append(start_date.addDays(n).toString("yyyy-MM-dd"))
+                n = n + 1 if day_of_week <= day_index else n
                 day_index += 1
-                if self.ui.friday.isChecked() and day_of_week <= day_index and j <= no_of_days:
-                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
-                j = j + 1 if day_of_week <= day_index else j
+                if self.ui.friday.isChecked() and day_of_week <= day_index and n <= no_of_days:
+                    list_of_dates.append(start_date.addDays(n).toString("yyyy-MM-dd"))
+                n = n + 1 if day_of_week <= day_index else n
                 day_index += 1
-                if self.ui.saturday.isChecked() and day_of_week <= day_index and j <= no_of_days:
-                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
-                j = j + 1 if day_of_week <= day_index else j
+                if self.ui.saturday.isChecked() and day_of_week <= day_index and n <= no_of_days:
+                    list_of_dates.append(start_date.addDays(n).toString("yyyy-MM-dd"))
+                n = n + 1 if day_of_week <= day_index else n
                 day_index += 1
-                if self.ui.sunday.isChecked() and day_of_week <= day_index and j <= no_of_days:
-                    list_of_dates.append(start_date.addDays(j).toString("yyyy-MM-dd"))
-                j = j + 1 if day_of_week <= day_index else j
+                if self.ui.sunday.isChecked() and day_of_week <= day_index and n <= no_of_days:
+                    list_of_dates.append(start_date.addDays(n).toString("yyyy-MM-dd"))
+                n = n + 1 if day_of_week <= day_index else n
                 day_index = 1
                 day_of_week = 1
             print(list_of_dates)
             for date in list_of_dates:
-                print(f"{date} {start_time.toString("HH:mm")} {end_time.toString("HH:mm")}")
+                self.db_manager.add_schedule(self.task_id, date, start_time.toString("HH:mm"), end_time.toString("HH:mm"))
+        else:
+            self.db_manager.add_schedule(self.task_id, start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"), end_time.toString("HH:mm"))
+            
     
     def handle_save(self):
         pass

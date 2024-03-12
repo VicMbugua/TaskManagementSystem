@@ -19,7 +19,7 @@ class AddProjectDialog(QDialog):
         self.ui.save_btn.clicked.connect(self.handle_save)
         
     def handle_save(self):
-        project_name = self.ui.project_name.text().capitalize()
+        project_name = self.ui.project_name.text().capitalize().strip()
         result = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM projects WHERE project_name = '{project_name}' AND user_id = {self.user_id}")
         if result[0][0] == 1:
             valid_name = False
@@ -37,7 +37,7 @@ class AddProjectDialog(QDialog):
             msg_box.setText(f"Successfully added {project_name}.")
             msg_box.setWindowTitle("Success")
             msg_box.exec()
-            self.ui.project_name.setText("")
+            # self.ui.project_name.setText("")
             self.parent.project_name = project_name
             self.parent.ui.project.addItem(project_name)
             self.parent.ui.project.setCurrentText(project_name)

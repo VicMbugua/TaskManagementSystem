@@ -1,11 +1,12 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QStackedWidget, QMainWindow
+from PyQt5.QtGui import QIcon
 from controllers.login import LoginWindow
 from controllers.sign_up import SignUpWindow
 
 
 class MyApp(QMainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         widget = QStackedWidget()
         widget.setFixedSize(330, 300)
@@ -14,6 +15,7 @@ class MyApp(QMainWindow):
         widget.addWidget(login_window)
         widget.addWidget(sign_up_window)
         widget.setWindowTitle("Task Management System")
+        widget.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
         widget.show()
 
 

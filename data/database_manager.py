@@ -231,3 +231,10 @@ class DatabaseManager:
         )
         connection.commit()
         connection.close()
+        
+    def add_schedule(self, task_id, date, start_time, end_time):
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO schedules (task_id, date, start_time, end_time) VALUES (?, ?, ?, ?)", (task_id, date, start_time, end_time))
+        connection.commit()
+        connection.close()
