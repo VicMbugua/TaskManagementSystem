@@ -1,3 +1,4 @@
+from zoneinfo import available_timezones
 from ui.schedule_ui import Ui_ScheduleDialog
 from data.database_manager import DatabaseManager
 from PyQt5.QtWidgets import QDialog, QMessageBox
@@ -34,7 +35,7 @@ class ScheduleDialog(QDialog):
         self.ui.end_date.setDate(QDate.currentDate().addDays(7))
         
         self.ui.repeat.toggled.connect(lambda checked: self.handle_repeat(checked))
-        self.ui.save_btn.clicked.connect(self.save_schedule)
+        self.ui.save_btn.clicked.connect(self.handle_save)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel)
         
     def start_date_changed(self, new_date):
@@ -117,13 +118,42 @@ class ScheduleDialog(QDialog):
         else:
             self.db_manager.add_schedule(self.task_id, start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"), end_time.toString("HH:mm"))
             
-    
+    def check_time(self, assigned_date, start_time, end_time):
+        schedules = self.db_manager.fetch_data("SELECT task_id, date, start_time, end_time FROM schedules")
+        for schedule in schedules:
+            if schedule[1] == assigned_date and ((start_time <= schedule[2] and end_time > schedule[2]) or (start_time < schedule[3] and end_time >= schedule[3])):
+                print("not free")
+                # print(schedule[0])
+                task_name = self.db_manager.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {schedule[0]}")
+                return task_name[0][0]
+        return ""
+            
+        
     def handle_save(self):
-        pass
+        start_date = self.ui.start_date.date()
+        start_time = self.ui.start_time.time()
+        end_time = self.ui.end_time.time()
+        task_present = self.check_time(start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"), end_time.toString("HH:mm"))
+        if task_present != "":
+            information = QMessageBox()
+            information.setIcon(QMessageBox.Information)
+            information.setText(f"The time slot is assigned to task \"{task_present}\"")
+            information.setWindowTitle("Information")
+            information.exec()
+        else:
+            self.save_schedule()
+            information = QMessageBox()
+            information.setIcon(QMessageBox.Information)
+            information.setText("Schedule successfully saved.")
+            information.setWindowTitle("Information")
+            information.exec()
+            # self.close()
+            
             
     def handle_cancel(self):
         confirmation = QMessageBox()
         confirmation.setText(f"Are you sure you want to cancel?")
+        confirmation.setWindowTitle("Warning")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
         confirmation.setIcon(QMessageBox.Warning)
