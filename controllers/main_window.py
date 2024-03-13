@@ -521,87 +521,31 @@ class MainWindow(QMainWindow):
         self.display_day_tasks(date)
 
     def display_day_tasks(self, date):
-        """Displays a list of tasks in a given due date."""
+        """Shows a list of tasks scheduled for that day."""
         self.calendar_table = self.ui.calendar_table
-        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
-        FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started') AND due_date = '{date}'"""
+        query = f"""SELECT task_id, start_time, end_time FROM schedules WHERE date = '{date}'"""
         result = self.db_manager.fetch_data(query)
-        headers = [
-            "Task ID",
-            "Tasks Name",
-            "Priority",
-            "Due Date",
-            "Label",
-            "Status",
-            "Description",
-            "Created At",
-            "Options",
-        ]
-        self.calendar_tasks_model = QStandardItemModel(len(result), len(headers))
+        headers = ["Task Name", "Start Time", "End Time"]
+        self.calendar_tasks_model = QStandardItemModel(len(result), len(headers) )
         self.calendar_tasks_model.setHorizontalHeaderLabels(headers)
         for row_num, row_data in enumerate(result):
             for col_num, col_data in enumerate(row_data):
-                item = QStandardItem(str(col_data))
-                item.setToolTip(f"Double click to add subtasks for {row_data[1]}.")
+                if col_num == 0:
+                    task_name = self.db_manager.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {col_data}")
+                    item = QStandardItem(task_name[0][0])
+                else:
+                    item = QStandardItem(str(col_data))
                 self.calendar_tasks_model.setItem(row_num, col_num, item)
         self.calendar_table.setModel(self.calendar_tasks_model)
         self.calendar_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.calendar_table.setColumnHidden(0, True)
         self.calendar_table.resizeColumnsToContents()
         self.calendar_table.setColumnWidth(
             self.calendar_tasks_model.columnCount() - 1, 100
         )
         self.calendar_table.setSortingEnabled(True)
-        self.calendar_table.doubleClicked.connect(self.record_clicked)
         self.calendar_table.sortByColumn(
             self.calendar_tasks_model.columnCount() - 2, Qt.AscendingOrder
         )
-        for row in range(self.calendar_tasks_model.rowCount()):
-            button = QPushButton("Options")
-            button.setToolTip("Click to manage the task.")
-            button.setAutoDefault(True)
-            menu = QMenu()
-            done_action = QAction("Done", self)
-            edit_action = QAction("Edit", self)
-            delete_action = QAction("Delete", self)
-            started_action = QAction("Started", self)
-            not_started_action = QAction("Not Started", self)
-            status = self.calendar_tasks_model.index(row, 5).data()
-            done_action.triggered.connect(
-                lambda index, row=row: self.handle_done(row, self.calendar_tasks_model)
-            )
-            edit_action.triggered.connect(
-                lambda index, row=row: self.handle_edit(row, self.calendar_tasks_model)
-            )
-            delete_action.triggered.connect(
-                lambda index, row=row: self.handle_delete(
-                    row, self.calendar_tasks_model
-                )
-            )
-            started_action.triggered.connect(
-                lambda index, row=row: self.handle_started(
-                    row, self.calendar_tasks_model
-                )
-            )
-            not_started_action.triggered.connect(
-                lambda index, row=row: self.handle_not_started(
-                    row, self.calendar_tasks_model
-                )
-            )
-            if status == "Not Started":
-                menu.addAction(started_action)
-            else:
-                menu.addAction(not_started_action)
-            menu.addAction(done_action)
-            menu.addAction(edit_action)
-            menu.addAction(delete_action)
-            button.setMenu(menu)
-            self.calendar_table.setIndexWidget(
-                self.calendar_tasks_model.index(
-                    row, self.calendar_tasks_model.columnCount() - 1
-                ),
-                button,
-            )
         self.show()
 
 

@@ -76,10 +76,8 @@ class ScheduleDialog(QDialog):
         if self.ui.repeat.isChecked():
             end_date = self.ui.end_date.date()
             day_of_week = start_date.dayOfWeek()
-            print(day_of_week)
             day_index = 1
             no_of_days = start_date.daysTo(end_date)
-            print(no_of_days)
             list_of_dates = []
             n = 0
             for i in range(no_of_days // 7 + 2):
@@ -112,7 +110,6 @@ class ScheduleDialog(QDialog):
                 n = n + 1 if day_of_week <= day_index else n
                 day_index = 1
                 day_of_week = 1
-            print(list_of_dates)
             for date in list_of_dates:
                 self.db_manager.add_schedule(self.task_id, date, start_time.toString("HH:mm"), end_time.toString("HH:mm"))
         else:
@@ -122,12 +119,9 @@ class ScheduleDialog(QDialog):
         schedules = self.db_manager.fetch_data("SELECT task_id, date, start_time, end_time FROM schedules")
         for schedule in schedules:
             if schedule[1] == assigned_date and ((start_time <= schedule[2] and end_time > schedule[2]) or (start_time < schedule[3] and end_time >= schedule[3])):
-                print("not free")
-                # print(schedule[0])
                 task_name = self.db_manager.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {schedule[0]}")
                 return task_name[0][0]
         return ""
-            
         
     def handle_save(self):
         start_date = self.ui.start_date.date()
@@ -147,7 +141,7 @@ class ScheduleDialog(QDialog):
             information.setText("Schedule successfully saved.")
             information.setWindowTitle("Information")
             information.exec()
-            # self.close()
+            self.close()
             
             
     def handle_cancel(self):
