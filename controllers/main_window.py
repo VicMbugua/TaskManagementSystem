@@ -11,12 +11,12 @@ from PyQt5.QtWidgets import (
 )
 from controllers.edit_tasks import AddTaskDialog, EditTaskDialog
 from controllers.manage_account import ManageAccountDialog
-from controllers.arrange import Schedule
+from controllers.arrange import Arrange
 from controllers.schedule import ScheduleDialog
 from controllers.subtasks import SubtasksDialog
 from controllers.add_project import AddProjectDialog, RenameProjectDialog
 from data.database_manager import DatabaseManager
-from ui.interface_ui import Ui_MainWindow
+from ui.main_window_ui import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
 
         self.project_name = "Default"
         self.project_list()
-        
+
         project_menu = QMenu()
         rename_project = project_menu.addAction("Rename Project")
         delete_project = project_menu.addAction("Delete Project")
@@ -55,12 +55,12 @@ class MainWindow(QMainWindow):
         delete_project.triggered.connect(self.delete_project)
         project_button = self.ui.manage_project_btn
         project_button.setMenu(project_menu)
-        
-            
+
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
-        # self.ui.delete_project_btn.clicked.connect(self.delete_project)
-        self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
+        self.ui.manage_project_btn.setToolTip(
+            f"Rename or delete {self.project_name} project"
+        )
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
         self.display_number_of_tasks()
@@ -87,23 +87,25 @@ class MainWindow(QMainWindow):
         """It logs you out of the application."""
         self.widget.show()
         self.close()
-        
+
     def project_list(self) -> None:
         self.ui.project.clear()
-        projects = self.db_manager.fetch_data(f"SELECT project_name FROM projects WHERE user_id = {self.user_id}")
+        projects = self.db_manager.fetch_data(
+            f"SELECT project_name FROM projects WHERE user_id = {self.user_id}"
+        )
         for row in projects:
             self.ui.project.addItem(row[0])
-        
+
     def handle_project_change(self, index) -> None:
+        """Changes the name of a project."""
         self.project_name = self.ui.project.itemText(index)
         self.refresh_table()
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
-        
-        
+
     def open_add_project(self) -> None:
         add_project = AddProjectDialog(self.user_id, self)
         add_project.show()
-        
+
     def rename_project(self):
         if self.project_name == "Default":
             msg_box = QMessageBox()
@@ -114,7 +116,7 @@ class MainWindow(QMainWindow):
         else:
             rename_project = RenameProjectDialog(self.user_id, self.project_name, self)
             rename_project.show()
-        
+
     def delete_project(self) -> None:
         if self.project_name == "Default":
             msg_box = QMessageBox()
@@ -124,13 +126,17 @@ class MainWindow(QMainWindow):
             msg_box.exec()
         else:
             confirmation = QMessageBox()
-            confirmation.setText(f"Are you sure you want to delete the project \"{self.project_name}\"?")
+            confirmation.setText(
+                f'Are you sure you want to delete the project "{self.project_name}"?'
+            )
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
             confirmation.setIcon(QMessageBox.Warning)
             response = confirmation.exec()
             if response == QMessageBox.Yes:
-                self.db_manager.execute_query(f"DELETE FROM projects WHERE project_name = '{self.project_name}' AND user_id = {self.user_id}")
+                self.db_manager.execute_query(
+                    f"DELETE FROM projects WHERE project_name = '{self.project_name}' AND user_id = {self.user_id}"
+                )
                 index: int = self.ui.project.findText(self.project_name)
                 self.ui.project.removeItem(index)
                 self.ui.project.setCurrentIndex(0)
@@ -184,7 +190,7 @@ class MainWindow(QMainWindow):
     def display_filtered_tasks(self):
         """Shows a list of tasks based on their importance."""
         self.filtered_table = self.ui.filtered_tasks
-        schedule = Schedule(self.user_id)
+        schedule = Arrange(self.user_id)
         result = schedule.arrange_tasks()
         headers = [
             "Task ID",
@@ -297,13 +303,13 @@ class MainWindow(QMainWindow):
     # TASKS PAGE BEGIN
     # TODO: Add search functionality.
     # TODO: Add a view by label functionality.
-    # TODO: Add a view by due date functionality.
-    
 
     def display_tasks(self):
         """Shows a list of all uncompleted tasks present."""
         self.tasks_table = self.ui.tasks_list
-        project_id = self.db_manager.fetch_data(f"SELECT project_id FROM projects WHERE user_id = {self.user_id} AND project_name = '{self.project_name}'")
+        project_id = self.db_manager.fetch_data(
+            f"SELECT project_id FROM projects WHERE user_id = {self.user_id} AND project_name = '{self.project_name}'"
+        )
         project_id = project_id[0][0]
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE user_id = {self.user_id} AND project_id = {project_id} AND (status = 'Not Started' OR status = 'Started')"""
@@ -394,7 +400,7 @@ class MainWindow(QMainWindow):
         task_id = self.tasks_model.index(row, 0).data()
         subtask = SubtasksDialog(task_id, self)
         subtask.show()
-        
+
     def handle_schedule(self, row, model):
         task_id = model.index(row, 0).data()
         schedule_dialog = ScheduleDialog(task_id, self)
@@ -543,12 +549,14 @@ class MainWindow(QMainWindow):
         query = f"""SELECT task_id, start_time, end_time FROM schedules WHERE date = '{date}'"""
         result = self.db_manager.fetch_data(query)
         headers = ["Task Name", "Start Time", "End Time"]
-        self.calendar_tasks_model = QStandardItemModel(len(result), len(headers) )
+        self.calendar_tasks_model = QStandardItemModel(len(result), len(headers))
         self.calendar_tasks_model.setHorizontalHeaderLabels(headers)
         for row_num, row_data in enumerate(result):
             for col_num, col_data in enumerate(row_data):
                 if col_num == 0:
-                    task_name = self.db_manager.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {col_data}")
+                    task_name = self.db_manager.fetch_data(
+                        f"SELECT task_name FROM tasks WHERE task_id = {col_data}"
+                    )
                     item = QStandardItem(task_name[0][0])
                 else:
                     item = QStandardItem(str(col_data))

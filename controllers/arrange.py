@@ -2,12 +2,12 @@ from data.database_manager import DatabaseManager
 from datetime import datetime, date
 
 
-class Schedule:
+class Arrange:
     def __init__(self, user_id) -> None:
         self.user_id = user_id
         self.db_manager = DatabaseManager()
 
-    def arrange_tasks(self)-> list:
+    def arrange_tasks(self) -> list:
         """Arranges the uncompleted tasks according to importance."""
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started')"""
@@ -19,7 +19,7 @@ class Schedule:
             if datetime.strptime(item[3], "%Y-%m-%d") < datetime.strptime(
                 today, "%Y-%m-%d"
             ):
-                if item[5] == 'Not Started':
+                if item[5] == "Not Started":
                     new_result.append(item)
                 else:
                     new_result.append(item)

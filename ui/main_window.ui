@@ -510,7 +510,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -590,7 +590,7 @@
               <item>
                <widget class="QLabel" name="label_5">
                 <property name="text">
-                 <string>Chose project:</string>
+                 <string>Choose project:</string>
                 </property>
                </widget>
               </item>
@@ -793,6 +793,18 @@
              </property>
              <property name="toolTip">
               <string>Click to see tasks scheduled for that date</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Schedules on this day</string>
              </property>
             </widget>
            </item>

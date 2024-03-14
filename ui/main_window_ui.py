@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\ui\interface.ui'
+# Form implementation generated from reading ui file 'c:\Users\VicMbugua\Projects\TaskManagementSystem\ui\main_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -333,6 +333,12 @@ class Ui_MainWindow(object):
         self.calendar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.calendar.setObjectName("calendar")
         self.verticalLayout_8.addWidget(self.calendar)
+        self.label_7 = QtWidgets.QLabel(self.calendar_page)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.label_7.setFont(font)
+        self.label_7.setObjectName("label_7")
+        self.verticalLayout_8.addWidget(self.label_7)
         self.calendar_table = QtWidgets.QTableView(self.calendar_page)
         self.calendar_table.setObjectName("calendar_table")
         self.verticalLayout_8.addWidget(self.calendar_table)
@@ -342,7 +348,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
@@ -398,7 +404,7 @@ class Ui_MainWindow(object):
         self.user_btn.setToolTip(_translate("MainWindow", "Click to see user options"))
         self.no_of_tasks.setText(_translate("MainWindow", "Number of tasks"))
         self.label_6.setText(_translate("MainWindow", "Recommended tasks"))
-        self.label_5.setText(_translate("MainWindow", "Chose project:"))
+        self.label_5.setText(_translate("MainWindow", "Choose project:"))
         self.project.setToolTip(_translate("MainWindow", "Click to see other projects"))
         self.add_project_btn.setText(_translate("MainWindow", "Add Project"))
         self.manage_project_btn.setText(_translate("MainWindow", "Manage Project"))
@@ -408,4 +414,5 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Completed Tasks"))
         self.label_4.setText(_translate("MainWindow", "Calendar View"))
         self.calendar.setToolTip(_translate("MainWindow", "Click to see tasks scheduled for that date"))
+        self.label_7.setText(_translate("MainWindow", "Schedules on this day"))
 import ui.resources_rc

@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtWidgets import QDialog, QMessageBox
-from ui.edit_task_ui import Ui_EditTask
 from ui.add_task_ui import Ui_AddTask
 from data.database_manager import DatabaseManager
 
@@ -10,15 +9,16 @@ class EditTaskDialog(QDialog):
     def __init__(self, task_id: int, parent) -> None:
         super(EditTaskDialog, self).__init__(parent)
 
-        self.ui = Ui_EditTask()
+        self.ui = Ui_AddTask()
         self.ui.setupUi(self)
 
         self.db_manager = DatabaseManager()
         self.parent = parent
-
+        
         self.ui.due_date.setMinimumDate(QDate.currentDate())
         query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
         self.task_result = self.db_manager.fetch_data(query)
+        self.ui.dialog_title.setText("Edit task")
         self.ui.task_name.setText(self.task_result[0][0])
         self.ui.label_name.setEditText(self.task_result[0][3])
         date = self.task_result[0][2]
@@ -107,8 +107,6 @@ class AddTaskDialog(QDialog):
         self.ui.reset_btn.clicked.connect(self.handle_reset_btn)
         self.ui.save_btn.clicked.connect(self.handle_save_btn)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
-
-        # self.setWindowFlags(Qt.WA_DontShowOnScreen | Qt.Window)
 
     def handle_reset_btn(self) -> None:
         """Clears everything entered in the fields."""
