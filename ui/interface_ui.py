@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(614, 508)
+        MainWindow.resize(602, 514)
         font = QtGui.QFont()
         font.setPointSize(8)
         MainWindow.setFont(font)
@@ -220,6 +220,12 @@ class Ui_MainWindow(object):
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem3)
         self.verticalLayout_7.addLayout(self.horizontalLayout_8)
+        self.label_6 = QtWidgets.QLabel(self.home_page)
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.label_6.setFont(font)
+        self.label_6.setObjectName("label_6")
+        self.verticalLayout_7.addWidget(self.label_6)
         self.filtered_tasks = QtWidgets.QTableView(self.home_page)
         self.filtered_tasks.setTabKeyNavigation(False)
         self.filtered_tasks.setObjectName("filtered_tasks")
@@ -245,9 +251,9 @@ class Ui_MainWindow(object):
         self.add_project_btn = QtWidgets.QPushButton(self.widget_8)
         self.add_project_btn.setObjectName("add_project_btn")
         self.horizontalLayout_9.addWidget(self.add_project_btn)
-        self.delete_project_btn = QtWidgets.QPushButton(self.widget_8)
-        self.delete_project_btn.setObjectName("delete_project_btn")
-        self.horizontalLayout_9.addWidget(self.delete_project_btn)
+        self.manage_project_btn = QtWidgets.QPushButton(self.widget_8)
+        self.manage_project_btn.setObjectName("manage_project_btn")
+        self.horizontalLayout_9.addWidget(self.manage_project_btn)
         self.verticalLayout_5.addWidget(self.widget_8)
         self.widget_6 = QtWidgets.QWidget(self.tasks_page)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -336,7 +342,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(0)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
@@ -391,10 +397,11 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "TASK MANAGEMENT SYSTEM"))
         self.user_btn.setToolTip(_translate("MainWindow", "Click to see user options"))
         self.no_of_tasks.setText(_translate("MainWindow", "Number of tasks"))
+        self.label_6.setText(_translate("MainWindow", "Recommended tasks"))
         self.label_5.setText(_translate("MainWindow", "Chose project:"))
         self.project.setToolTip(_translate("MainWindow", "Click to see other projects"))
         self.add_project_btn.setText(_translate("MainWindow", "Add Project"))
-        self.delete_project_btn.setText(_translate("MainWindow", "Delete Project"))
+        self.manage_project_btn.setText(_translate("MainWindow", "Manage Project"))
         self.label.setText(_translate("MainWindow", "Tasks List"))
         self.add_task_btn.setText(_translate("MainWindow", "Add Task"))
         self.add_task_btn.setShortcut(_translate("MainWindow", "Ctrl+T"))

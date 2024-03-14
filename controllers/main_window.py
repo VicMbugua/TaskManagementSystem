@@ -14,7 +14,7 @@ from controllers.manage_account import ManageAccountDialog
 from controllers.arrange import Schedule
 from controllers.schedule import ScheduleDialog
 from controllers.subtasks import SubtasksDialog
-from controllers.add_project import AddProjectDialog
+from controllers.add_project import AddProjectDialog, RenameProjectDialog
 from data.database_manager import DatabaseManager
 from ui.interface_ui import Ui_MainWindow
 
@@ -39,7 +39,6 @@ class MainWindow(QMainWindow):
         user_menu = QMenu()
         manage_account = user_menu.addAction("Manage Account")
         log_out = user_menu.addAction("Log Out")
-        self.calendar_table = self.ui.calendar_table
 
         manage_account.triggered.connect(self.open_manage_account)
         log_out.triggered.connect(self.logout)
@@ -48,11 +47,20 @@ class MainWindow(QMainWindow):
 
         self.project_name = "Default"
         self.project_list()
+        
+        project_menu = QMenu()
+        rename_project = project_menu.addAction("Rename Project")
+        delete_project = project_menu.addAction("Delete Project")
+        rename_project.triggered.connect(self.rename_project)
+        delete_project.triggered.connect(self.delete_project)
+        project_button = self.ui.manage_project_btn
+        project_button.setMenu(project_menu)
+        
             
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
-        self.ui.delete_project_btn.clicked.connect(self.delete_project)
-        self.ui.delete_project_btn.setToolTip(f"Delete {self.project_name} project")
+        # self.ui.delete_project_btn.clicked.connect(self.delete_project)
+        self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
         self.display_number_of_tasks()
@@ -89,13 +97,23 @@ class MainWindow(QMainWindow):
     def handle_project_change(self, index) -> None:
         self.project_name = self.ui.project.itemText(index)
         self.refresh_table()
-        self.ui.delete_project_btn.setToolTip(f"Delete {self.project_name} project")
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
         
         
     def open_add_project(self) -> None:
         add_project = AddProjectDialog(self.user_id, self)
         add_project.show()
+        
+    def rename_project(self):
+        if self.project_name == "Default":
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Information)
+            msg_box.setText("You cannot rename the Default project.")
+            msg_box.setWindowTitle("Information")
+            msg_box.exec()
+        else:
+            rename_project = RenameProjectDialog(self.user_id, self.project_name, self)
+            rename_project.show()
         
     def delete_project(self) -> None:
         if self.project_name == "Default":
@@ -112,10 +130,12 @@ class MainWindow(QMainWindow):
             confirmation.setIcon(QMessageBox.Warning)
             response = confirmation.exec()
             if response == QMessageBox.Yes:
-                self.db_manager.execute_query(f"DELETE FROM projects WHERE project_name = '{self.project_name}'")
+                self.db_manager.execute_query(f"DELETE FROM projects WHERE project_name = '{self.project_name}' AND user_id = {self.user_id}")
                 index: int = self.ui.project.findText(self.project_name)
                 self.ui.project.removeItem(index)
                 self.ui.project.setCurrentIndex(0)
+                self.display_number_of_tasks()
+                self.display_filtered_tasks()
 
     def open_task_dialog(self) -> None:
         """Opens the dialog responsible for adding new tasks."""
@@ -252,11 +272,9 @@ class MainWindow(QMainWindow):
         """Refresh the given tables."""
         self.filtered_table.doubleClicked.disconnect()
         self.tasks_table.doubleClicked.disconnect()
-        # self.calendar_table.doubleClicked.disconnect()
         self.display_filtered_tasks()
         self.display_tasks()
         self.date_changed()
-        # self.display_day_tasks(date)
 
     def handle_started(self, row, model):
         """Changes the status of a task to started."""
@@ -517,7 +535,6 @@ class MainWindow(QMainWindow):
     def date_changed(self):
         """Refreshes the calendar table when a different date is selected."""
         date = self.ui.calendar.selectedDate().toString("yyyy-MM-dd")
-        self.calendar_table.doubleClicked.disconnect()
         self.display_day_tasks(date)
 
     def display_day_tasks(self, date):

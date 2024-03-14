@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
-    <height>508</height>
+    <width>602</width>
+    <height>514</height>
    </rect>
   </property>
   <property name="font">
@@ -510,7 +510,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -554,6 +554,18 @@
               </spacer>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_6">
+             <property name="font">
+              <font>
+               <pointsize>13</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Recommended tasks</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QTableView" name="filtered_tasks">
@@ -610,9 +622,9 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="delete_project_btn">
+               <widget class="QPushButton" name="manage_project_btn">
                 <property name="text">
-                 <string>Delete Project</string>
+                 <string>Manage Project</string>
                 </property>
                </widget>
               </item>
