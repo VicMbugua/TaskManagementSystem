@@ -488,6 +488,20 @@
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="search_btn">
+            <property name="toolTip">
+             <string>Search for tasks</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/icons/icons/3844432_magnifier_search_zoom_icon.svg</normaloff>:/icons/icons/3844432_magnifier_search_zoom_icon.svg</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="user_btn">
             <property name="toolTip">
              <string>Click to see user options</string>
@@ -510,7 +524,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">

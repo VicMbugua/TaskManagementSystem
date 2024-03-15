@@ -269,3 +269,17 @@ class DatabaseManager:
         cursor.execute("INSERT INTO schedules (task_id, date, start_time, end_time) VALUES (?, ?, ?, ?)", (task_id, date, start_time, end_time))
         connection.commit()
         connection.close()
+        
+    def add_label(self, user_id, label_name):
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO labels (user_id, label_name) VALUES (?, ?)", (user_id, label_name))
+        connection.commit()
+        connection.close()
+
+    def delete_label(self, user_id, label_name):
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(f"DELETE FROM labels WHERE user_id = {user_id} AND label_name = '{label_name}'")
+        connection.commit()
+        connection.close()

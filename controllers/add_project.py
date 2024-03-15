@@ -83,7 +83,6 @@ class RenameProjectDialog(QDialog):
             self.ui.error_message.setText("Project name already exists.")
             self.ui.project_name.setText("")
         else:
-            # self.db_manager.add_project(self.user_id, project_name)
             self.db_manager.execute_query(
                 f"UPDATE projects SET project_name = '{project_name}' WHERE project_id = {self.project_id}"
             )
@@ -98,6 +97,5 @@ class RenameProjectDialog(QDialog):
             self.parent.ui.project.removeItem(index)
             self.parent.ui.project.insertItem(index, project_name)
             self.parent.project_name = project_name
-            # self.parent.ui.project.addItem(project_name)
             self.parent.ui.project.setCurrentText(project_name)
             self.close()

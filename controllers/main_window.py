@@ -1,4 +1,5 @@
 from datetime import date
+from re import search
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import (
@@ -13,6 +14,7 @@ from controllers.edit_tasks import AddTaskDialog, EditTaskDialog
 from controllers.manage_account import ManageAccountDialog
 from controllers.arrange import Arrange
 from controllers.schedule import ScheduleDialog
+from controllers.search import SearchDialog
 from controllers.subtasks import SubtasksDialog
 from controllers.add_project import AddProjectDialog, RenameProjectDialog
 from data.database_manager import DatabaseManager
@@ -35,6 +37,7 @@ class MainWindow(QMainWindow):
         self.db_manager = DatabaseManager()
         self.user_id = user_id
 
+        self.ui.search_btn.clicked.connect(self.open_search)
         user_button = self.ui.user_btn
         user_menu = QMenu()
         manage_account = user_menu.addAction("Manage Account")
@@ -63,14 +66,22 @@ class MainWindow(QMainWindow):
         )
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
-        self.display_number_of_tasks()
-        self.display_filtered_tasks()
-        self.display_tasks()
-        self.display_completed_tasks()
+        # self.display_number_of_tasks()
+        # self.display_filtered_tasks()
+        # self.display_tasks()
+        # self.display_completed_tasks()
         self.display_day_tasks(date=date.today())
-
+        self.installEventFilter(self)
         self.ui.calendar.selectionChanged.connect(self.date_changed)
 
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.display_tasks()
+        self.date_changed()
+        self.display_completed_tasks()
+        self.display_filtered_tasks()
+        self.display_number_of_tasks()
+    
     def on_menu_btn_pressed(self) -> None:
         if self.ui.full_name_widget.isVisible():
             self.ui.menu_btn.setToolTip("Expand menu")
@@ -83,6 +94,10 @@ class MainWindow(QMainWindow):
             self.ui.menu_label.show()
             self.ui.icons_only_widget.hide()
 
+    def open_search(self):
+        search_dialog = SearchDialog(self.user_id, self)
+        search_dialog.show()
+        
     def logout(self) -> None:
         """It logs you out of the application."""
         self.widget.show()
@@ -274,13 +289,7 @@ class MainWindow(QMainWindow):
         subtask = SubtasksDialog(task_id, self)
         subtask.show()
 
-    def refresh_table(self):
-        """Refresh the given tables."""
-        self.filtered_table.doubleClicked.disconnect()
-        self.tasks_table.doubleClicked.disconnect()
-        self.display_filtered_tasks()
-        self.display_tasks()
-        self.date_changed()
+    
 
     def handle_started(self, row, model):
         """Changes the status of a task to started."""
@@ -393,6 +402,14 @@ class MainWindow(QMainWindow):
                 self.tasks_model.index(row, self.tasks_model.columnCount() - 1), button
             )
         self.show()
+        
+    def refresh_table(self):
+        """Refresh the given tables."""
+        self.filtered_table.doubleClicked.disconnect()
+        self.tasks_table.doubleClicked.disconnect()
+        self.display_filtered_tasks()
+        self.display_tasks()
+        self.date_changed()
 
     def record_clicked(self, index):
         """Opens the subtasks dialog to add subtasks to a given task when that task is double clicked."""

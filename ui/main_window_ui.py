@@ -188,11 +188,18 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.label_3)
         spacerItem2 = QtWidgets.QSpacerItem(160, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem2)
+        self.search_btn = QtWidgets.QPushButton(self.header_widget)
+        self.search_btn.setText("")
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(":/icons/icons/3844432_magnifier_search_zoom_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.search_btn.setIcon(icon7)
+        self.search_btn.setObjectName("search_btn")
+        self.horizontalLayout_3.addWidget(self.search_btn)
         self.user_btn = QtWidgets.QPushButton(self.header_widget)
         self.user_btn.setText("")
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/icons/icons/1564534_customer_man_user_account_profile_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.user_btn.setIcon(icon7)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(":/icons/icons/1564534_customer_man_user_account_profile_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.user_btn.setIcon(icon8)
         self.user_btn.setAutoDefault(True)
         self.user_btn.setObjectName("user_btn")
         self.horizontalLayout_3.addWidget(self.user_btn)
@@ -348,7 +355,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(1)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
@@ -401,6 +408,7 @@ class Ui_MainWindow(object):
         self.calendar_btn_2.setShortcut(_translate("MainWindow", "Alt+L"))
         self.exit_btn_2.setText(_translate("MainWindow", "Exit"))
         self.label_3.setText(_translate("MainWindow", "TASK MANAGEMENT SYSTEM"))
+        self.search_btn.setToolTip(_translate("MainWindow", "Search for tasks"))
         self.user_btn.setToolTip(_translate("MainWindow", "Click to see user options"))
         self.no_of_tasks.setText(_translate("MainWindow", "Number of tasks"))
         self.label_6.setText(_translate("MainWindow", "Recommended tasks"))

@@ -14,9 +14,12 @@ class EditTaskDialog(QDialog):
 
         self.db_manager = DatabaseManager()
         self.parent = parent
+        self.task_id = task_id
+        user_id = self.db_manager.fetch_data(f"SELECT user_id FROM tasks WHERE task_id = {self.task_id}")
+        self.user_id = user_id[0][0]
         
         self.ui.due_date.setMinimumDate(QDate.currentDate())
-        query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
+        query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {self.task_id}"
         self.task_result = self.db_manager.fetch_data(query)
         self.ui.dialog_title.setText("Edit task")
         self.ui.task_name.setText(self.task_result[0][0])
@@ -31,11 +34,18 @@ class EditTaskDialog(QDialog):
             self.ui.priority.findData(self.task_result[0][1], Qt.DisplayRole)
         )
         self.ui.description.setText(self.task_result[0][5])
-        self.ui.save_btn.clicked.connect(lambda: self.handle_edit_btn(task_id))
+        self.ui.save_btn.clicked.connect(self.handle_edit_btn)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
-        self.ui.reset_btn.clicked.connect(lambda: self.handle_edit_reset_btn(task_id))
+        self.ui.reset_btn.clicked.connect(self.handle_edit_reset_btn)
 
-    def handle_edit_btn(self, task_id: int) -> None:
+    def closeEvent(self, event) -> None:
+        self.parent.refresh_table()
+        # self.parent.display_completed_tasks()
+        # self.parent.display_number_of_tasks()
+        
+        return super().closeEvent(event)
+    
+    def handle_edit_btn(self) -> None:
         """Saves the edited information of the edited task."""
         task_name: str = self.ui.task_name.text()
         date = self.ui.due_date.date()
@@ -44,20 +54,37 @@ class EditTaskDialog(QDialog):
         label_name: str = self.ui.label_name.currentText()
         description: str = self.ui.description.toPlainText()
         status: str = self.ui.status.currentText()
-        self.db_manager.edit_task(
-            task_id, task_name, priority, due_date, label_name, status, description
-        )
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Information)
-        msg_box.setText(f"Successfully edited {task_name}.")
-        msg_box.setWindowTitle("Success")
-        msg_box.exec()
-        self.parent.refresh_table()
-        self.close()
+        if task_name != "":
+            self.db_manager.edit_task(
+                self.task_id, task_name, priority, due_date, label_name, status, description
+            )
+            self.add_label(label_name)
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Information)
+            msg_box.setText(f"Successfully edited {task_name}.")
+            msg_box.setWindowTitle("Success")
+            msg_box.exec()
+            # self.parent.refresh_table()
+            self.close()
+        else:
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Warning)
+            msg_box.setText("Please enter a task name.")
+            msg_box.setWindowTitle("Invalid")
+            msg_box.exec()
+            self.ui.task_name.setFocus()
+        
+    def add_label(self, label_name):
+        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
+        label_exists = False
+        if labels[0][0] == 1:
+            label_exists = True
+        if label_exists is False:
+            self.db_manager.add_label(self.user_id, label_name)
 
-    def handle_edit_reset_btn(self, task_id: int) -> None:
+    def handle_edit_reset_btn(self) -> None:
         """Resets the fields to their original value."""
-        query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {task_id}"
+        query = f"SELECT task_name, priority, due_date, label_name, status, description FROM tasks WHERE task_id = {self.task_id}"
         self.task_result = self.db_manager.fetch_data(query)
         self.ui.task_name.setText(self.task_result[0][0])
         self.ui.label_name.setEditText(self.task_result[0][3])
@@ -108,6 +135,12 @@ class AddTaskDialog(QDialog):
         self.ui.save_btn.clicked.connect(self.handle_save_btn)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel_btn)
 
+    def closeEvent(self, event) -> None:
+        self.parent.refresh_table()
+        self.parent.display_number_of_tasks()
+        
+        return super().closeEvent(event)
+    
     def handle_reset_btn(self) -> None:
         """Clears everything entered in the fields."""
         self.ui.task_name.setText("")
@@ -137,14 +170,15 @@ class AddTaskDialog(QDialog):
                 status,
                 description,
             )
+            self.add_label(label_name)
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Information)
             msg_box.setText(f"Successfully added {task_name}.")
             msg_box.setWindowTitle("Success")
             msg_box.exec()
             self.handle_reset_btn()
-            self.parent.refresh_table()
-            self.parent.display_number_of_tasks()
+            # self.parent.refresh_table()
+            # self.parent.display_number_of_tasks()
             self.close()
         else:
             msg_box = QMessageBox()
@@ -153,7 +187,15 @@ class AddTaskDialog(QDialog):
             msg_box.setWindowTitle("Invalid")
             msg_box.exec()
             self.ui.task_name.setFocus()
-
+            
+    def add_label(self, label_name):
+        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
+        label_exists = False
+        if labels[0][0] == 1:
+            label_exists = True
+        if label_exists is False:
+            self.db_manager.add_label(self.user_id, label_name)
+        
     def handle_cancel_btn(self) -> None:
         """Closes the add task dialog without saving anything."""
         task_name = self.ui.task_name.text()
