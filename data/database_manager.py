@@ -130,9 +130,9 @@ class DatabaseManager:
         self.add_task(
             user_id, project_id,
             "Example",
-            1,
+            5,
             "1970-01-01",
-            "Pleasure",
+            "",
             "Not Started",
             "This is an example of a task.",
         )
@@ -169,6 +169,7 @@ class DatabaseManager:
             return True
         else:
             return False
+        
         
     def add_project(self, user_id, project_name):
         now = datetime.now()

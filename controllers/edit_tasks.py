@@ -156,7 +156,7 @@ class AddTaskDialog(QDialog):
         date: str = self.ui.due_date.date()
         due_date: str = date.toString("yyyy-MM-dd")
         priority: int = int(self.ui.priority.currentText())
-        label_name: str = self.ui.label_name.currentText()
+        label_name: str = self.ui.label_name.currentText().capitalize()
         description: str = self.ui.description.toPlainText()
         status: str = self.ui.status.currentText()
         if task_name != "":

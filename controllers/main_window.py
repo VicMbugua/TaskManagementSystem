@@ -1,5 +1,4 @@
 from datetime import date
-from re import search
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import (
@@ -449,6 +448,14 @@ class MainWindow(QMainWindow):
         task_id = model.index(row, 0).data()
         edit_task_window = EditTaskDialog(task_id, self)
         edit_task_window.show()
+        
+    def delete_label(self, label_name):
+        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
+        label_exists = True
+        if labels[0][0] == 0:
+            label_exists = False
+        if label_exists is False:
+            self.db_manager.delete_label(self.user_id, label_name)
 
     def handle_delete(self, row, model):
         """Removes a given task from the database."""
@@ -464,7 +471,9 @@ class MainWindow(QMainWindow):
         confirmation.setIcon(QMessageBox.Warning)
         response = confirmation.exec()
         if response == QMessageBox.Yes:
+            label_name = self.db_manager.fetch_data(f"SELECT label_name FROM tasks WHERE task_id = {task_id}")
             self.db_manager.remove_task(task_id)
+            self.delete_label(label_name)
             self.refresh_table()
             self.display_completed_tasks()
             self.display_number_of_tasks()
