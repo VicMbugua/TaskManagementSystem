@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QMessageBox
+from PyQt5.QtGui import QIcon
 from ui.project_ui import Ui_AddProject
 from data.database_manager import DatabaseManager
 
@@ -34,12 +35,12 @@ class AddProjectDialog(QDialog):
             self.ui.project_name.setText("")
         else:
             self.db_manager.add_project(self.user_id, project_name)
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText(f"Successfully added {project_name}.")
-            msg_box.setWindowTitle("Success")
-            msg_box.exec()
-            # self.ui.project_name.setText("")
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText(f"Successfully added {project_name}.")
+            information.setWindowTitle("Success")
+            information.exec()
             self.parent.project_name = project_name
             self.parent.ui.project.addItem(project_name)
             self.parent.ui.project.setCurrentText(project_name)
@@ -86,13 +87,14 @@ class RenameProjectDialog(QDialog):
             self.db_manager.execute_query(
                 f"UPDATE projects SET project_name = '{project_name}' WHERE project_id = {self.project_id}"
             )
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText(
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText(
                 f"Successfully changed {self.project_name} to {project_name}."
             )
-            msg_box.setWindowTitle("Success")
-            msg_box.exec()
+            information.setWindowTitle("Success")
+            information.exec()
             index = self.parent.ui.project.currentIndex()
             self.parent.ui.project.removeItem(index)
             self.parent.ui.project.insertItem(index, project_name)

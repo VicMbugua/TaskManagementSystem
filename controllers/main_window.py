@@ -1,6 +1,6 @@
-from datetime import date
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from datetime import date, datetime
+from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QIcon
 from PyQt5.QtWidgets import (
     QMainWindow,
     QMessageBox,
@@ -72,6 +72,9 @@ class MainWindow(QMainWindow):
         self.display_day_tasks(date=date.today())
         self.installEventFilter(self)
         self.ui.calendar.selectionChanged.connect(self.date_changed)
+        today_date = datetime.today().strftime("%d %B %Y")
+        self.ui.schedules_for.setText(f"Tasks scheduled for {today_date}")
+        
 
     def showEvent(self, event):
         super().showEvent(event)
@@ -118,28 +121,34 @@ class MainWindow(QMainWindow):
 
     def open_add_project(self) -> None:
         add_project = AddProjectDialog(self.user_id, self)
+        add_project.setFixedSize(300, 200)
         add_project.show()
 
     def rename_project(self):
         if self.project_name == "Default":
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText("You cannot rename the Default project.")
-            msg_box.setWindowTitle("Information")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText("You cannot rename the Default project.")
+            information.setWindowTitle("Information")
+            information.exec()
         else:
             rename_project = RenameProjectDialog(self.user_id, self.project_name, self)
+            rename_project.setFixedSize(300, 200)
             rename_project.show()
 
     def delete_project(self) -> None:
         if self.project_name == "Default":
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText("You cannot delete the Default project.")
-            msg_box.setWindowTitle("Information")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText("You cannot delete the Default project.")
+            information.setWindowTitle("Information")
+            information.exec()
         else:
             confirmation = QMessageBox()
+            confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            confirmation.setWindowTitle("Confirmation")
             confirmation.setText(
                 f'Are you sure you want to delete the project "{self.project_name}"?'
             )
@@ -238,12 +247,16 @@ class MainWindow(QMainWindow):
             button.setToolTip("Click to manage the task.")
             button.setAutoDefault(True)
             menu = QMenu()
+            schedule_action = QAction("Schedule", self)
             done_action = QAction("Done", self)
             edit_action = QAction("Edit", self)
             delete_action = QAction("Delete", self)
             started_action = QAction("Started", self)
             not_started_action = QAction("Not Started", self)
             status = self.filtered_tasks_model.index(row, 5).data()
+            schedule_action.triggered.connect(
+                lambda index, row=row: self.handle_schedule(row, self.tasks_model)
+            )
             done_action.triggered.connect(
                 lambda index, row=row: self.handle_done(row, self.filtered_tasks_model)
             )
@@ -265,6 +278,7 @@ class MainWindow(QMainWindow):
                     row, self.filtered_tasks_model
                 )
             )
+            menu.addAction(schedule_action)
             if status == "Not Started":
                 menu.addAction(started_action)
             else:
@@ -430,11 +444,12 @@ class MainWindow(QMainWindow):
         )
         tasks_name = tasks_name[0][0]
         confirmation = QMessageBox()
+        confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+        confirmation.setWindowTitle("Confirmation")
         confirmation.setText(f"Are you sure you want to mark {tasks_name} as done?")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
         confirmation.setIcon(QMessageBox.Warning)
-        confirmation.setWindowTitle("Confirmation")
         response = confirmation.exec()
         if response == QMessageBox.Yes:
             query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {task_id}"
@@ -465,6 +480,8 @@ class MainWindow(QMainWindow):
         )
         tasks_name = tasks_name[0][0]
         confirmation = QMessageBox()
+        confirmation.setWindowTitle("Delete task")
+        confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
         confirmation.setText(f"Are you sure you want to delete {tasks_name}?")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
@@ -547,6 +564,7 @@ class MainWindow(QMainWindow):
         )
         tasks_name = tasks_name[0][0]
         confirmation = QMessageBox()
+        confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
         confirmation.setText(f"Are you sure you want to mark {tasks_name} as not done")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
@@ -568,6 +586,8 @@ class MainWindow(QMainWindow):
         """Refreshes the calendar table when a different date is selected."""
         date = self.ui.calendar.selectedDate().toString("yyyy-MM-dd")
         self.display_day_tasks(date)
+        full_date = self.ui.calendar.selectedDate().toString("dd MMMM yyyy")
+        self.ui.schedules_for.setText(f"Tasks scheduled for {full_date}")
 
     def display_day_tasks(self, date):
         """Shows a list of tasks scheduled for that day."""

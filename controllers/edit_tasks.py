@@ -1,6 +1,8 @@
+from math import inf
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtWidgets import QDialog, QMessageBox
+from PyQt5.QtGui import QIcon
 from ui.add_task_ui import Ui_AddTask
 from data.database_manager import DatabaseManager
 
@@ -59,19 +61,21 @@ class EditTaskDialog(QDialog):
                 self.task_id, task_name, priority, due_date, label_name, status, description
             )
             self.add_label(label_name)
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText(f"Successfully edited {task_name}.")
-            msg_box.setWindowTitle("Success")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText(f"Successfully edited {task_name}.")
+            information.setWindowTitle("Success")
+            information.exec()
             # self.parent.refresh_table()
             self.close()
         else:
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setText("Please enter a task name.")
-            msg_box.setWindowTitle("Invalid")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Warning)
+            information.setText("Please enter a task name.")
+            information.setWindowTitle("Invalid")
+            information.exec()
             self.ui.task_name.setFocus()
         
     def add_label(self, label_name):
@@ -105,6 +109,8 @@ class EditTaskDialog(QDialog):
         new_task_name = self.ui.task_name.text()
         if new_task_name != current_task_name:
             confirmation = QMessageBox()
+            confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            confirmation.setWindowTitle("Confirmation")
             confirmation.setText(f"Are you sure you want to cancel?")
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
@@ -171,21 +177,23 @@ class AddTaskDialog(QDialog):
                 description,
             )
             self.add_label(label_name)
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText(f"Successfully added {task_name}.")
-            msg_box.setWindowTitle("Success")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText(f"Successfully added {task_name}.")
+            information.setWindowTitle("Success")
+            information.exec()
             self.handle_reset_btn()
             # self.parent.refresh_table()
             # self.parent.display_number_of_tasks()
             self.close()
         else:
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setText("Please enter a task name.")
-            msg_box.setWindowTitle("Invalid")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Warning)
+            information.setText("Please enter a task name.")
+            information.setWindowTitle("Invalid")
+            information.exec()
             self.ui.task_name.setFocus()
             
     def add_label(self, label_name):
@@ -201,6 +209,8 @@ class AddTaskDialog(QDialog):
         task_name = self.ui.task_name.text()
         if task_name != "":
             confirmation = QMessageBox()
+            confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            confirmation.setWindowTitle("Confirmation")
             confirmation.setText(f"Are you sure you want to cancel?")
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)

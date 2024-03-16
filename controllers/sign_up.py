@@ -1,5 +1,6 @@
 import ctypes
 from PyQt5.QtCore import QEvent, Qt
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from ui.sign_up_ui import Ui_SignUp
 from data.database_manager import DatabaseManager
@@ -13,8 +14,8 @@ class SignUpWindow(QMainWindow):
         
         self.widget = widget
         self.ui.error_message.setText("")
-        self.ui.sign_up.clicked.connect(self.handle_sign_up)
-        self.ui.login.clicked.connect(self.handle_login)
+        self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
+        self.ui.login_btn.clicked.connect(self.handle_login)
         
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
@@ -68,11 +69,12 @@ class SignUpWindow(QMainWindow):
             self.ui.password.setFocus()
         else:
             self.db_manager.add_user(username, password)
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText("User added successfully. You can now login.")
-            msg_box.setWindowTitle("Success")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText("User added successfully. You can now login.")
+            information.setWindowTitle("Success")
+            information.exec()
             self.handle_login()
             
     def handle_login(self):

@@ -1,8 +1,8 @@
-from zoneinfo import available_timezones
 from ui.schedule_ui import Ui_ScheduleDialog
 from data.database_manager import DatabaseManager
 from PyQt5.QtWidgets import QDialog, QMessageBox
-from PyQt5.QtCore import QDate, Qt, QTime
+from PyQt5.QtCore import QDate, QTime
+from PyQt5.QtGui import QIcon
 
 
 class ScheduleDialog(QDialog):
@@ -11,7 +11,7 @@ class ScheduleDialog(QDialog):
         
         self.ui = Ui_ScheduleDialog()
         self.ui.setupUi(self)
-        
+        self.parent = parent
         self.task_id = task_id
         self.db_manager = DatabaseManager()
         task_name = self.db_manager.fetch_data(
@@ -22,12 +22,10 @@ class ScheduleDialog(QDialog):
         
         self.ui.start_date.setMinimumDate(QDate.currentDate())
         self.ui.start_date.dateChanged.connect(self.start_date_changed)
-        self.ui.due_date.setMinimumDate(QDate.currentDate())
         self.ui.end_date.setMinimumDate(QDate.currentDate())
         result = self.db_manager.fetch_data(f"SELECT due_date FROM tasks WHERE task_id = {self.task_id}")
         self.due_date = result[0][0]
-        self.due_date = QDate.fromString(self.due_date, "yyyy-MM-dd")
-        self.ui.due_date.setDate(self.due_date)
+        # self.due_date = QDate.fromString(self.due_date, "yyyy-MM-dd")
         self.ui.start_time.setTime(QTime.currentTime())
         self.ui.start_time.timeChanged.connect(self.start_time_changed)
         self.ui.end_time.setTime(QTime.currentTime().addSecs(2*60*60))
@@ -38,10 +36,14 @@ class ScheduleDialog(QDialog):
         self.ui.save_btn.clicked.connect(self.handle_save)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel)
         
+    def closeEvent(self, event) -> None:
+        self.parent.refresh_table()
+        
+        return super().closeEvent(event)
+        
     def start_date_changed(self, new_date):
         self.ui.end_date.setMinimumDate(new_date)
         self.ui.end_date.setDate(new_date.addDays(7))
-        self.ui.due_date.setMinimumDate(new_date)
         
         
     def start_time_changed(self, new_time):
@@ -123,6 +125,17 @@ class ScheduleDialog(QDialog):
                 return task_name[0][0]
         return ""
         
+    def change_due_date(self):
+        start_date = self.ui.start_date.date().toString("yyyy-MM-dd")
+        if self.ui.repeat.isChecked():
+            end_date = self.ui.end_date.date().toString("yyyy-MM-dd")
+            if end_date > self.due_date:
+                self.db_manager.execute_query(f"UPDATE tasks SET due_date = '{end_date}' WHERE task_id = {self.task_id}")
+        else:
+            if start_date > self.due_date:
+                self.db_manager.execute_query(f"UPDATE tasks SET due_date = '{start_date}' WHERE task_id = {self.task_id}")
+                
+        
     def handle_save(self):
         start_date = self.ui.start_date.date()
         start_time = self.ui.start_time.time()
@@ -130,13 +143,16 @@ class ScheduleDialog(QDialog):
         task_present = self.check_time(start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"), end_time.toString("HH:mm"))
         if task_present != "":
             information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             information.setIcon(QMessageBox.Information)
             information.setText(f"The time slot is assigned to task \"{task_present}\"")
             information.setWindowTitle("Information")
             information.exec()
         else:
             self.save_schedule()
+            self.change_due_date()
             information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             information.setIcon(QMessageBox.Information)
             information.setText("Schedule successfully saved.")
             information.setWindowTitle("Information")
@@ -146,6 +162,7 @@ class ScheduleDialog(QDialog):
             
     def handle_cancel(self):
         confirmation = QMessageBox()
+        confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
         confirmation.setText(f"Are you sure you want to cancel?")
         confirmation.setWindowTitle("Warning")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)

@@ -13,10 +13,19 @@
   <property name="windowTitle">
    <string>Manage Account</string>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QWidget" name="widget_2" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
       <property name="rightMargin">
        <number>0</number>
       </property>
@@ -80,6 +89,9 @@
          </property>
          <item>
           <widget class="QPushButton" name="change_username_btn">
+           <property name="styleSheet">
+            <string notr="true">text-align: left;</string>
+           </property>
            <property name="text">
             <string>Change Username</string>
            </property>
@@ -96,6 +108,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="change_password_btn">
+           <property name="styleSheet">
+            <string notr="true">text-align: left;</string>
+           </property>
            <property name="text">
             <string>Change Password</string>
            </property>
@@ -112,6 +127,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="delete_account_btn">
+           <property name="styleSheet">
+            <string notr="true">text-align: left;</string>
+           </property>
            <property name="text">
             <string>Delete Account</string>
            </property>
@@ -220,7 +238,7 @@
                </font>
               </property>
               <property name="text">
-               <string>New Username</string>
+               <string>New Username:</string>
               </property>
              </widget>
             </item>
@@ -258,7 +276,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Password</string>
+               <string>Password:</string>
               </property>
              </widget>
             </item>
@@ -419,7 +437,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Current Password</string>
+               <string>Current Password:</string>
               </property>
              </widget>
             </item>
@@ -461,7 +479,7 @@
                </font>
               </property>
               <property name="text">
-               <string>New Password</string>
+               <string>New Password:</string>
               </property>
              </widget>
             </item>
@@ -503,7 +521,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Confirm New Password</string>
+               <string>Confirm New Password:</string>
               </property>
              </widget>
             </item>
@@ -670,7 +688,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Password</string>
+               <string>Password:</string>
               </property>
              </widget>
             </item>

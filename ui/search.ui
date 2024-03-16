@@ -10,12 +10,23 @@
     <height>401</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Search</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="bottomMargin">
+      <number>10</number>
+     </property>
      <item>
       <widget class="QLabel" name="label">
        <property name="font">
@@ -24,7 +35,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Search tasks</string>
+        <string>Search tasks:</string>
        </property>
       </widget>
      </item>
@@ -40,6 +51,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="show_all_btn">
+       <property name="toolTip">
+        <string>Show all tasks</string>
+       </property>
        <property name="text">
         <string>Show all</string>
        </property>
@@ -49,6 +63,9 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="bottomMargin">
+      <number>10</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_2">
        <property name="font">
@@ -57,7 +74,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Group by label</string>
+        <string>Group by label:</string>
        </property>
       </widget>
      </item>
@@ -83,7 +100,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Group by Due Date</string>
+        <string>Group by Due Date:</string>
        </property>
       </widget>
      </item>
@@ -122,19 +139,40 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label_4">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Task List</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Task List:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QTableView" name="tasks_list"/>
+    <widget class="QTableView" name="tasks_list">
+     <property name="tabKeyNavigation">
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -162,6 +200,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>task_search</tabstop>
+  <tabstop>search_btn</tabstop>
+  <tabstop>show_all_btn</tabstop>
+  <tabstop>labels</tabstop>
+  <tabstop>due_date</tabstop>
+  <tabstop>close_btn</tabstop>
+  <tabstop>tasks_list</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

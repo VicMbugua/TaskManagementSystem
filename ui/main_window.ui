@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>8</pointsize>
+    <pointsize>10</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -130,9 +130,6 @@
           </property>
           <item>
            <widget class="QWidget" name="icons_only_widget" native="true">
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <property name="leftMargin">
               <number>0</number>
@@ -300,6 +297,9 @@
              </property>
              <item>
               <widget class="QPushButton" name="home_btn_2">
+               <property name="styleSheet">
+                <string notr="true">text-align: left;</string>
+               </property>
                <property name="text">
                 <string>Home</string>
                </property>
@@ -323,6 +323,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="tasks_btn_2">
+               <property name="styleSheet">
+                <string notr="true">text-align: left;</string>
+               </property>
                <property name="text">
                 <string>Tasks</string>
                </property>
@@ -349,6 +352,9 @@
                <property name="layoutDirection">
                 <enum>Qt::LeftToRight</enum>
                </property>
+               <property name="styleSheet">
+                <string notr="true">text-align: left;</string>
+               </property>
                <property name="text">
                 <string>Completed Tasks</string>
                </property>
@@ -372,6 +378,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="calendar_btn_2">
+               <property name="styleSheet">
+                <string notr="true">text-align: left;</string>
+               </property>
                <property name="text">
                 <string>Calendar</string>
                </property>
@@ -408,6 +417,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="exit_btn_2">
+               <property name="styleSheet">
+                <string notr="true">text-align: left;</string>
+               </property>
                <property name="text">
                 <string>Exit</string>
                </property>
@@ -466,7 +478,7 @@
            <widget class="QLabel" name="label_3">
             <property name="font">
              <font>
-              <pointsize>11</pointsize>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
@@ -524,7 +536,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -601,6 +613,12 @@
               </size>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QLabel" name="label_5">
                 <property name="text">
@@ -660,6 +678,9 @@
               </size>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QLabel" name="label">
                 <property name="font">
@@ -749,6 +770,9 @@
               </size>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QLabel" name="label_2">
                 <property name="font">
@@ -789,16 +813,33 @@
          <widget class="QWidget" name="calendar_page">
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
-            <widget class="QLabel" name="label_4">
-             <property name="font">
-              <font>
-               <pointsize>13</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Calendar View</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="font">
+                <font>
+                 <pointsize>13</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Calendar View</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QCalendarWidget" name="calendar">
@@ -806,21 +847,44 @@
               <cursorShape>PointingHandCursor</cursorShape>
              </property>
              <property name="toolTip">
-              <string>Click to see tasks scheduled for that date</string>
+              <string>Click to see tasks scheduled for this date</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_7">
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-              </font>
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <property name="topMargin">
+              <number>8</number>
              </property>
-             <property name="text">
-              <string>Schedules on this day</string>
+             <property name="bottomMargin">
+              <number>2</number>
              </property>
-            </widget>
+             <item>
+              <widget class="QLabel" name="schedules_for">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Schedules on this day</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QTableView" name="calendar_table"/>

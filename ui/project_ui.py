@@ -14,7 +14,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_AddProject(object):
     def setupUi(self, AddProject):
         AddProject.setObjectName("AddProject")
-        AddProject.resize(316, 202)
+        AddProject.resize(300, 200)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        AddProject.setFont(font)
+        AddProject.setModal(True)
         self.verticalLayout = QtWidgets.QVBoxLayout(AddProject)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -42,6 +46,9 @@ class Ui_AddProject(object):
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.error_message = QtWidgets.QLabel(AddProject)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.error_message.setFont(font)
         self.error_message.setStyleSheet("color: red;")
         self.error_message.setAlignment(QtCore.Qt.AlignCenter)
         self.error_message.setObjectName("error_message")
@@ -68,7 +75,7 @@ class Ui_AddProject(object):
         _translate = QtCore.QCoreApplication.translate
         AddProject.setWindowTitle(_translate("AddProject", "Add Project"))
         self.dialog_title.setText(_translate("AddProject", "Add Project"))
-        self.label.setText(_translate("AddProject", "Project Name"))
+        self.label.setText(_translate("AddProject", "Project Name:"))
         self.error_message.setText(_translate("AddProject", "Error Message"))
         self.save_btn.setText(_translate("AddProject", "Save"))
         self.cancel_btn.setText(_translate("AddProject", "Cancel"))

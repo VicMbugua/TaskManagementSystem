@@ -28,10 +28,23 @@
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
-      <property name="margin">
-       <number>11</number>
-      </property>
      </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>5</width>
+        <height>15</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -40,13 +53,19 @@
       </property>
       <item>
        <widget class="QLabel" name="label_2">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>10</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>Username</string>
+         <string>Username:</string>
         </property>
        </widget>
       </item>
@@ -79,13 +98,19 @@
       </property>
       <item>
        <widget class="QLabel" name="label_3">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>10</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>Password</string>
+         <string>Password:</string>
         </property>
        </widget>
       </item>
@@ -127,13 +152,19 @@
       </property>
       <item>
        <widget class="QLabel" name="label_4">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>10</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>Confirm Password</string>
+         <string>Confirm Password:</string>
         </property>
        </widget>
       </item>
@@ -146,7 +177,7 @@
          <enum>QLineEdit::Password</enum>
         </property>
         <property name="placeholderText">
-         <string>Password</string>
+         <string>Confirm Password</string>
         </property>
         <property name="clearButtonEnabled">
          <bool>false</bool>
@@ -228,7 +259,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="login">
+       <widget class="QPushButton" name="login_btn">
         <property name="text">
          <string>Login</string>
         </property>
@@ -238,7 +269,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="sign_up">
+       <widget class="QPushButton" name="sign_up_btn">
         <property name="text">
          <string>Sign Up</string>
         </property>
@@ -256,8 +287,8 @@
   <tabstop>username</tabstop>
   <tabstop>password</tabstop>
   <tabstop>confirm_password</tabstop>
-  <tabstop>sign_up</tabstop>
-  <tabstop>login</tabstop>
+  <tabstop>sign_up_btn</tabstop>
+  <tabstop>login_btn</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -296,7 +327,7 @@
   <connection>
    <sender>confirm_password</sender>
    <signal>returnPressed()</signal>
-   <receiver>sign_up</receiver>
+   <receiver>sign_up_btn</receiver>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">

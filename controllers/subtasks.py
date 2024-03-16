@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QMessageBox,
 )
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QIcon
 from data.database_manager import DatabaseManager
 
 
@@ -102,6 +102,8 @@ class SubtasksDialog(QDialog):
         subtask_id = self.subtasks_model.index(row, 1).data()
         subtask_name = self.subtasks_model.index(row, 2).data()
         confirmation = QMessageBox()
+        confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+        confirmation.setWindowTitle("Confirmation")
         confirmation.setText(f"Are you sure you want to delete {subtask_name}?")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)

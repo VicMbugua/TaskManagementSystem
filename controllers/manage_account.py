@@ -1,6 +1,7 @@
 from ui.manage_account_ui import Ui_ManageAccount
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from PyQt5.QtCore import QEvent, Qt
+from PyQt5.QtGui import QIcon
 from data.database_manager import DatabaseManager
 import ctypes
 
@@ -91,13 +92,14 @@ class ManageAccountDialog(QDialog):
             self.db_manager.execute_query(
                 f"UPDATE users SET username = '{new_username}' WHERE user_id = {self.user_id}"
             )
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText(
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText(
                 f"Successfully changed username from {self.username} to {new_username}."
             )
-            msg_box.setWindowTitle("Success")
-            msg_box.exec()
+            information.setWindowTitle("Success")
+            information.exec()
             self.username = new_username
             self.ui.current_username.setText(f"Change username {self.username}.")
             self.ui.new_username.setText("")
@@ -135,11 +137,12 @@ class ManageAccountDialog(QDialog):
             self.db_manager.execute_query(
                 f"UPDATE users SET password = '{new_password}' WHERE user_id = {self.user_id}"
             )
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setText(f"Successfully changed your password.")
-            msg_box.setWindowTitle("Success")
-            msg_box.exec()
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setIcon(QMessageBox.Information)
+            information.setText(f"Successfully changed your password.")
+            information.setWindowTitle("Success")
+            information.exec()
             self.ui.current_password.setText("")
             self.ui.new_password.setText("")
             self.ui.confirm_new_password.setText("")
@@ -156,6 +159,8 @@ class ManageAccountDialog(QDialog):
             self.ui.password_2.setFocus()
         else:
             confirmation = QMessageBox()
+            confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            confirmation.setWindowTitle("Confirmation")
             confirmation.setText(f"Are you sure you want to delete your account?")
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)

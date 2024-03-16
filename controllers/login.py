@@ -15,8 +15,8 @@ class LoginWindow(QMainWindow):
 
         self.widget = widget
         self.ui.error_message.setText("")
-        self.ui.sign_up.clicked.connect(self.handle_sign_up)
-        self.ui.login.clicked.connect(self.handle_login)
+        self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
+        self.ui.login_btn.clicked.connect(self.handle_login)
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
