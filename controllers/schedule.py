@@ -25,7 +25,6 @@ class ScheduleDialog(QDialog):
         self.ui.end_date.setMinimumDate(QDate.currentDate())
         result = self.db_manager.fetch_data(f"SELECT due_date FROM tasks WHERE task_id = {self.task_id}")
         self.due_date = result[0][0]
-        # self.due_date = QDate.fromString(self.due_date, "yyyy-MM-dd")
         self.ui.start_time.setTime(QTime.currentTime())
         self.ui.start_time.timeChanged.connect(self.start_time_changed)
         self.ui.end_time.setTime(QTime.currentTime().addSecs(2*60*60))
@@ -38,6 +37,7 @@ class ScheduleDialog(QDialog):
         
     def closeEvent(self, event) -> None:
         self.parent.refresh_table()
+        self.parent.display_number_of_tasks()
         
         return super().closeEvent(event)
         
@@ -118,6 +118,7 @@ class ScheduleDialog(QDialog):
             self.db_manager.add_schedule(self.task_id, start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"), end_time.toString("HH:mm"))
             
     def check_time(self, assigned_date, start_time, end_time):
+        """Checks if the scheduled time is occupied by another and if found it returns the task name."""
         schedules = self.db_manager.fetch_data("SELECT task_id, date, start_time, end_time FROM schedules")
         for schedule in schedules:
             if schedule[1] == assigned_date and ((start_time <= schedule[2] and end_time > schedule[2]) or (start_time < schedule[3] and end_time >= schedule[3])):

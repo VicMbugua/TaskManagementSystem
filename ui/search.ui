@@ -227,5 +227,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>task_search</sender>
+   <signal>returnPressed()</signal>
+   <receiver>search_btn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>192</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>29</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

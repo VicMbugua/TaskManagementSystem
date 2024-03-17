@@ -92,6 +92,7 @@ class Ui_SearchDialog(object):
 
         self.retranslateUi(SearchDialog)
         self.close_btn.clicked.connect(SearchDialog.close) # type: ignore
+        self.task_search.returnPressed.connect(self.search_btn.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(SearchDialog)
         SearchDialog.setTabOrder(self.task_search, self.search_btn)
         SearchDialog.setTabOrder(self.search_btn, self.show_all_btn)

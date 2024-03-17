@@ -31,7 +31,7 @@ class DatabaseManager:
             "status"	TEXT,
             "created_at"	TEXT,
             PRIMARY KEY("subtask_id" AUTOINCREMENT),
-            FOREIGN KEY("task_id") REFERENCES "tasks"("task_id")
+            FOREIGN KEY("task_id") REFERENCES "tasks"("task_id") ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS "projects" (
             "project_id"	INTEGER,
@@ -53,7 +53,7 @@ class DatabaseManager:
             "description"	TEXT,
             "created_at"	TEXT,
             PRIMARY KEY("task_id" AUTOINCREMENT),
-            FOREIGN KEY("user_id") REFERENCES "users"("user_id")
+            FOREIGN KEY("user_id") REFERENCES "users"("user_id") ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS "schedules" (
             "schedule_id"	INTEGER,
@@ -63,6 +63,13 @@ class DatabaseManager:
             "end_time"	TEXT,
             PRIMARY KEY("schedule_id" AUTOINCREMENT),
             FOREIGN KEY("task_id") REFERENCES "tasks"("task_id")
+        );
+        CREATE TABLE IF NOT EXISTS "labels" (
+            "label_id"	INTEGER,
+            "user_id"	INTEGER,
+            "label_name"	TEXT,
+            PRIMARY KEY("label_id" AUTOINCREMENT),
+            FOREIGN KEY("user_id") REFERENCES "users"("user_id")
         );
         CREATE TRIGGER delete_subtasks
         AFTER DELETE ON tasks
@@ -83,6 +90,11 @@ class DatabaseManager:
         AFTER DELETE ON projects
         BEGIN
         DELETE FROM tasks WHERE project_id = OLD.project_id;
+        END;
+        CREATE TRIGGER delete_labels
+        AFTER DELETE ON users
+        BEGIN
+        DELETE FROM labels WHERE user_id = OLD.user_id;
         END;
         COMMIT;
         """

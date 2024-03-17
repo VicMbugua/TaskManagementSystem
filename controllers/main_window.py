@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItem, QStandardItemModel, QIcon
 from PyQt5.QtWidgets import (
     QMainWindow,
@@ -9,13 +9,14 @@ from PyQt5.QtWidgets import (
     QAction,
     QPushButton,
 )
+
+from controllers.add_project import AddProjectDialog, RenameProjectDialog
+from controllers.arrange import Arrange
 from controllers.edit_tasks import AddTaskDialog, EditTaskDialog
 from controllers.manage_account import ManageAccountDialog
-from controllers.arrange import Arrange
 from controllers.schedule import ScheduleDialog
 from controllers.search import SearchDialog
 from controllers.subtasks import SubtasksDialog
-from controllers.add_project import AddProjectDialog, RenameProjectDialog
 from data.database_manager import DatabaseManager
 from ui.main_window_ui import Ui_MainWindow
 
@@ -74,7 +75,6 @@ class MainWindow(QMainWindow):
         self.ui.calendar.selectionChanged.connect(self.date_changed)
         today_date = datetime.today().strftime("%d %B %Y")
         self.ui.schedules_for.setText(f"Tasks scheduled for {today_date}")
-        
 
     def showEvent(self, event):
         super().showEvent(event)
@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
         self.display_completed_tasks()
         self.display_filtered_tasks()
         self.display_number_of_tasks()
-    
+
     def on_menu_btn_pressed(self) -> None:
         if self.ui.full_name_widget.isVisible():
             self.ui.menu_btn.setToolTip("Expand menu")
@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
     def open_search(self):
         search_dialog = SearchDialog(self.user_id, self)
         search_dialog.show()
-        
+
     def logout(self) -> None:
         """It logs you out of the application."""
         self.widget.show()
@@ -206,9 +206,30 @@ class MainWindow(QMainWindow):
         """Displays number of uncompleted tasks present."""
         no_of_tasks = self.db_manager.number_of_tasks(self.user_id) - 1
         if no_of_tasks == 0:
-            self.ui.no_of_tasks.setText(f"You have no tasks.")
+            self.ui.no_of_tasks.setText("You have no tasks.")
         else:
             self.ui.no_of_tasks.setText(f"Number of tasks {no_of_tasks}.")
+        overdue_tasks = self.passed_tasks()
+        if overdue_tasks == 0:
+            self.ui.no_of_overdue_tasks.setText("You have no overdue tasks")
+        else:
+            self.ui.no_of_overdue_tasks.setText(f"Number of overdue tasks {overdue_tasks}")
+            
+    def passed_tasks(self):
+        today = date.today().strftime("%Y-%m-%d")
+        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
+        FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started')"""
+        result = self.db_manager.fetch_data(query)
+        result.pop(0)
+        new_result = []
+        today = date.today().strftime("%Y-%m-%d")
+        for item in result:
+            if datetime.strptime(item[3], "%Y-%m-%d") < datetime.strptime(
+                today, "%Y-%m-%d"
+            ):
+                new_result.append(item)
+        return len(new_result)
+    
 
     def display_filtered_tasks(self):
         """Shows a list of tasks based on their importance."""
@@ -255,7 +276,7 @@ class MainWindow(QMainWindow):
             not_started_action = QAction("Not Started", self)
             status = self.filtered_tasks_model.index(row, 5).data()
             schedule_action.triggered.connect(
-                lambda index, row=row: self.handle_schedule(row, self.tasks_model)
+                lambda index, row=row: self.handle_schedule(row, self.filtered_tasks_model)
             )
             done_action.triggered.connect(
                 lambda index, row=row: self.handle_done(row, self.filtered_tasks_model)
@@ -302,8 +323,6 @@ class MainWindow(QMainWindow):
         subtask = SubtasksDialog(task_id, self)
         subtask.show()
 
-    
-
     def handle_started(self, row, model):
         """Changes the status of a task to started."""
         task_id = model.index(row, 0).data()
@@ -323,8 +342,6 @@ class MainWindow(QMainWindow):
     # HOME PAGE END
 
     # TASKS PAGE BEGIN
-    # TODO: Add search functionality.
-    # TODO: Add a view by label functionality.
 
     def display_tasks(self):
         """Shows a list of all uncompleted tasks present."""
@@ -415,7 +432,7 @@ class MainWindow(QMainWindow):
                 self.tasks_model.index(row, self.tasks_model.columnCount() - 1), button
             )
         self.show()
-        
+
     def refresh_table(self):
         """Refresh the given tables."""
         self.filtered_table.doubleClicked.disconnect()
@@ -463,9 +480,10 @@ class MainWindow(QMainWindow):
         task_id = model.index(row, 0).data()
         edit_task_window = EditTaskDialog(task_id, self)
         edit_task_window.show()
-        
+
     def delete_label(self, label_name):
-        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
+        labels = self.db_manager.fetch_data(
+            f"SELECT COUNT(*) FROM tasks WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
         label_exists = True
         if labels[0][0] == 0:
             label_exists = False
@@ -489,6 +507,7 @@ class MainWindow(QMainWindow):
         response = confirmation.exec()
         if response == QMessageBox.Yes:
             label_name = self.db_manager.fetch_data(f"SELECT label_name FROM tasks WHERE task_id = {task_id}")
+            label_name = label_name[0][0]
             self.db_manager.remove_task(task_id)
             self.delete_label(label_name)
             self.refresh_table()
@@ -618,6 +637,5 @@ class MainWindow(QMainWindow):
             self.calendar_tasks_model.columnCount() - 2, Qt.AscendingOrder
         )
         self.show()
-
 
 # CALENDAR PAGE END
