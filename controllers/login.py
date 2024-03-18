@@ -73,5 +73,5 @@ class LoginWindow(QMainWindow):
             window.show()
 
     def handle_sign_up(self) -> None:
-        """Opens the sign up window."""
+        """Opens the sign-up window."""
         self.widget.setCurrentIndex(1)

@@ -8,6 +8,7 @@ class ReminderManager:
     def __init__(self):
         self.reminders = []
         self.tray_icon = QSystemTrayIcon()
+        self.tray_icon
         self.tray_icon.setIcon(QIcon("icons/9054813_bx_task_icon.svg"))  # Replace with your icon path
         self.tray_icon.setVisible(True)
 

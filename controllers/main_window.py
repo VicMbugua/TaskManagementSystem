@@ -66,10 +66,6 @@ class MainWindow(QMainWindow):
         )
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
-        # self.display_number_of_tasks()
-        # self.display_filtered_tasks()
-        # self.display_tasks()
-        # self.display_completed_tasks()
         self.display_day_tasks(date=date.today())
         self.installEventFilter(self)
         self.ui.calendar.selectionChanged.connect(self.date_changed)
@@ -214,7 +210,7 @@ class MainWindow(QMainWindow):
             self.ui.no_of_overdue_tasks.setText("You have no overdue tasks")
         else:
             self.ui.no_of_overdue_tasks.setText(f"Number of overdue tasks {overdue_tasks}")
-            
+
     def passed_tasks(self):
         today = date.today().strftime("%Y-%m-%d")
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
@@ -225,11 +221,10 @@ class MainWindow(QMainWindow):
         today = date.today().strftime("%Y-%m-%d")
         for item in result:
             if datetime.strptime(item[3], "%Y-%m-%d") < datetime.strptime(
-                today, "%Y-%m-%d"
+                    today, "%Y-%m-%d"
             ):
                 new_result.append(item)
         return len(new_result)
-    
 
     def display_filtered_tasks(self):
         """Shows a list of tasks based on their importance."""
@@ -317,7 +312,7 @@ class MainWindow(QMainWindow):
         self.show()
 
     def record_clicked_2(self, index):
-        """Opens the subtasks dialog to add subtasks to a given task when that task is double clicked."""
+        """Opens the subtasks dialog to add subtasks to a given task when that task is double-clicked."""
         row = index.row()
         task_id = self.filtered_tasks_model.index(row, 0).data()
         subtask = SubtasksDialog(task_id, self)

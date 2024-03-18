@@ -8,7 +8,7 @@ from PyQt5.QtGui import QIcon
 class ScheduleDialog(QDialog):
     def __init__(self, task_id, parent=None) -> None:
         super(ScheduleDialog, self).__init__(parent)
-        
+
         self.ui = Ui_ScheduleDialog()
         self.ui.setupUi(self)
         self.parent = parent
@@ -19,7 +19,7 @@ class ScheduleDialog(QDialog):
         )
         self.task_name = task_name[0][0]
         self.ui.task_name.setText(f"Schedule {self.task_name}")
-        
+
         self.ui.start_date.setMinimumDate(QDate.currentDate())
         self.ui.start_date.dateChanged.connect(self.start_date_changed)
         self.ui.end_date.setMinimumDate(QDate.currentDate())
@@ -27,30 +27,28 @@ class ScheduleDialog(QDialog):
         self.due_date = result[0][0]
         self.ui.start_time.setTime(QTime.currentTime())
         self.ui.start_time.timeChanged.connect(self.start_time_changed)
-        self.ui.end_time.setTime(QTime.currentTime().addSecs(2*60*60))
+        self.ui.end_time.setTime(QTime.currentTime().addSecs(2 * 60 * 60))
         self.ui.end_time.setMinimumTime(self.ui.start_time.time())
         self.ui.end_date.setDate(QDate.currentDate().addDays(7))
-        
+
         self.ui.repeat.toggled.connect(lambda checked: self.handle_repeat(checked))
         self.ui.save_btn.clicked.connect(self.handle_save)
         self.ui.cancel_btn.clicked.connect(self.handle_cancel)
-        
+
     def closeEvent(self, event) -> None:
         self.parent.refresh_table()
         self.parent.display_number_of_tasks()
-        
+
         return super().closeEvent(event)
-        
+
     def start_date_changed(self, new_date):
         self.ui.end_date.setMinimumDate(new_date)
         self.ui.end_date.setDate(new_date.addDays(7))
-        
-        
+
     def start_time_changed(self, new_time):
         self.ui.end_time.setMinimumTime(new_time)
-        self.ui.end_time.setTime(new_time.addSecs(2*60*60))
-        
-        
+        self.ui.end_time.setTime(new_time.addSecs(2 * 60 * 60))
+
     def handle_repeat(self, checked):
         if checked:
             self.ui.end_date.setEnabled(True)
@@ -70,7 +68,7 @@ class ScheduleDialog(QDialog):
             self.ui.thursday.setEnabled(False)
             self.ui.friday.setEnabled(False)
             self.ui.saturday.setEnabled(False)
-            
+
     def save_schedule(self):
         start_date = self.ui.start_date.date()
         start_time = self.ui.start_time.time()
@@ -113,35 +111,40 @@ class ScheduleDialog(QDialog):
                 day_index = 1
                 day_of_week = 1
             for date in list_of_dates:
-                self.db_manager.add_schedule(self.task_id, date, start_time.toString("HH:mm"), end_time.toString("HH:mm"))
+                self.db_manager.add_schedule(self.task_id, date, start_time.toString("HH:mm"),
+                                             end_time.toString("HH:mm"))
         else:
-            self.db_manager.add_schedule(self.task_id, start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"), end_time.toString("HH:mm"))
-            
+            self.db_manager.add_schedule(self.task_id, start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"),
+                                         end_time.toString("HH:mm"))
+
     def check_time(self, assigned_date, start_time, end_time):
         """Checks if the scheduled time is occupied by another and if found it returns the task name."""
         schedules = self.db_manager.fetch_data("SELECT task_id, date, start_time, end_time FROM schedules")
         for schedule in schedules:
-            if schedule[1] == assigned_date and ((start_time <= schedule[2] and end_time > schedule[2]) or (start_time < schedule[3] and end_time >= schedule[3])):
+            if schedule[1] == assigned_date and ((start_time <= schedule[2] < end_time) or (
+                    start_time < schedule[3] <= end_time)):
                 task_name = self.db_manager.fetch_data(f"SELECT task_name FROM tasks WHERE task_id = {schedule[0]}")
                 return task_name[0][0]
         return ""
-        
+
     def change_due_date(self):
         start_date = self.ui.start_date.date().toString("yyyy-MM-dd")
         if self.ui.repeat.isChecked():
             end_date = self.ui.end_date.date().toString("yyyy-MM-dd")
             if end_date > self.due_date:
-                self.db_manager.execute_query(f"UPDATE tasks SET due_date = '{end_date}' WHERE task_id = {self.task_id}")
+                self.db_manager.execute_query(
+                    f"UPDATE tasks SET due_date = '{end_date}' WHERE task_id = {self.task_id}")
         else:
             if start_date > self.due_date:
-                self.db_manager.execute_query(f"UPDATE tasks SET due_date = '{start_date}' WHERE task_id = {self.task_id}")
-                
-        
+                self.db_manager.execute_query(
+                    f"UPDATE tasks SET due_date = '{start_date}' WHERE task_id = {self.task_id}")
+
     def handle_save(self):
         start_date = self.ui.start_date.date()
         start_time = self.ui.start_time.time()
         end_time = self.ui.end_time.time()
-        task_present = self.check_time(start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"), end_time.toString("HH:mm"))
+        task_present = self.check_time(start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"),
+                                       end_time.toString("HH:mm"))
         if task_present != "":
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
@@ -159,8 +162,7 @@ class ScheduleDialog(QDialog):
             information.setWindowTitle("Information")
             information.exec()
             self.close()
-            
-            
+
     def handle_cancel(self):
         confirmation = QMessageBox()
         confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))

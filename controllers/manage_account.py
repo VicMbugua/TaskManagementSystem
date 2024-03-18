@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIcon
 from data.database_manager import DatabaseManager
 import ctypes
 
+
 class ManageAccountDialog(QDialog):
     def __init__(self, user_id: int, widget, parent=None):
         super(ManageAccountDialog, self).__init__(parent)
@@ -36,7 +37,6 @@ class ManageAccountDialog(QDialog):
         self.installEventFilter(self)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
         self.toggle_caps_lock_label()
-        
 
     def on_change_username_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -46,7 +46,7 @@ class ManageAccountDialog(QDialog):
 
     def on_delete_account_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(2)
-        
+
     def toggle_caps_lock_label(self):
         if self.caps_lock_on:
             self.ui.caps_lock.setText("Caps lock is on")
@@ -56,7 +56,7 @@ class ManageAccountDialog(QDialog):
             self.ui.caps_lock.setText("")
             self.ui.caps_lock_2.setText("")
             self.ui.caps_lock_3.setText("")
-            
+
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
             if event.key() == Qt.Key_CapsLock:
