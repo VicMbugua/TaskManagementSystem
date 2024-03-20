@@ -395,7 +395,6 @@ class MainWindow(QMainWindow):
             delete_action = QAction("Delete", self)
             started_action = QAction("Started", self)
             not_started_action = QAction("Not Started", self)
-            status = self.tasks_model.index(row, 5).data()
             schedule_action.triggered.connect(
                 lambda index, row=row: self.handle_schedule(row, self.tasks_model)
             )
@@ -415,6 +414,7 @@ class MainWindow(QMainWindow):
                 lambda index, row=row: self.handle_not_started(row, self.tasks_model)
             )
             menu.addAction(schedule_action)
+            status = self.tasks_model.index(row, 5).data()
             if status == "Not Started":
                 menu.addAction(started_action)
             else:

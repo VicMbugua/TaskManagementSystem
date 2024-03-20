@@ -1,4 +1,5 @@
 import ctypes
+import re
 from PyQt5.QtCore import QEvent, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
@@ -54,15 +55,23 @@ class SignUpWindow(QMainWindow):
         username = self.ui.username.text().lower().strip()
         password = self.ui.password.text()
         confirm_password = self.ui.confirm_password.text()
-        username_exists = self.db_manager.check_user(username)
+        valid_username = self.valid_username(username)
+        valid_password = self.valid_password(password)
         if username == "" or password == "" or confirm_password == "":
             self.ui.error_message.setText("Please fill all the fields before continuing.")
-        elif username_exists is True:
+        elif valid_username is not True:
+            self.ui.error_message.setText(valid_username)
             self.ui.username.setText("")
-            self.ui.password.setText("")
-            self.ui.confirm_password.setText("")
+            self.ui.username.setFocus()
+        elif self.db_manager.check_user(username):
+            self.ui.username.setText("")
             self.ui.error_message.setText("Username already exists")
             self.ui.username.setFocus()
+        elif valid_password is not True:
+            self.ui.password.setText("")
+            self.ui.confirm_password.setText("")
+            self.ui.error_message.setText(valid_password)
+            self.ui.password.setFocus()
         elif password != confirm_password:
             self.ui.password.setText("")
             self.ui.confirm_password.setText("")
@@ -77,6 +86,24 @@ class SignUpWindow(QMainWindow):
             information.setWindowTitle("Success")
             information.exec()
             self.handle_login()
+            
+    def valid_username(self, username):
+        if len(username) < 3:
+            return "Username has to be 3 characters long or longer."
+        if not username[0].isalpha():
+            return "Username can only start with a letter."
+        if not re.match(r"^[a-zA-Z0-9_.]*$", username):
+            return "Username can only have letters, digits, underscores or periods."
+        if all(username.count(char) == len(username) for char in username):
+            return "Username cannot have only one letter repeated."
+        return True
+    
+    def valid_password(self, password):
+        if len(password) < 5:
+            return "Password has to be 5 characters or longer."
+        if all(password.count(char) == len(password) for char in password):
+            return "Password cannot have only one character repeated."
+        return True
 
     def handle_login(self):
         """Opens the login window."""
