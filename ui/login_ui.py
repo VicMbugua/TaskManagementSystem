@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_LogIn(object):
     def setupUi(self, LogIn):
         LogIn.setObjectName("LogIn")
-        LogIn.resize(343, 272)
+        LogIn.resize(360, 281)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -49,12 +49,14 @@ class Ui_LogIn(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.username.sizePolicy().hasHeightForWidth())
         self.username.setSizePolicy(sizePolicy)
+        self.username.setMinimumSize(QtCore.QSize(150, 20))
         self.username.setObjectName("username")
         self.horizontalLayout_2.addWidget(self.username)
         spacerItem1 = QtWidgets.QSpacerItem(108, 17, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setContentsMargins(-1, -1, -1, 10)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -74,6 +76,7 @@ class Ui_LogIn(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.password.sizePolicy().hasHeightForWidth())
         self.password.setSizePolicy(sizePolicy)
+        self.password.setMinimumSize(QtCore.QSize(150, 20))
         self.password.setInputMethodHints(QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhNoAutoUppercase|QtCore.Qt.ImhNoPredictiveText|QtCore.Qt.ImhSensitiveData)
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password.setClearButtonEnabled(False)
@@ -82,10 +85,13 @@ class Ui_LogIn(object):
         spacerItem2 = QtWidgets.QSpacerItem(88, 17, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem2)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 15, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout.addItem(spacerItem3)
         self.error_message = QtWidgets.QLabel(self.centralwidget)
-        self.error_message.setMinimumSize(QtCore.QSize(0, 20))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(10)
+        sizePolicy.setHeightForWidth(self.error_message.sizePolicy().hasHeightForWidth())
+        self.error_message.setSizePolicy(sizePolicy)
+        self.error_message.setMinimumSize(QtCore.QSize(0, 18))
         font = QtGui.QFont()
         font.setPointSize(8)
         self.error_message.setFont(font)
@@ -97,21 +103,38 @@ class Ui_LogIn(object):
         self.caps_lock.setAlignment(QtCore.Qt.AlignCenter)
         self.caps_lock.setObjectName("caps_lock")
         self.verticalLayout.addWidget(self.caps_lock)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem4)
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem5)
-        self.sign_up_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.sign_up_btn.setAutoDefault(True)
-        self.sign_up_btn.setObjectName("sign_up_btn")
-        self.horizontalLayout_4.addWidget(self.sign_up_btn)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 15, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout.addItem(spacerItem3)
         self.login_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.login_btn.setMinimumSize(QtCore.QSize(0, 25))
+        self.login_btn.setStyleSheet("QPushButton{\n"
+"border: none;\n"
+"border-radius: 5px;\n"
+"background-color: rgb(41, 99, 224);\n"
+"color: white;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(0, 255, 255);\n"
+"color: black;\n"
+"}")
         self.login_btn.setAutoDefault(True)
         self.login_btn.setObjectName("login_btn")
-        self.horizontalLayout_4.addWidget(self.login_btn)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
+        self.verticalLayout.addWidget(self.login_btn)
+        self.sign_up_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.sign_up_btn.setMinimumSize(QtCore.QSize(65, 20))
+        self.sign_up_btn.setStyleSheet("QPushButton{\n"
+"border: 1px solid rgb(41, 99, 224);\n"
+"border-radius: 5px;\n"
+"background-color: white;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(0, 255, 255);\n"
+"color: black;\n"
+"border: none;\n"
+"}")
+        self.sign_up_btn.setAutoDefault(True)
+        self.sign_up_btn.setObjectName("sign_up_btn")
+        self.verticalLayout.addWidget(self.sign_up_btn)
         LogIn.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(LogIn)
@@ -123,12 +146,12 @@ class Ui_LogIn(object):
         _translate = QtCore.QCoreApplication.translate
         LogIn.setWindowTitle(_translate("LogIn", "Welcome"))
         self.label.setText(_translate("LogIn", "Welcome"))
-        self.label_2.setText(_translate("LogIn", "Username"))
+        self.label_2.setText(_translate("LogIn", "Username:"))
         self.username.setPlaceholderText(_translate("LogIn", "Username"))
-        self.label_3.setText(_translate("LogIn", "Password"))
+        self.label_3.setText(_translate("LogIn", "Password:"))
         self.password.setPlaceholderText(_translate("LogIn", "Password"))
         self.error_message.setText(_translate("LogIn", "Error message"))
         self.caps_lock.setText(_translate("LogIn", "Cap locks"))
+        self.login_btn.setText(_translate("LogIn", "Login"))
         self.sign_up_btn.setToolTip(_translate("LogIn", "<html><head/><body><p>Create a new account.</p></body></html>"))
         self.sign_up_btn.setText(_translate("LogIn", "Sign Up"))
-        self.login_btn.setText(_translate("LogIn", "Log In"))

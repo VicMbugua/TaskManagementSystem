@@ -1,4 +1,16 @@
-#icons_only_widget{
+QLineEdit {
+    background-color: white;
+    border-radius: 2px;
+    border: 1px solid black;
+    height: 20px;
+}
+
+QPushButton.search-btn {
+    background-color: blue;
+    border-radius: 2px;
+    height: 24px;
+}
+/* #icons_only_widget{
     background-color: white;
 }
 
@@ -62,4 +74,4 @@ QPushButton{
 
 #login_btn{
     background-color: aqua;
-}
+} */

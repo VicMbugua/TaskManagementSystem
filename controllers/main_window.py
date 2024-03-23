@@ -66,6 +66,7 @@ class MainWindow(QMainWindow):
         )
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
+        self.ui.clear_all_btn.clicked.connect(self.handle_clear_all)
         self.display_day_tasks(date=date.today())
         self.installEventFilter(self)
         self.ui.calendar.selectionChanged.connect(self.date_changed)
@@ -199,17 +200,25 @@ class MainWindow(QMainWindow):
     # HOME PAGE BEGIN
 
     def display_number_of_tasks(self):
-        """Displays number of uncompleted tasks present."""
+        """Displays number of tasks present."""
         no_of_tasks = self.db_manager.number_of_tasks(self.user_id) - 1
         if no_of_tasks == 0:
             self.ui.no_of_tasks.setText("You have no tasks.")
         else:
-            self.ui.no_of_tasks.setText(f"Number of tasks {no_of_tasks}.")
+            self.ui.no_of_tasks.setText(f"Number of tasks: {no_of_tasks}")
         overdue_tasks = self.passed_tasks()
         if overdue_tasks == 0:
             self.ui.no_of_overdue_tasks.setText("You have no overdue tasks")
         else:
-            self.ui.no_of_overdue_tasks.setText(f"Number of overdue tasks {overdue_tasks}")
+            self.ui.no_of_overdue_tasks.setText(f"Number of overdue tasks: {overdue_tasks}")
+        query = f"SELECT COUNT(*) FROM tasks WHERE user_id = {self.user_id} AND status = 'Completed'"
+        completed_tasks = self.db_manager.fetch_data(query)
+        completed_tasks = completed_tasks[0][0]
+        if completed_tasks == 0:
+            self.ui.number_of_completed_tasks.setText("You have no completed task.")
+        else:
+            self.ui.number_of_completed_tasks.setText(f"Number of completed tasks: {completed_tasks}")
+            
 
     def passed_tasks(self):
         today = date.today().strftime("%Y-%m-%d")
@@ -591,6 +600,31 @@ class MainWindow(QMainWindow):
             self.refresh_table()
             self.display_completed_tasks()
             self.display_number_of_tasks()
+            
+    def handle_clear_all(self):
+        query = f"SELECT COUNT(*) FROM tasks WHERE user_id = {self.user_id} AND status = 'Completed'"
+        completed_tasks = self.db_manager.fetch_data(query)
+        completed_tasks = completed_tasks[0][0]
+        if completed_tasks != 0:
+            confirmation = QMessageBox()
+            confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            confirmation.setText(f"Are you sure you want to delete all completed tasks?")
+            confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            confirmation.setDefaultButton(QMessageBox.Cancel)
+            confirmation.setIcon(QMessageBox.Warning)
+            confirmation.setWindowTitle("Confirmation")
+            response = confirmation.exec()
+            if response == QMessageBox.Yes:
+                self.db_manager.delete_completed_tasks(self.user_id)
+                self.display_completed_tasks()
+                self.display_number_of_tasks()
+        else:
+            information = QMessageBox()
+            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+            information.setText("You have no completed tasks.")
+            information.setIcon(QMessageBox.Information)
+            information.setWindowTitle("Information")
+            information.exec()
 
     # COMPLETED TASKS PAGE END
 

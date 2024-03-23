@@ -225,6 +225,13 @@ class DatabaseManager:
         cursor.execute(f"DELETE FROM tasks WHERE task_id = {task_id}")
         connection.commit()
         connection.close()
+        
+    def delete_completed_tasks(self, user_id):
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(f"DELETE FROM tasks WHERE status = 'Completed' AND user_id = {user_id}")
+        connection.commit()
+        connection.close()
 
     def add_subtask(self, task_id: int, subtask_name: str) -> None:
         """Adds a new subtask to the subtasks table."""

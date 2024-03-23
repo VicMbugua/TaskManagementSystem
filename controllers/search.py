@@ -1,3 +1,4 @@
+from cProfile import label
 from datetime import date, datetime
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
@@ -37,25 +38,29 @@ class SearchDialog(QDialog):
         self.ui.search_btn.clicked.connect(self.handle_search)
 
     def closeEvent(self, event) -> None:
-        self.parent.display_tasks()
+        self.parent.refresh_table()
         self.parent.display_completed_tasks()
         self.parent.display_number_of_tasks()
 
         return super().closeEvent(event)
     
     def refresh_table(self):
-        self.display_tasks()
-        self.ui.labels.setCurrentIndex(0)
-        self.ui.due_date.setCurrentIndex(0)
-        self.ui.status.setCurrentIndex(0)
+        label = self.ui.labels.currentText()
+        due_date = self.ui.due_date.currentText()
+        status = self.ui.status.currentText()
+        self.filtered_tasks(label, due_date, status)
 
     def handle_search(self):
-        search_text = self.ui.task_search.text().lower()
+        original_text = self.ui.task_search.text()
+        search_text = original_text.lower()
         if search_text != "":
             self.ui.labels.setCurrentIndex(0)
             self.ui.due_date.setCurrentIndex(0)
             self.ui.status.setCurrentIndex(0)
             self.filter_table(search_text)
+            text = self.ui.task_search.text()
+            if text == "":
+                self.ui.task_search.setText(original_text)
 
     def handle_show_all(self):
         self.display_tasks()
@@ -236,21 +241,11 @@ class SearchDialog(QDialog):
             )
         self.show()
 
-    def handle_due_date_change(self, index):
-        due_date = self.ui.due_date.itemText(index)
-        if due_date == "All":
-            self.display_tasks()
-        elif due_date == "Passed":
-            self.passed_tasks()
-        else:
-            self.not_passed_tasks()
-        self.ui.task_search.setText("")
-
     def tasks_by_label(self, label_name):
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started') AND label_name = '{label_name}'"""
         result = self.db_manager.fetch_data(query)
-        self.display_tasks_by(result)
+        return result
 
     def passed_tasks(self):
         today = date.today().strftime("%Y-%m-%d")
@@ -265,7 +260,7 @@ class SearchDialog(QDialog):
                     today, "%Y-%m-%d"
             ):
                 new_result.append(item)
-        self.display_tasks_by(new_result)
+        return new_result
 
     def not_passed_tasks(self):
         today = date.today().strftime("%Y-%m-%d")
@@ -280,38 +275,103 @@ class SearchDialog(QDialog):
                     today, "%Y-%m-%d"
             ):
                 new_result.append(item)
-        self.display_tasks_by(new_result)
+        return new_result
         
     def not_started_tasks(self):
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started')"""
         result = self.db_manager.fetch_data(query)
         result.pop(0)
-        self.display_tasks_by(result)
+        return result
         
     def started_tasks(self):
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE user_id = {self.user_id} AND (status = 'Started')"""
         result = self.db_manager.fetch_data(query)
-        self.display_tasks_by(result)
+        return result
         
     def handle_status_change(self, index):
         status = self.ui.status.itemText(index)
-        if status == "All":
-            self.display_tasks()
-        elif status == "Not Started":
-            self.not_started_tasks()
-        else:
-            self.started_tasks()
-            
-
-    def handle_label_change(self, index):
-        label_name = self.ui.labels.itemText(index)
-        if label_name == "All":
-            self.display_tasks()
-        else:
-            self.tasks_by_label(label_name)
+        label = self.ui.labels.currentText()
+        due_date = self.ui.due_date.currentText()
+        self.filtered_tasks(label, due_date, status)
         self.ui.task_search.setText("")
+        
+    def handle_due_date_change(self, index):
+        due_date = self.ui.due_date.itemText(index)
+        label = self.ui.labels.currentText()
+        status = self.ui.status.currentText()
+        self.filtered_tasks(label, due_date, status)
+        self.ui.task_search.setText("")
+        
+    def handle_label_change(self, index):
+        label = self.ui.labels.itemText(index)
+        due_date = self.ui.due_date.currentText()
+        status = self.ui.status.currentText()
+        self.filtered_tasks(label, due_date, status)
+        self.ui.task_search.setText("")
+            
+    def filtered_tasks(self, label, due_date, status):
+        if label == "All" and due_date == "All" and status == "All":
+            self.display_tasks()
+        elif label == "All" and due_date == "All":
+            if status == "Started":
+                result = self.started_tasks()
+            else:
+                result = self.not_started_tasks()
+            self.display_tasks_by(result)
+        elif label == "All" and status == "All":
+            if due_date == "Passed":
+                result = self.passed_tasks()
+            else:
+                result = self.not_passed_tasks()
+            self.display_tasks_by(result)
+        elif due_date == "All" and status == "All":
+            result = self.tasks_by_label(label)
+            self.display_tasks_by(result)
+        elif label == "All":
+            if status == "Started":
+                result1 = self.started_tasks()
+            else:
+                result1 = self.not_started_tasks()
+            if due_date == "Passed":
+                result2 = self.passed_tasks()
+            else:
+                result2 = self.not_passed_tasks()
+            common_items = set(result1) & set(result2)
+            result = list(common_items)
+            self.display_tasks_by(result)
+        elif due_date == "All":
+            result1 = self.tasks_by_label(label)
+            if status == "Started":
+                result2 = self.started_tasks()
+            else:
+                result2 = self.not_started_tasks()
+            common_items = set(result1) & set(result2)
+            result = list(common_items)
+            self.display_tasks_by(result)
+        elif status == "All":
+            result1 = self.tasks_by_label(label)
+            if due_date == "Passed":
+                result2 = self.passed_tasks()
+            else:
+                result2 = self.not_passed_tasks()
+            common_items = set(result1) & set(result2)
+            result = list(common_items)
+            self.display_tasks_by(result)
+        else:
+            result1 = self.tasks_by_label(label)
+            if due_date == "Passed":
+                result2 = self.passed_tasks()
+            else:
+                result2 = self.not_passed_tasks()
+            if status == "Started":
+                result3 = self.started_tasks()
+            else:
+                result3 = self.not_started_tasks()
+            common_items = set(result1) & set(result2) & set(result3)
+            result = list(common_items)
+            self.display_tasks_by(result)
 
     def labels_list(self) -> None:
         self.ui.labels.clear()
@@ -374,7 +434,7 @@ class SearchDialog(QDialog):
         if response == QMessageBox.Yes:
             query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {task_id}"
             self.db_manager.execute_query(query)
-            self.display_tasks()
+            self.refresh_table()
 
     def handle_edit(self, row, model):
         """Opens the edit dialog responsible for editing a given task."""
@@ -411,7 +471,7 @@ class SearchDialog(QDialog):
             self.db_manager.remove_task(task_id)
             self.delete_label(label_name)
             self.labels_list()
-            self.display_tasks()
+            self.refresh_table()
 
     def handle_started(self, row, model):
         """Changes the status of a task to started."""
@@ -419,7 +479,7 @@ class SearchDialog(QDialog):
         self.db_manager.execute_query(
             f"UPDATE tasks SET status = 'Started' WHERE task_id = {task_id}"
         )
-        self.display_tasks()
+        self.refresh_table()
 
     def handle_not_started(self, row, model):
         """Changes the status of a task to not started."""
@@ -427,4 +487,4 @@ class SearchDialog(QDialog):
         self.db_manager.execute_query(
             f"UPDATE tasks SET status = 'Not Started' WHERE task_id = {task_id}"
         )
-        self.display_tasks()
+        self.refresh_table()
