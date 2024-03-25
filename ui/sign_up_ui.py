@@ -126,6 +126,7 @@ class Ui_SignUp(object):
         SignUp.setWindowTitle(_translate("SignUp", "Sign Up"))
         self.label.setText(_translate("SignUp", "Sign Up"))
         self.label_2.setText(_translate("SignUp", "Username:"))
+        self.username.setToolTip(_translate("SignUp", "<html><head/><body><p>Username must start with a letter and contain only letters, numbers, or underscores.</p></body></html>"))
         self.username.setPlaceholderText(_translate("SignUp", "Username"))
         self.label_3.setText(_translate("SignUp", "Password:"))
         self.password.setPlaceholderText(_translate("SignUp", "Password"))

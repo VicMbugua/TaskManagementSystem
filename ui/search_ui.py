@@ -33,9 +33,9 @@ class Ui_SearchDialog(object):
         self.task_search = QtWidgets.QLineEdit(SearchDialog)
         self.task_search.setObjectName("task_search")
         self.horizontalLayout.addWidget(self.task_search)
-        self.search_btn = QtWidgets.QPushButton(SearchDialog)
-        self.search_btn.setObjectName("search_btn")
-        self.horizontalLayout.addWidget(self.search_btn)
+        self.search_btn_2 = QtWidgets.QPushButton(SearchDialog)
+        self.search_btn_2.setObjectName("search_btn_2")
+        self.horizontalLayout.addWidget(self.search_btn_2)
         self.show_all_btn = QtWidgets.QPushButton(SearchDialog)
         self.show_all_btn.setObjectName("show_all_btn")
         self.horizontalLayout.addWidget(self.show_all_btn)
@@ -103,27 +103,27 @@ class Ui_SearchDialog(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem4)
-        self.close_btn = QtWidgets.QPushButton(SearchDialog)
-        self.close_btn.setObjectName("close_btn")
-        self.horizontalLayout_3.addWidget(self.close_btn)
+        self.cancel_btn = QtWidgets.QPushButton(SearchDialog)
+        self.cancel_btn.setObjectName("cancel_btn")
+        self.horizontalLayout_3.addWidget(self.cancel_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
         self.retranslateUi(SearchDialog)
-        self.close_btn.clicked.connect(SearchDialog.close) # type: ignore
-        self.task_search.returnPressed.connect(self.search_btn.click) # type: ignore
+        self.cancel_btn.clicked.connect(SearchDialog.close) # type: ignore
+        self.task_search.returnPressed.connect(self.search_btn_2.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(SearchDialog)
-        SearchDialog.setTabOrder(self.task_search, self.search_btn)
-        SearchDialog.setTabOrder(self.search_btn, self.show_all_btn)
+        SearchDialog.setTabOrder(self.task_search, self.search_btn_2)
+        SearchDialog.setTabOrder(self.search_btn_2, self.show_all_btn)
         SearchDialog.setTabOrder(self.show_all_btn, self.labels)
         SearchDialog.setTabOrder(self.labels, self.due_date)
-        SearchDialog.setTabOrder(self.due_date, self.close_btn)
-        SearchDialog.setTabOrder(self.close_btn, self.tasks_list)
+        SearchDialog.setTabOrder(self.due_date, self.cancel_btn)
+        SearchDialog.setTabOrder(self.cancel_btn, self.tasks_list)
 
     def retranslateUi(self, SearchDialog):
         _translate = QtCore.QCoreApplication.translate
         SearchDialog.setWindowTitle(_translate("SearchDialog", "Search"))
         self.label.setText(_translate("SearchDialog", "Search tasks:"))
-        self.search_btn.setText(_translate("SearchDialog", "Search"))
+        self.search_btn_2.setText(_translate("SearchDialog", "Search"))
         self.show_all_btn.setToolTip(_translate("SearchDialog", "Show all tasks"))
         self.show_all_btn.setText(_translate("SearchDialog", "Show all"))
         self.label_2.setText(_translate("SearchDialog", "Group by Label:"))
@@ -136,4 +136,4 @@ class Ui_SearchDialog(object):
         self.status.setItemText(1, _translate("SearchDialog", "Started"))
         self.status.setItemText(2, _translate("SearchDialog", "Not Started"))
         self.label_4.setText(_translate("SearchDialog", "Task List:"))
-        self.close_btn.setText(_translate("SearchDialog", "Close"))
+        self.cancel_btn.setText(_translate("SearchDialog", "Cancel"))

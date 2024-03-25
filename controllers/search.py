@@ -35,7 +35,7 @@ class SearchDialog(QDialog):
         self.ui.labels.currentIndexChanged.connect(self.handle_label_change)
         self.ui.due_date.currentIndexChanged.connect(self.handle_due_date_change)
         self.ui.status.currentIndexChanged.connect(self.handle_status_change)
-        self.ui.search_btn.clicked.connect(self.handle_search)
+        self.ui.search_btn_2.clicked.connect(self.handle_search)
 
     def closeEvent(self, event) -> None:
         self.parent.refresh_table()
@@ -414,7 +414,7 @@ class SearchDialog(QDialog):
 
     def handle_schedule(self, row, model):
         task_id = model.index(row, 0).data()
-        schedule_dialog = ScheduleDialog(task_id, self)
+        schedule_dialog = ScheduleDialog(self.user_id, task_id, self)
         schedule_dialog.show()
 
     def handle_done(self, row, model):

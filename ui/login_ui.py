@@ -147,6 +147,7 @@ class Ui_LogIn(object):
         LogIn.setWindowTitle(_translate("LogIn", "Welcome"))
         self.label.setText(_translate("LogIn", "Welcome"))
         self.label_2.setText(_translate("LogIn", "Username:"))
+        self.username.setToolTip(_translate("LogIn", "<html><head/><body><p>Username must start with a letter and contain only letters, numbers, or underscores.</p></body></html>"))
         self.username.setPlaceholderText(_translate("LogIn", "Username"))
         self.label_3.setText(_translate("LogIn", "Password:"))
         self.password.setPlaceholderText(_translate("LogIn", "Password"))

@@ -351,7 +351,7 @@ class MainWindow(QMainWindow):
         """Shows a list of all uncompleted tasks present."""
         self.tasks_table = self.ui.tasks_list
         project_id = self.db_manager.fetch_data(
-            f"SELECT project_id FROM projects WHERE user_id = {self.user_id} AND project_name = '{self.project_name}'"
+            f"SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (self.user_id, self.project_name)
         )
         project_id = project_id[0][0]
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
@@ -454,7 +454,7 @@ class MainWindow(QMainWindow):
 
     def handle_schedule(self, row, model):
         task_id = model.index(row, 0).data()
-        schedule_dialog = ScheduleDialog(task_id, self)
+        schedule_dialog = ScheduleDialog(self.user_id, task_id, self)
         schedule_dialog.show()
 
     def handle_done(self, row, model):
@@ -640,7 +640,7 @@ class MainWindow(QMainWindow):
     def display_day_tasks(self, date):
         """Shows a list of tasks scheduled for that day."""
         self.calendar_table = self.ui.calendar_table
-        query = f"""SELECT task_id, start_time, end_time FROM schedules WHERE date = '{date}'"""
+        query = f"""SELECT task_id, start_time, end_time FROM schedules WHERE date = '{date}' and user_id={self.user_id}"""
         result = self.db_manager.fetch_data(query)
         headers = ["Task Name", "Start Time", "End Time"]
         self.calendar_tasks_model = QStandardItemModel(len(result), len(headers))

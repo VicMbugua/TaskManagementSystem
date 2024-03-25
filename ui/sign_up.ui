@@ -71,6 +71,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="username">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Username must start with a letter and contain only letters, numbers, or underscores.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="placeholderText">
          <string>Username</string>
         </property>

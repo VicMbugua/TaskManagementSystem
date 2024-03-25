@@ -14,111 +14,134 @@ class DatabaseManager:
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
         query = """
-        BEGIN TRANSACTION;
-        CREATE TABLE IF NOT EXISTS "users" (
-            "user_id"	INTEGER,
-            "username"	TEXT UNIQUE,
-            "password"	TEXT,
-            PRIMARY KEY("user_id" AUTOINCREMENT)
-        );
-        CREATE TABLE IF NOT EXISTS "subtasks" (
-            "subtask_id"	INTEGER,
-            "task_id"	INTEGER,
-            "subtask_name"	TEXT,
-            "status"	TEXT,
-            "created_at"	TEXT,
-            PRIMARY KEY("subtask_id" AUTOINCREMENT),
-            FOREIGN KEY("task_id") REFERENCES "tasks"("task_id") ON DELETE CASCADE
-        );
-        CREATE TABLE IF NOT EXISTS "projects" (
-            "project_id"	INTEGER,
-            "user_id"	INTEGER,
-            "project_name"	TEXT,
-            "created_at"	TEXT,
-            PRIMARY KEY("project_id" AUTOINCREMENT),
-            FOREIGN KEY("user_id") REFERENCES "users"("user_id")
-        );
-        CREATE TABLE IF NOT EXISTS "tasks" (
-            "task_id"	INTEGER NOT NULL,
-            "user_id"	INTEGER,
-            "project_id"	INTEGER,
-            "task_name"	TEXT NOT NULL,
-            "priority"	INTEGER,
-            "due_date"	TEXT,
-            "label_name"	TEXT,
-            "status"	TEXT,
-            "description"	TEXT,
-            "created_at"	TEXT,
-            PRIMARY KEY("task_id" AUTOINCREMENT),
-            FOREIGN KEY("user_id") REFERENCES "users"("user_id") ON DELETE CASCADE
-        );
-        CREATE TABLE IF NOT EXISTS "schedules" (
-            "schedule_id"	INTEGER,
-            "task_id"	INTEGER,
-            "date"	TEXT,
-            "start_time"	TEXT,
-            "end_time"	TEXT,
-            PRIMARY KEY("schedule_id" AUTOINCREMENT),
-            FOREIGN KEY("task_id") REFERENCES "tasks"("task_id")
-        );
-        CREATE TABLE IF NOT EXISTS "labels" (
-            "label_id"	INTEGER,
-            "user_id"	INTEGER,
-            "label_name"	TEXT,
-            PRIMARY KEY("label_id" AUTOINCREMENT),
-            FOREIGN KEY("user_id") REFERENCES "users"("user_id")
-        );
-        CREATE TRIGGER delete_subtasks
-        AFTER DELETE ON tasks
-        BEGIN
-        DELETE FROM subtasks WHERE task_id = OLD.task_id;
-        END;
-        CREATE TRIGGER delete_projects
-        AFTER DELETE ON users
-        BEGIN
-        DELETE FROM projects WHERE user_id = OLD.user_id;
-        END;
-        CREATE TRIGGER delete_schedules
-        AFTER DELETE ON tasks
-        BEGIN
-        DELETE FROM schedules WHERE task_id = OLD.task_id;
-        END;
-        CREATE TRIGGER delete_tasks
-        AFTER DELETE ON projects
-        BEGIN
-        DELETE FROM tasks WHERE project_id = OLD.project_id;
-        END;
-        CREATE TRIGGER delete_labels
-        AFTER DELETE ON users
-        BEGIN
-        DELETE FROM labels WHERE user_id = OLD.user_id;
-        END;
-        COMMIT;
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "users" (
+	"user_id"	INTEGER,
+	"username"	TEXT UNIQUE,
+	"password"	TEXT,
+	PRIMARY KEY("user_id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "subtasks" (
+	"subtask_id"	INTEGER,
+	"task_id"	INTEGER,
+	"subtask_name"	TEXT,
+	"status"	TEXT,
+	"created_at"	TEXT,
+	PRIMARY KEY("subtask_id" AUTOINCREMENT),
+	FOREIGN KEY("task_id") REFERENCES "tasks"("task_id") ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "projects" (
+	"project_id"	INTEGER,
+	"user_id"	INTEGER,
+	"project_name"	TEXT,
+	"created_at"	TEXT,
+	PRIMARY KEY("project_id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "users"("user_id")
+);
+CREATE TABLE IF NOT EXISTS "tasks" (
+	"task_id"	INTEGER NOT NULL,
+	"user_id"	INTEGER,
+	"project_id"	INTEGER,
+	"task_name"	TEXT NOT NULL,
+	"priority"	INTEGER,
+	"due_date"	TEXT,
+	"label_name"	TEXT,
+	"status"	TEXT,
+	"description"	TEXT,
+	"created_at"	TEXT,
+	PRIMARY KEY("task_id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "users"("user_id") ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "labels" (
+	"label_id"	INTEGER,
+	"user_id"	INTEGER,
+	"label_name"	TEXT,
+	PRIMARY KEY("label_id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "users"("user_id")
+);
+CREATE TABLE IF NOT EXISTS "schedules" (
+	"schedule_id"	INTEGER,
+	"user_id"	INTEGER,
+	"task_id"	INTEGER,
+	"date"	TEXT,
+	"start_time"	TEXT,
+	"end_time"	TEXT,
+	FOREIGN KEY("user_id") REFERENCES "users"("user_id"),
+	FOREIGN KEY("task_id") REFERENCES "tasks"("task_id"),
+	PRIMARY KEY("schedule_id" AUTOINCREMENT)
+);
+CREATE TRIGGER delete_subtasks
+AFTER DELETE ON tasks
+BEGIN
+DELETE FROM subtasks WHERE task_id = OLD.task_id;
+END;
+CREATE TRIGGER delete_projects
+AFTER DELETE ON users
+BEGIN
+DELETE FROM projects WHERE user_id = OLD.user_id;
+END;
+CREATE TRIGGER delete_tasks
+AFTER DELETE ON projects
+BEGIN
+DELETE FROM tasks WHERE project_id = OLD.project_id;
+END;
+CREATE TRIGGER delete_labels
+AFTER DELETE ON users
+BEGIN
+DELETE FROM labels WHERE user_id = OLD.user_id;
+END;
+CREATE TRIGGER delete_schedules
+AFTER DELETE ON tasks
+BEGIN
+DELETE FROM schedules WHERE task_id = OLD.task_id;
+END;
+COMMIT;
         """
         cursor.execute(query)
         connection.commit()
         connection.close()
 
-    def execute_query(self, query) -> None:
-        connection = sqlite3.connect(self.db_file)
-        cursor = connection.cursor()
-        cursor.execute(query)
-        connection.commit()
-        connection.close()
-
-    def fetch_data(self, query) -> list:
-        try:
+    def execute_query(self, query, params=None) -> None:
+        if params:
+            connection = sqlite3.connect(self.db_file)
+            cursor = connection.cursor()
+            cursor.execute(query, params)
+            connection.commit()
+            connection.close()
+        else:
             connection = sqlite3.connect(self.db_file)
             cursor = connection.cursor()
             cursor.execute(query)
-            results = cursor.fetchall()
             connection.commit()
-            return results
-        except sqlite3.Error as error:
-            return []
-        finally:
-            if connection:
-                connection.close()
+            connection.close()
+
+    def fetch_data(self, query, params=None) -> list:
+        if params:
+            try:
+                connection = sqlite3.connect(self.db_file)
+                cursor = connection.cursor()
+                cursor.execute(query, params)
+                results = cursor.fetchall()
+                connection.commit()
+                return results
+            except sqlite3.Error as error:
+                return []
+            finally:
+                if connection:
+                    connection.close()
+        else:
+            try:
+                connection = sqlite3.connect(self.db_file)
+                cursor = connection.cursor()
+                cursor.execute(query)
+                results = cursor.fetchall()
+                connection.commit()
+                return results
+            except sqlite3.Error as error:
+                return []
+            finally:
+                if connection:
+                    connection.close()
 
     def add_user(self, username: str, password: str) -> None:
         """Adds a new user to the database."""
@@ -159,7 +182,7 @@ class DatabaseManager:
         """Checks if the username given already exists in the database."""
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
-        cursor.execute(f"SELECT COUNT(*) FROM users WHERE username = '{username}'")
+        cursor.execute(f"SELECT COUNT(*) FROM users WHERE username = ?", (username, ))
         result = cursor.fetchone()
         if result[0] == 1:
             return True
@@ -171,8 +194,7 @@ class DatabaseManager:
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
         cursor.execute(
-            f"SELECT COUNT(*) FROM users WHERE username = '{
-            username}' AND password = '{password}'"
+            f"SELECT COUNT(*) FROM users WHERE username = ? AND password = ?", (username, password)
         )
         result = cursor.fetchone()
         if result[0] == 1:
@@ -283,11 +305,11 @@ class DatabaseManager:
         connection.commit()
         connection.close()
 
-    def add_schedule(self, task_id, date, start_time, end_time):
+    def add_schedule(self, user_id, task_id, date, start_time, end_time):
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO schedules (task_id, date, start_time, end_time) VALUES (?, ?, ?, ?)",
-                       (task_id, date, start_time, end_time))
+        cursor.execute("INSERT INTO schedules (user_id, task_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?)",
+                       (user_id, task_id, date, start_time, end_time))
         connection.commit()
         connection.close()
 

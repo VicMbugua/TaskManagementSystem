@@ -6,13 +6,14 @@ from PyQt5.QtGui import QIcon
 
 
 class ScheduleDialog(QDialog):
-    def __init__(self, task_id, parent=None) -> None:
+    def __init__(self, user_id, task_id, parent=None) -> None:
         super(ScheduleDialog, self).__init__(parent)
 
         self.ui = Ui_ScheduleDialog()
         self.ui.setupUi(self)
         self.parent = parent
         self.task_id = task_id
+        self.user_id = user_id
         self.db_manager = DatabaseManager()
         task_name = self.db_manager.fetch_data(
             f"SELECT task_name FROM tasks WHERE task_id = {self.task_id}"
@@ -111,10 +112,10 @@ class ScheduleDialog(QDialog):
                 day_index = 1
                 day_of_week = 1
             for date in list_of_dates:
-                self.db_manager.add_schedule(self.task_id, date, start_time.toString("HH:mm"),
+                self.db_manager.add_schedule(self.user_id, self.task_id, date, start_time.toString("HH:mm"),
                                              end_time.toString("HH:mm"))
         else:
-            self.db_manager.add_schedule(self.task_id, start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"),
+            self.db_manager.add_schedule(self.user_id, self.task_id, start_date.toString("yyyy-MM-dd"), start_time.toString("HH:mm"),
                                          end_time.toString("HH:mm"))
 
     def check_time(self, assigned_date, start_time, end_time):

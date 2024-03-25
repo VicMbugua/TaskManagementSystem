@@ -1,7 +1,7 @@
 import ctypes
 import re
-from PyQt5.QtCore import QEvent, Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QEvent, Qt, QRegExp
+from PyQt5.QtGui import QIcon, QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from ui.sign_up_ui import Ui_SignUp
 from data.database_manager import DatabaseManager
@@ -18,14 +18,14 @@ class SignUpWindow(QMainWindow):
         self.ui.error_message.setText("")
         self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
         self.ui.login_btn.clicked.connect(self.handle_login)
+        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
+        self.validator = QRegExpValidator(regex, self.ui.username)
+        self.ui.username.setValidator(self.validator)
 
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
         self.toggle_caps_lock_label()
-
-        if isinstance(widget, SignUpWindow):
-            self.show()
 
     def showEvent(self, event) -> None:
         super().showEvent(event)
@@ -36,7 +36,7 @@ class SignUpWindow(QMainWindow):
         self.ui.password.setText("")
         self.ui.confirm_password.setText("")
         self.ui.error_message.setText("")
-
+            
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
             if event.key() == Qt.Key_CapsLock:

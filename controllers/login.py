@@ -1,5 +1,6 @@
 import ctypes
-from PyQt5.QtCore import QEvent, Qt
+from PyQt5.QtCore import QEvent, Qt, QRegExp
+from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow
 from ui.login_ui import Ui_LogIn
 from data.database_manager import DatabaseManager
@@ -19,6 +20,9 @@ class LoginWindow(QMainWindow):
         self.ui.login_btn.clicked.connect(self.handle_login)
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
+        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
+        self.validator = QRegExpValidator(regex, self.ui.username)
+        self.ui.username.setValidator(self.validator)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
         self.toggle_caps_lock_label()
         
