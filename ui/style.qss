@@ -1,0 +1,150 @@
+QLineEdit {
+    background-color: white;
+    border-radius: 2px;
+    border: 1px solid black;
+    height: 20px;
+}
+
+QPushButton.search-btn {
+    background-color: blue;
+    border-radius: 2px;
+    height: 24px;
+}
+QWidget#navbar_widget QPushButton{
+	background-color: rgb(15, 255, 255);
+	min-height: 25;
+	border: none;
+}
+QWidget#navbar_widget QPushButton:hover{
+	background-color: rgb(33, 159, 255);
+}
+QWidget#navbar_widget QPushButton:checked{
+	outline: none;
+	background-color: rgb(25, 94, 255);
+}
+QPushButton#menu_btn {
+	min-width: 25;
+}
+QPushButton#menu_btn:focus {
+	outline: none;
+}
+QWidget#icons_only_widget QPushButton{
+	/* background-color: rgb(15, 255, 255); */
+	min-width: 25;
+	/* min-height: 25; */
+	/* border: none; */
+}
+QWidget#icons_only_widget QPushButton#exit_btn_1:hover{
+	background-color: red;
+}
+QWidget#full_name_widget QPushButton{
+	border: none;
+	padding-left: 5px;
+    text-align: left;
+}
+QWidget#full_name_widget QPushButton#exit_btn_2:hover{
+	background-color: red;
+}
+
+#save_btn, #reset_btn, #cancel_btn, #add_task_btn, #add_subtask_btn, #search_btn_2, #show_all_btn{
+    background-color: blue;
+    border: none;
+    height: 25px;
+    width: 75px;
+    border-radius: 2px;
+    color: white;
+}
+#add_project_btn, #manage_project_btn{
+    background-color: blue;
+    border: none;
+    height: 25px;
+    width: 100px;
+    border-radius: 2px;
+    color: white;
+}
+#exit_btn_1:hover, #exit_btn_2:hover, #exit_btn:hover, #cancel_btn:hover{
+    background-color: red;
+}
+
+QComboBox{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 2px;
+    height: 20px;
+    width: 75px;
+}
+/* QPushButton:hover{
+	background-color: rgb(33, 159, 255);
+}
+QPushButton#exit_btn_2:hover{
+	background-color: rgb(255, 49, 49);
+}
+QPushButton:checked{
+	outline: none;
+	background-color: rgb(25, 94, 255);
+} */
+/* #icons_only_widget{
+    background-color: white;
+}
+
+QPushButton{
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(41, 99, 224);
+    height: 30px;
+    width: 50px;
+}
+
+
+
+#icons_only_widget QPushButton{
+    border: none;
+    height: 30px;
+    width: 30px;
+    background-color: aliceblue;
+}
+
+#menu_btn{
+    width: 30px;
+    background-color: aliceblue
+}
+
+#icons_only_widget QPushButton:hover {
+    background-color: lightblue;
+}
+
+#icons_only_widget QPushButton:checked {
+    background-color: darkblue;
+    border: none;
+}
+
+#full_name_widget{
+    background-color: white;
+    width: 250px;
+}
+
+#full_name_widget QPushButton{
+    border: none;
+    border-radius: 10px;
+    height: 30px;
+    width: 70px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+#full_name_widget QPushButton:hover {
+    background-color: lightblue;
+}
+
+#full_name_widget QPushButton[objectName="exit_btn_2"]:hover {
+    background-color: rgba(231, 16, 16, 0.719);
+}
+
+#full_name_widget QPushButton:checked {
+    background-color: darkblue;
+    color: white;
+}
+
+#login_btn{
+    background-color: aqua;
+} */
