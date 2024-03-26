@@ -26,6 +26,7 @@ class EditTaskDialog(QDialog):
         self.ui.dialog_title.setText("Edit task")
         self.ui.task_name.setText(self.task_result[0][0])
         self.ui.label_name.setEditText(self.task_result[0][3])
+        self.label_name = self.task_result[0][3]
         date = self.task_result[0][2]
         due_date = QDate.fromString(date, "yyyy-MM-dd")
         self.ui.due_date.setDate(due_date)
@@ -42,8 +43,6 @@ class EditTaskDialog(QDialog):
 
     def closeEvent(self, event) -> None:
         self.parent.refresh_table()
-        # self.parent.display_completed_tasks()
-        # self.parent.display_number_of_tasks()
 
         return super().closeEvent(event)
 
@@ -57,17 +56,17 @@ class EditTaskDialog(QDialog):
         description: str = self.ui.description.toPlainText()
         status: str = self.ui.status.currentText()
         if task_name != "":
+            self.add_label(label_name)
             self.db_manager.edit_task(
                 self.task_id, task_name, priority, due_date, label_name, status, description
             )
-            self.add_label(label_name)
+            self.delete_label(self.label_name)
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             information.setIcon(QMessageBox.Information)
             information.setText(f"Successfully edited {task_name}.")
             information.setWindowTitle("Success")
             information.exec()
-            # self.parent.refresh_table()
             self.close()
         else:
             information = QMessageBox()
@@ -79,13 +78,20 @@ class EditTaskDialog(QDialog):
             self.ui.task_name.setFocus()
 
     def add_label(self, label_name):
-        labels = self.db_manager.fetch_data(
-            f"SELECT COUNT(*) FROM labels WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
+        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = ? AND label_name = ?", (self.user_id, label_name))
         label_exists = False
         if labels[0][0] == 1:
             label_exists = True
         if label_exists is False:
             self.db_manager.add_label(self.user_id, label_name)
+    
+    def delete_label(self, label_name):
+        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM tasks WHERE user_id = ? AND label_name = ? AND status != 'Completed'", (self.user_id, label_name))
+        label_exists = False
+        if labels[0][0] == 1:
+            label_exists = True
+        if label_exists is False:
+            self.db_manager.delete_label(self.user_id, label_name)
 
     def handle_edit_reset_btn(self) -> None:
         """Resets the fields to their original value."""
@@ -197,8 +203,7 @@ class AddTaskDialog(QDialog):
             self.ui.task_name.setFocus()
 
     def add_label(self, label_name):
-        labels = self.db_manager.fetch_data(
-            f"SELECT COUNT(*) FROM labels WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
+        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = ? AND label_name = ?", (self.user_id, label_name))
         label_exists = False
         if labels[0][0] == 1:
             label_exists = True

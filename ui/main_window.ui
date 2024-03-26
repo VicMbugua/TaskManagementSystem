@@ -74,6 +74,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
             <property name="toolTip">
              <string>Collapse menu</string>
             </property>
@@ -142,6 +145,9 @@
              </property>
              <item>
               <widget class="QPushButton" name="home_btn_1">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Home (Alt+H)</string>
                </property>
@@ -168,6 +174,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="tasks_btn_1">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Tasks (Alt+T)</string>
                </property>
@@ -194,6 +203,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="completed_tasks_btn_1">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Completed Tasks (Alt+C)</string>
                </property>
@@ -220,6 +232,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="calendar_btn_1">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Calendar (Alt+L)</string>
                </property>
@@ -259,6 +274,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="exit_btn_1">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Exit</string>
                </property>
@@ -303,6 +321,9 @@
              </property>
              <item>
               <widget class="QPushButton" name="home_btn_2">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="text">
                 <string>Home</string>
                </property>
@@ -326,6 +347,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="tasks_btn_2">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="text">
                 <string>Tasks</string>
                </property>
@@ -349,6 +373,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="completed_tasks_btn_2">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="layoutDirection">
                 <enum>Qt::LeftToRight</enum>
                </property>
@@ -375,6 +402,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="calendar_btn_2">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="text">
                 <string>Calendar</string>
                </property>
@@ -411,6 +441,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="exit_btn_2">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="text">
                 <string>Exit</string>
                </property>
@@ -492,6 +525,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="search_btn">
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
             <property name="toolTip">
              <string>Search for tasks</string>
             </property>
@@ -502,10 +538,16 @@
              <iconset resource="resources.qrc">
               <normaloff>:/icons/icons/3844432_magnifier_search_zoom_icon.svg</normaloff>:/icons/icons/3844432_magnifier_search_zoom_icon.svg</iconset>
             </property>
+            <property name="autoDefault">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="user_btn">
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
             <property name="toolTip">
              <string>Click to see user options</string>
             </property>
@@ -527,7 +569,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -644,6 +686,9 @@
            </item>
            <item>
             <widget class="QTableView" name="filtered_tasks">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
              <property name="tabKeyNavigation">
               <bool>false</bool>
              </property>
@@ -697,6 +742,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="add_project_btn">
+                <property name="focusPolicy">
+                 <enum>Qt::TabFocus</enum>
+                </property>
                 <property name="text">
                  <string>Add Project</string>
                 </property>
@@ -704,6 +752,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="manage_project_btn">
+                <property name="focusPolicy">
+                 <enum>Qt::TabFocus</enum>
+                </property>
                 <property name="text">
                  <string>Manage Project</string>
                 </property>
@@ -760,6 +811,9 @@
            </item>
            <item>
             <widget class="QTableView" name="tasks_list">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
              <property name="tabKeyNavigation">
               <bool>false</bool>
              </property>
@@ -792,6 +846,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="add_task_btn">
+                <property name="focusPolicy">
+                 <enum>Qt::TabFocus</enum>
+                </property>
                 <property name="text">
                  <string>Add Task</string>
                 </property>
@@ -876,6 +933,9 @@
            </item>
            <item>
             <widget class="QTableView" name="completed_tasks">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
              <property name="tabKeyNavigation">
               <bool>false</bool>
              </property>
@@ -898,11 +958,17 @@
              </item>
              <item>
               <widget class="QPushButton" name="clear_all_btn">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Delete all completed tasks</string>
                </property>
                <property name="text">
                 <string>Clear All</string>
+               </property>
+               <property name="autoDefault">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -987,7 +1053,11 @@
             </layout>
            </item>
            <item>
-            <widget class="QTableView" name="calendar_table"/>
+            <widget class="QTableView" name="calendar_table">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -1001,6 +1071,7 @@
  </widget>
  <tabstops>
   <tabstop>menu_btn</tabstop>
+  <tabstop>search_btn</tabstop>
   <tabstop>user_btn</tabstop>
   <tabstop>home_btn_1</tabstop>
   <tabstop>tasks_btn_1</tabstop>
@@ -1013,9 +1084,15 @@
   <tabstop>calendar_btn_2</tabstop>
   <tabstop>exit_btn_2</tabstop>
   <tabstop>filtered_tasks</tabstop>
-  <tabstop>add_task_btn</tabstop>
+  <tabstop>project</tabstop>
+  <tabstop>add_project_btn</tabstop>
+  <tabstop>manage_project_btn</tabstop>
   <tabstop>tasks_list</tabstop>
+  <tabstop>add_task_btn</tabstop>
   <tabstop>completed_tasks</tabstop>
+  <tabstop>clear_all_btn</tabstop>
+  <tabstop>calendar</tabstop>
+  <tabstop>calendar_table</tabstop>
  </tabstops>
  <resources>
   <include location="resources.qrc"/>

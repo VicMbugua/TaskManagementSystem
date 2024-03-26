@@ -48,6 +48,7 @@ class SearchDialog(QDialog):
         label = self.ui.labels.currentText()
         due_date = self.ui.due_date.currentText()
         status = self.ui.status.currentText()
+        self.labels_list()
         self.filtered_tasks(label, due_date, status)
 
     def handle_search(self):
@@ -119,6 +120,7 @@ class SearchDialog(QDialog):
         )
         for row in range(self.tasks_model.rowCount()):
             button = QPushButton("Options")
+            button.setFocusPolicy(Qt.TabFocus)
             button.setToolTip("Click to manage the task.")
             button.setAutoDefault(True)
             menu = QMenu()
@@ -155,6 +157,13 @@ class SearchDialog(QDialog):
             menu.addAction(done_action)
             menu.addAction(edit_action)
             menu.addAction(delete_action)
+            menu.setToolTipsVisible(True)
+            schedule_action.setToolTip("Schedule the given task.")
+            done_action.setToolTip("Mark the given task as done/completed.")
+            edit_action.setToolTip("Edit the given task.")
+            delete_action.setToolTip("Delete the given task.")
+            started_action.setToolTip("Mark the given task as started.")
+            not_started_action.setToolTip("Mark the given task as not started.")
             button.setMenu(menu)
             self.tasks_table.setIndexWidget(
                 self.tasks_model.index(row, self.tasks_model.columnCount() - 1), button
@@ -199,6 +208,7 @@ class SearchDialog(QDialog):
         )
         for row in range(self.grouped_tasks_model.rowCount()):
             button = QPushButton("Options")
+            button.setFocusPolicy(Qt.TabFocus)
             button.setToolTip("Click to manage the task.")
             button.setAutoDefault(True)
             menu = QMenu()
@@ -235,16 +245,38 @@ class SearchDialog(QDialog):
             menu.addAction(done_action)
             menu.addAction(edit_action)
             menu.addAction(delete_action)
+            menu.setToolTipsVisible(True)
+            schedule_action.setToolTip("Schedule the given task.")
+            done_action.setToolTip("Mark the given task as done/completed.")
+            edit_action.setToolTip("Edit the given task.")
+            delete_action.setToolTip("Delete the given task.")
+            started_action.setToolTip("Mark the given task as started.")
+            not_started_action.setToolTip("Mark the given task as not started.")
             button.setMenu(menu)
             self.tasks_table.setIndexWidget(
                 self.grouped_tasks_model.index(row, self.grouped_tasks_model.columnCount() - 1), button
             )
         self.show()
+        
+    def filter_table(self, text):
+        self.tasks_table.setSortingEnabled(False)
+
+        for row in range(self.tasks_model.rowCount()):
+            self.tasks_table.setRowHidden(row, True)
+
+        for row in range(self.tasks_model.rowCount()):
+            for col in range(self.tasks_model.columnCount() - 1):
+                cell_text = self.tasks_model.item(row, col).text().lower()
+                if text in cell_text:
+                    self.tasks_table.setRowHidden(row, False)
+                    break
+
+        self.tasks_table.setSortingEnabled(True)
 
     def tasks_by_label(self, label_name):
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
-        FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started') AND label_name = '{label_name}'"""
-        result = self.db_manager.fetch_data(query)
+        FROM tasks WHERE user_id = ? AND (status = 'Not Started' OR status = 'Started') AND label_name = ?"""
+        result = self.db_manager.fetch_data(query, (self.user_id, label_name))
         return result
 
     def passed_tasks(self):
@@ -378,25 +410,10 @@ class SearchDialog(QDialog):
         labels = self.db_manager.fetch_data(
             f"SELECT label_name FROM labels WHERE user_id = {self.user_id}"
         )
+        self.ui.labels.addItem("All")
         if len(labels) != 0:
-            self.ui.labels.addItem("All")
             for row in labels:
                 self.ui.labels.addItem(row[0])
-
-    def filter_table(self, text):
-        self.tasks_table.setSortingEnabled(False)
-
-        for row in range(self.tasks_model.rowCount()):
-            self.tasks_table.setRowHidden(row, True)
-
-        for row in range(self.tasks_model.rowCount()):
-            for col in range(self.tasks_model.columnCount() - 1):
-                cell_text = self.tasks_model.item(row, col).text().lower()
-                if text in cell_text:
-                    self.tasks_table.setRowHidden(row, False)
-                    break
-
-        self.tasks_table.setSortingEnabled(True)
 
     def record_clicked(self, index):
         """Opens the subtasks dialog to add subtasks to a given task when that task is double-clicked."""
@@ -434,6 +451,7 @@ class SearchDialog(QDialog):
         if response == QMessageBox.Yes:
             query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {task_id}"
             self.db_manager.execute_query(query)
+            self.db_manager.delete_schedules(task_id)
             self.refresh_table()
 
     def handle_edit(self, row, model):
@@ -444,8 +462,7 @@ class SearchDialog(QDialog):
 
     def delete_label(self, label_name):
         labels = self.db_manager.fetch_data(
-            f"SELECT COUNT(*) FROM tasks WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
-        print(labels)
+            f"SELECT COUNT(*) FROM tasks WHERE user_id = ? AND label_name = ? AND status != 'Completed'", (self.user_id, label_name))
         label_exists = True
         if labels[0][0] == 0:
             label_exists = False

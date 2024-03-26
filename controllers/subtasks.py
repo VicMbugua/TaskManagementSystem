@@ -66,6 +66,7 @@ class SubtasksDialog(QDialog):
         for row in range(self.subtasks_model.rowCount()):
             button = QPushButton()
             button.setText("Remove")
+            button.setFocusPolicy(Qt.TabFocus)
             button.setToolTip("Click to remove subtask")
             button.clicked.connect(lambda index, row=row: self.handle_remove(row))
             table.setIndexWidget(

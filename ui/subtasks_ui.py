@@ -53,6 +53,7 @@ class Ui_SubtaskWindow(object):
         self.subtask_name.setObjectName("subtask_name")
         self.horizontalLayout_2.addWidget(self.subtask_name)
         self.add_subtask_btn = QtWidgets.QPushButton(SubtaskWindow)
+        self.add_subtask_btn.setFocusPolicy(QtCore.Qt.TabFocus)
         self.add_subtask_btn.setObjectName("add_subtask_btn")
         self.horizontalLayout_2.addWidget(self.add_subtask_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -68,6 +69,7 @@ class Ui_SubtaskWindow(object):
         self.horizontalLayout_4.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.subtasks_table = QtWidgets.QTableView(SubtaskWindow)
+        self.subtasks_table.setFocusPolicy(QtCore.Qt.TabFocus)
         self.subtasks_table.setTabKeyNavigation(False)
         self.subtasks_table.setObjectName("subtasks_table")
         self.verticalLayout.addWidget(self.subtasks_table)
@@ -76,6 +78,7 @@ class Ui_SubtaskWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(272, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
         self.cancel_btn = QtWidgets.QPushButton(SubtaskWindow)
+        self.cancel_btn.setFocusPolicy(QtCore.Qt.TabFocus)
         self.cancel_btn.setObjectName("cancel_btn")
         self.horizontalLayout.addWidget(self.cancel_btn)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -84,6 +87,9 @@ class Ui_SubtaskWindow(object):
         self.cancel_btn.clicked.connect(SubtaskWindow.close) # type: ignore
         self.subtask_name.returnPressed.connect(self.add_subtask_btn.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(SubtaskWindow)
+        SubtaskWindow.setTabOrder(self.subtask_name, self.add_subtask_btn)
+        SubtaskWindow.setTabOrder(self.add_subtask_btn, self.subtasks_table)
+        SubtaskWindow.setTabOrder(self.subtasks_table, self.cancel_btn)
 
     def retranslateUi(self, SubtaskWindow):
         _translate = QtCore.QCoreApplication.translate

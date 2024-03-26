@@ -61,9 +61,7 @@ class MainWindow(QMainWindow):
 
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
-        self.ui.manage_project_btn.setToolTip(
-            f"Rename or delete {self.project_name} project"
-        )
+        self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
         self.ui.clear_all_btn.clicked.connect(self.handle_clear_all)
@@ -114,6 +112,7 @@ class MainWindow(QMainWindow):
         """Changes the name of a project."""
         self.project_name = self.ui.project.itemText(index)
         self.refresh_table()
+        self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
 
     def open_add_project(self) -> None:
@@ -270,6 +269,7 @@ class MainWindow(QMainWindow):
         for row in range(self.filtered_tasks_model.rowCount()):
             button = QPushButton("Options")
             button.setToolTip("Click to manage the task.")
+            button.setFocusPolicy(Qt.TabFocus)
             button.setAutoDefault(True)
             menu = QMenu()
             schedule_action = QAction("Schedule", self)
@@ -311,6 +311,13 @@ class MainWindow(QMainWindow):
             menu.addAction(done_action)
             menu.addAction(edit_action)
             menu.addAction(delete_action)
+            menu.setToolTipsVisible(True)
+            schedule_action.setToolTip("Schedule the given task.")
+            done_action.setToolTip("Mark the given task as done/completed.")
+            edit_action.setToolTip("Edit the given task.")
+            delete_action.setToolTip("Delete the given task.")
+            started_action.setToolTip("Mark the given task as started.")
+            not_started_action.setToolTip("Mark the given task as not started.")
             button.setMenu(menu)
             self.filtered_table.setIndexWidget(
                 self.filtered_tasks_model.index(
@@ -396,6 +403,7 @@ class MainWindow(QMainWindow):
         for row in range(self.tasks_model.rowCount()):
             button = QPushButton("Options")
             button.setToolTip("Click to manage the task.")
+            button.setFocusPolicy(Qt.TabFocus)
             button.setAutoDefault(True)
             menu = QMenu()
             schedule_action = QAction("Schedule", self)
@@ -431,7 +439,15 @@ class MainWindow(QMainWindow):
             menu.addAction(done_action)
             menu.addAction(edit_action)
             menu.addAction(delete_action)
+            menu.setToolTipsVisible(True)
+            schedule_action.setToolTip("Schedule the given task.")
+            done_action.setToolTip("Mark the given task as done/completed.")
+            edit_action.setToolTip("Edit the given task.")
+            delete_action.setToolTip("Delete the given task.")
+            started_action.setToolTip("Mark the given task as started.")
+            not_started_action.setToolTip("Mark the given task as not started.")
             button.setMenu(menu)
+            
             self.tasks_table.setIndexWidget(
                 self.tasks_model.index(row, self.tasks_model.columnCount() - 1), button
             )
@@ -475,6 +491,7 @@ class MainWindow(QMainWindow):
         if response == QMessageBox.Yes:
             query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {task_id}"
             self.db_manager.execute_query(query)
+            self.db_manager.delete_schedules(task_id)
             self.refresh_table()
             self.display_completed_tasks()
             self.display_number_of_tasks()
@@ -487,7 +504,7 @@ class MainWindow(QMainWindow):
 
     def delete_label(self, label_name):
         labels = self.db_manager.fetch_data(
-            f"SELECT COUNT(*) FROM tasks WHERE user_id = {self.user_id} AND label_name = '{label_name}'")
+            "SELECT COUNT(*) FROM tasks WHERE user_id = ? AND label_name = ? AND status != 'Completed'", (self.user_id, label_name))
         label_exists = True
         if labels[0][0] == 0:
             label_exists = False
@@ -557,10 +574,11 @@ class MainWindow(QMainWindow):
         for row in range(self.completed_tasks_model.rowCount()):
             button = QPushButton("Options")
             button.setToolTip("Click to manage the task.")
+            button.setFocusPolicy(Qt.TabFocus)
             menu = QMenu()
-            done_action = QAction("Not Done", self)
+            not_done_action = QAction("Not Done", self)
             delete_action = QAction("Delete", self)
-            done_action.triggered.connect(
+            not_done_action.triggered.connect(
                 lambda index, row=row: self.handle_not_done(row)
             )
             delete_action.triggered.connect(
@@ -568,8 +586,11 @@ class MainWindow(QMainWindow):
                     row, self.completed_tasks_model
                 )
             )
-            menu.addAction(done_action)
+            menu.addAction(not_done_action)
             menu.addAction(delete_action)
+            menu.setToolTipsVisible(True)
+            not_done_action.setToolTip("Mark the given task as not done.")
+            delete_action.setToolTip("Delete the given task.")
             button.setMenu(menu)
             table.setIndexWidget(
                 self.completed_tasks_model.index(

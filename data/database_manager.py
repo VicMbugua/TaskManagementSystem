@@ -152,10 +152,10 @@ COMMIT;
         )
         connection.commit()
         connection.close()
-        user_id: list = self.fetch_data(
-            f"SELECT user_id FROM users WHERE username = '{username}'"
+        user_id = self.fetch_data(
+            "SELECT user_id FROM users WHERE username = ?", (username, )
         )
-        user_id: int = int(user_id[0][0])
+        user_id = int(user_id[0][0])
         self.add_project(user_id, "Default")
         project_id = self.fetch_data(
             f"SELECT project_id FROM projects WHERE user_id = {user_id} AND project_name = 'Default'")
@@ -194,7 +194,7 @@ COMMIT;
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
         cursor.execute(
-            f"SELECT COUNT(*) FROM users WHERE username = ? AND password = ?", (username, password)
+            "SELECT COUNT(*) FROM users WHERE username = ? AND password = ?", (username, password)
         )
         result = cursor.fetchone()
         if result[0] == 1:
@@ -261,7 +261,6 @@ COMMIT;
         cursor = connection.cursor()
         now = datetime.now()
         created_at = now.strftime("%Y-%m-%d %H:%M:%S")
-        # created_at = date.today()
         status = "Not complete"
         cursor.execute(
             "INSERT INTO subtasks (task_id, subtask_name, status, created_at) VALUES (?, ?, ?, ?)",
@@ -299,8 +298,8 @@ COMMIT;
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
         cursor.execute(
-            f"UPDATE tasks SET task_name = '{task_name}', priority = {priority}, due_date = '{due_date}', label_name = '{
-            label_name}', status = '{status}', description = '{description}' WHERE task_id = {task_id}"
+            "UPDATE tasks SET task_name = ?, priority = ?, due_date = ?, label_name = ?, status = ?, description = ? WHERE task_id = ?", 
+            (task_name, priority, due_date, label_name, status, description, task_id)
         )
         connection.commit()
         connection.close()
@@ -310,6 +309,13 @@ COMMIT;
         cursor = connection.cursor()
         cursor.execute("INSERT INTO schedules (user_id, task_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?)",
                        (user_id, task_id, date, start_time, end_time))
+        connection.commit()
+        connection.close()
+        
+    def delete_schedules(self, task_id):
+        connection = sqlite3.connect(self.db_file)
+        cursor = connection.cursor()
+        cursor.execute(f"DELETE FROM schedules WHERE task_id = {task_id}")
         connection.commit()
         connection.close()
 
@@ -323,6 +329,6 @@ COMMIT;
     def delete_label(self, user_id, label_name):
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
-        cursor.execute(f"DELETE FROM labels WHERE user_id = {user_id} AND label_name = '{label_name}'")
+        cursor.execute(f"DELETE FROM labels WHERE user_id = ? AND label_name = ?", (user_id, label_name))
         connection.commit()
         connection.close()

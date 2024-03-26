@@ -44,6 +44,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="search_btn_2">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
        <property name="text">
         <string>Search</string>
        </property>
@@ -51,6 +54,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="show_all_btn">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
        <property name="toolTip">
         <string>Show all tasks</string>
        </property>
@@ -237,6 +243,9 @@
    </item>
    <item>
     <widget class="QTableView" name="tasks_list">
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
      <property name="tabKeyNavigation">
       <bool>false</bool>
      </property>
@@ -259,6 +268,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="cancel_btn">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
        <property name="text">
         <string>Cancel</string>
        </property>
@@ -274,8 +286,9 @@
   <tabstop>show_all_btn</tabstop>
   <tabstop>labels</tabstop>
   <tabstop>due_date</tabstop>
-  <tabstop>cancel_btn</tabstop>
+  <tabstop>status</tabstop>
   <tabstop>tasks_list</tabstop>
+  <tabstop>cancel_btn</tabstop>
  </tabstops>
  <resources/>
  <connections>

@@ -89,6 +89,9 @@
          </property>
          <item>
           <widget class="QPushButton" name="change_username_btn">
+           <property name="focusPolicy">
+            <enum>Qt::TabFocus</enum>
+           </property>
            <property name="styleSheet">
             <string notr="true">text-align: left;</string>
            </property>
@@ -108,6 +111,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="change_password_btn">
+           <property name="focusPolicy">
+            <enum>Qt::TabFocus</enum>
+           </property>
            <property name="styleSheet">
             <string notr="true">text-align: left;</string>
            </property>
@@ -127,6 +133,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="delete_account_btn">
+           <property name="focusPolicy">
+            <enum>Qt::TabFocus</enum>
+           </property>
            <property name="styleSheet">
             <string notr="true">text-align: left;</string>
            </property>
@@ -159,6 +168,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="exit_btn">
+           <property name="focusPolicy">
+            <enum>Qt::TabFocus</enum>
+           </property>
            <property name="text">
             <string>Exit</string>
            </property>
@@ -358,6 +370,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="reset_btn">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -370,6 +385,9 @@
                 <width>100</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
               </property>
               <property name="text">
                <string>Change Username</string>
@@ -609,6 +627,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="reset_btn_2">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -621,6 +642,9 @@
                 <width>100</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
               </property>
               <property name="text">
                <string>Change Password</string>
@@ -807,6 +831,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="reset_btn_3">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -819,6 +846,9 @@
                 <width>100</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
               </property>
               <property name="text">
                <string>Delete Account</string>
