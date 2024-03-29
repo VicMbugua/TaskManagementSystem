@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ManageAccount(object):
     def setupUi(self, ManageAccount):
         ManageAccount.setObjectName("ManageAccount")
-        ManageAccount.resize(458, 333)
+        ManageAccount.resize(450, 325)
         ManageAccount.setModal(True)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(ManageAccount)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -328,8 +328,7 @@ class Ui_ManageAccount(object):
         QtCore.QMetaObject.connectSlotsByName(ManageAccount)
         ManageAccount.setTabOrder(self.change_username_btn, self.change_password_btn)
         ManageAccount.setTabOrder(self.change_password_btn, self.delete_account_btn)
-        ManageAccount.setTabOrder(self.delete_account_btn, self.exit_btn)
-        ManageAccount.setTabOrder(self.exit_btn, self.new_username)
+        ManageAccount.setTabOrder(self.delete_account_btn, self.new_username)
         ManageAccount.setTabOrder(self.new_username, self.password)
         ManageAccount.setTabOrder(self.password, self.reset_btn)
         ManageAccount.setTabOrder(self.reset_btn, self.change_username_btn_2)
@@ -341,6 +340,7 @@ class Ui_ManageAccount(object):
         ManageAccount.setTabOrder(self.change_password_btn_2, self.password_2)
         ManageAccount.setTabOrder(self.password_2, self.reset_btn_3)
         ManageAccount.setTabOrder(self.reset_btn_3, self.delete_account_btn_2)
+        ManageAccount.setTabOrder(self.delete_account_btn_2, self.exit_btn)
 
     def retranslateUi(self, ManageAccount):
         _translate = QtCore.QCoreApplication.translate

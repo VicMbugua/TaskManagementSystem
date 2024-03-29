@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_AddProject(object):
     def setupUi(self, AddProject):
         AddProject.setObjectName("AddProject")
-        AddProject.resize(300, 200)
+        AddProject.resize(330, 220)
         font = QtGui.QFont()
         font.setPointSize(10)
         AddProject.setFont(font)

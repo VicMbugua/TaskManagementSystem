@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (
     QAction,
     QPushButton,
 )
-from controllers.edit_tasks import EditTaskDialog
+from controllers.add_tasks import EditTaskDialog
 from controllers.schedule import ScheduleDialog
 from controllers.subtasks import SubtasksDialog
 from data.database_manager import DatabaseManager
@@ -458,6 +458,7 @@ class SearchDialog(QDialog):
         """Opens the edit dialog responsible for editing a given task."""
         task_id = model.index(row, 0).data()
         edit_task_window = EditTaskDialog(task_id, self)
+        edit_task_window.setFixedSize(450, 450)
         edit_task_window.show()
 
     def delete_label(self, label_name):

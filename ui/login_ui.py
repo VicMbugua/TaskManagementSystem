@@ -107,6 +107,7 @@ class Ui_LogIn(object):
         self.verticalLayout.addItem(spacerItem3)
         self.login_btn = QtWidgets.QPushButton(self.centralwidget)
         self.login_btn.setMinimumSize(QtCore.QSize(0, 25))
+        self.login_btn.setFocusPolicy(QtCore.Qt.TabFocus)
         self.login_btn.setStyleSheet("QPushButton{\n"
 "border: none;\n"
 "border-radius: 5px;\n"

@@ -31,7 +31,7 @@ class AddProjectDialog(QDialog):
         if project_name == "":
             self.ui.error_message.setText("Please enter a project name.")
         elif valid_name is False:
-            self.ui.error_message.setText("Project name already exists.")
+            self.ui.error_message.setText("Project name already exists. Enter another name.")
             self.ui.project_name.setText("")
         else:
             self.db_manager.add_project(self.user_id, project_name)
@@ -82,7 +82,7 @@ class RenameProjectDialog(QDialog):
             if project_name == "":
                 self.ui.error_message.setText("Please enter a project name.")
             elif valid_name is False:
-                self.ui.error_message.setText("Project name already exists.")
+                self.ui.error_message.setText("Project name already exists. Enter another name.")
                 self.ui.project_name.setText("")
             else:
                 self.db_manager.execute_query(
@@ -92,7 +92,7 @@ class RenameProjectDialog(QDialog):
                 information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
                 information.setIcon(QMessageBox.Information)
                 information.setText(
-                    f"Successfully changed {self.project_name} to {project_name}."
+                    f"Successfully renamed {self.project_name} to {project_name}."
                 )
                 information.setWindowTitle("Success")
                 information.exec()
@@ -104,4 +104,3 @@ class RenameProjectDialog(QDialog):
                 self.close()
         else:
             self.ui.error_message.setText("Enter a new name.")
-            

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>333</height>
+    <width>450</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -870,7 +870,6 @@
   <tabstop>change_username_btn</tabstop>
   <tabstop>change_password_btn</tabstop>
   <tabstop>delete_account_btn</tabstop>
-  <tabstop>exit_btn</tabstop>
   <tabstop>new_username</tabstop>
   <tabstop>password</tabstop>
   <tabstop>reset_btn</tabstop>
@@ -883,6 +882,7 @@
   <tabstop>password_2</tabstop>
   <tabstop>reset_btn_3</tabstop>
   <tabstop>delete_account_btn_2</tabstop>
+  <tabstop>exit_btn</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -893,12 +893,12 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>68</x>
-     <y>323</y>
+     <x>77</x>
+     <y>315</y>
     </hint>
     <hint type="destinationlabel">
      <x>82</x>
-     <y>332</y>
+     <y>324</y>
     </hint>
    </hints>
   </connection>
@@ -909,12 +909,12 @@
    <slot>setFocus()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>151</y>
+     <x>349</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>316</x>
-     <y>189</y>
+     <x>349</x>
+     <y>171</y>
     </hint>
    </hints>
   </connection>
@@ -925,12 +925,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>189</y>
+     <x>349</x>
+     <y>171</y>
     </hint>
     <hint type="destinationlabel">
-     <x>438</x>
-     <y>309</y>
+     <x>430</x>
+     <y>303</y>
     </hint>
    </hints>
   </connection>
@@ -941,12 +941,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>168</y>
+     <x>319</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>438</x>
-     <y>313</y>
+     <x>430</x>
+     <y>305</y>
     </hint>
    </hints>
   </connection>
@@ -957,8 +957,8 @@
    <slot>setFocus()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>134</y>
+     <x>391</x>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
      <x>318</x>
@@ -973,12 +973,12 @@
    <slot>setFocus()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>344</x>
-     <y>163</y>
+     <x>391</x>
+     <y>158</y>
     </hint>
     <hint type="destinationlabel">
-     <x>350</x>
-     <y>188</y>
+     <x>391</x>
+     <y>186</y>
     </hint>
    </hints>
   </connection>
@@ -989,8 +989,8 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>381</x>
-     <y>190</y>
+     <x>391</x>
+     <y>186</y>
     </hint>
     <hint type="destinationlabel">
      <x>391</x>

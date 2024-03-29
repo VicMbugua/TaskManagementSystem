@@ -1,7 +1,7 @@
 from ui.manage_account_ui import Ui_ManageAccount
 from PyQt5.QtWidgets import QDialog, QMessageBox
-from PyQt5.QtCore import QEvent, Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QEvent, Qt, QRegExp
+from PyQt5.QtGui import QIcon, QRegExpValidator
 from data.database_manager import DatabaseManager
 import ctypes
 
@@ -25,6 +25,9 @@ class ManageAccountDialog(QDialog):
         )
         self.username = username[0][0]
         self.ui.current_username.setText(f"Change username {self.username}.")
+        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
+        self.validator = QRegExpValidator(regex, self.ui.new_username)
+        self.ui.new_username.setValidator(self.validator)
         self.ui.error_message.setText("")
         self.ui.error_message_2.setText("")
         self.ui.error_message_3.setText("")
@@ -37,6 +40,7 @@ class ManageAccountDialog(QDialog):
         self.installEventFilter(self)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
         self.toggle_caps_lock_label()
+        self.clearFocus()
 
     def on_change_username_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -75,13 +79,18 @@ class ManageAccountDialog(QDialog):
         new_username = self.ui.new_username.text()
         username_exists = self.db_manager.check_user(new_username)
         password = self.ui.password.text()
+        valid_username = self.valid_username(new_username)
         valid_password = self.db_manager.check_password(self.username, password)
         if new_username == "" or password == "":
             self.ui.error_message.setText(
                 "Please fill all the fields before continuing."
             )
+        elif valid_username is not True:
+            self.ui.error_message.setText(valid_username)
+            self.ui.new_username.setText("")
+            self.ui.new_username.setFocus() 
         elif username_exists is True:
-            self.ui.error_message.setText("Username already exists.")
+            self.ui.error_message.setText("Username already exists. Enter another name.")
             self.ui.new_username.setText("")
             self.ui.password.setText("")
             self.ui.new_username.setFocus()
@@ -104,6 +113,14 @@ class ManageAccountDialog(QDialog):
             self.ui.current_username.setText(f"Change username {self.username}.")
             self.ui.new_username.setText("")
             self.ui.password.setText("")
+            self.ui.error_message.setText("")
+            
+    def valid_username(self, username):
+        if len(username) < 3:
+            return "Username has to be 3 characters long or longer."
+        if all(username.count(char) == len(username) for char in username):
+            return "Username cannot have only one letter repeated."
+        return True
 
     def handle_reset_2(self):
         """Clears the fields in the change password page."""
@@ -118,6 +135,7 @@ class ManageAccountDialog(QDialog):
         new_password = self.ui.new_password.text()
         confirm_new_password = self.ui.confirm_new_password.text()
         valid_password = self.db_manager.check_password(self.username, current_password)
+        valid_new_password = self.valid_new_password(new_password)
         if current_password == "" or new_password == "" or confirm_new_password == "":
             self.ui.error_message_2.setText(
                 "Please fill all the fields before continuing."
@@ -128,6 +146,11 @@ class ManageAccountDialog(QDialog):
             self.ui.new_password.setText("")
             self.ui.confirm_new_password.setText("")
             self.ui.current_password.setFocus()
+        elif valid_new_password is not True:
+            self.ui.new_password.setText("")
+            self.ui.confirm_new_password.setText("")
+            self.ui.error_message_2.setText(valid_new_password)
+            self.ui.password.setFocus()
         elif new_password != confirm_new_password:
             self.ui.error_message_2.setText("Passwords don't match.")
             self.ui.new_password.setText("")
@@ -146,7 +169,15 @@ class ManageAccountDialog(QDialog):
             self.ui.current_password.setText("")
             self.ui.new_password.setText("")
             self.ui.confirm_new_password.setText("")
+            self.ui.error_message_2.setText("")
 
+    def valid_new_password(self, password):
+        if len(password) < 5:
+            return "The new password has to be 5 characters or longer."
+        if all(password.count(char) == len(password) for char in password):
+            return "The new password cannot have only one character repeated."
+        return True
+    
     def delete_account(self):
         """Deletes the user's account."""
         password = self.ui.password_2.text()
@@ -161,7 +192,7 @@ class ManageAccountDialog(QDialog):
             confirmation = QMessageBox()
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             confirmation.setWindowTitle("Confirmation")
-            confirmation.setText(f"Are you sure you want to delete your account?")
+            confirmation.setText(f"Are you sure you want to delete your account? This action cannot be undone.")
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
             confirmation.setIcon(QMessageBox.Warning)

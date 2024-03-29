@@ -295,10 +295,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.addItem(spacerItem6)
         self.add_project_btn = QtWidgets.QPushButton(self.widget_8)
         self.add_project_btn.setFocusPolicy(QtCore.Qt.TabFocus)
+        self.add_project_btn.setAutoDefault(True)
         self.add_project_btn.setObjectName("add_project_btn")
         self.horizontalLayout_9.addWidget(self.add_project_btn)
         self.manage_project_btn = QtWidgets.QPushButton(self.widget_8)
         self.manage_project_btn.setFocusPolicy(QtCore.Qt.TabFocus)
+        self.manage_project_btn.setAutoDefault(True)
         self.manage_project_btn.setObjectName("manage_project_btn")
         self.horizontalLayout_9.addWidget(self.manage_project_btn)
         self.verticalLayout_5.addWidget(self.widget_8)
@@ -430,7 +432,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(1)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore

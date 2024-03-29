@@ -90,10 +90,6 @@ class SignUpWindow(QMainWindow):
     def valid_username(self, username):
         if len(username) < 3:
             return "Username has to be 3 characters long or longer."
-        if not username[0].isalpha():
-            return "Username can only start with a letter."
-        if not re.match(r"^[a-zA-Z0-9_.]*$", username):
-            return "Username can only have letters, digits, underscores or periods."
         if all(username.count(char) == len(username) for char in username):
             return "Username cannot have only one letter repeated."
         return True

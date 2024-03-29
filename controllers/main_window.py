@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
 
 from controllers.add_project import AddProjectDialog, RenameProjectDialog
 from controllers.arrange import Arrange
-from controllers.edit_tasks import AddTaskDialog, EditTaskDialog
+from controllers.add_tasks import AddTaskDialog, EditTaskDialog
 from controllers.manage_account import ManageAccountDialog
 from controllers.schedule import ScheduleDialog
 from controllers.search import SearchDialog
@@ -58,10 +58,12 @@ class MainWindow(QMainWindow):
         delete_project.triggered.connect(self.delete_project)
         project_button = self.ui.manage_project_btn
         project_button.setMenu(project_menu)
+        project_button.setEnabled(False)
+        project_button.setToolTip("You cannot edit the Default project.")
+        
 
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
-        self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
         self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
         self.ui.clear_all_btn.clicked.connect(self.handle_clear_all)
@@ -94,83 +96,17 @@ class MainWindow(QMainWindow):
     def open_search(self):
         search_dialog = SearchDialog(self.user_id, self)
         search_dialog.show()
+        
+    def open_manage_account(self) -> None:
+        """Opens the dialog responsible for managing the user's account."""
+        manage_account = ManageAccountDialog(self.user_id, self.widget, self)
+        manage_account.setFixedSize(450, 325)
+        manage_account.show()
 
     def logout(self) -> None:
         """It logs you out of the application."""
         self.widget.show()
         self.close()
-
-    def project_list(self) -> None:
-        self.ui.project.clear()
-        projects = self.db_manager.fetch_data(
-            f"SELECT project_name FROM projects WHERE user_id = {self.user_id}"
-        )
-        for row in projects:
-            self.ui.project.addItem(row[0])
-
-    def handle_project_change(self, index) -> None:
-        """Changes the name of a project."""
-        self.project_name = self.ui.project.itemText(index)
-        self.refresh_table()
-        self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
-        self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
-
-    def open_add_project(self) -> None:
-        add_project = AddProjectDialog(self.user_id, self)
-        add_project.setFixedSize(300, 200)
-        add_project.show()
-
-    def rename_project(self):
-        if self.project_name == "Default":
-            information = QMessageBox()
-            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
-            information.setIcon(QMessageBox.Information)
-            information.setText("You cannot rename the Default project.")
-            information.setWindowTitle("Information")
-            information.exec()
-        else:
-            rename_project = RenameProjectDialog(self.user_id, self.project_name, self)
-            rename_project.setFixedSize(300, 200)
-            rename_project.show()
-
-    def delete_project(self) -> None:
-        if self.project_name == "Default":
-            information = QMessageBox()
-            information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
-            information.setIcon(QMessageBox.Information)
-            information.setText("You cannot delete the Default project.")
-            information.setWindowTitle("Information")
-            information.exec()
-        else:
-            confirmation = QMessageBox()
-            confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
-            confirmation.setWindowTitle("Confirmation")
-            confirmation.setText(
-                f'Are you sure you want to delete the project "{self.project_name}"?'
-            )
-            confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-            confirmation.setDefaultButton(QMessageBox.Cancel)
-            confirmation.setIcon(QMessageBox.Warning)
-            response = confirmation.exec()
-            if response == QMessageBox.Yes:
-                self.db_manager.execute_query(
-                    f"DELETE FROM projects WHERE project_name = '{self.project_name}' AND user_id = {self.user_id}"
-                )
-                index: int = self.ui.project.findText(self.project_name)
-                self.ui.project.removeItem(index)
-                self.ui.project.setCurrentIndex(0)
-                self.display_number_of_tasks()
-                self.display_filtered_tasks()
-
-    def open_task_dialog(self) -> None:
-        """Opens the dialog responsible for adding new tasks."""
-        add_task = AddTaskDialog(self.user_id, self.project_name, self)
-        add_task.show()
-
-    def open_manage_account(self) -> None:
-        """Opens the dialog responsible for managing the user's account."""
-        manage_account = ManageAccountDialog(self.user_id, self.widget, self)
-        manage_account.show()
 
     def on_home_btn_1_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -460,6 +396,63 @@ class MainWindow(QMainWindow):
         self.display_filtered_tasks()
         self.display_tasks()
         self.date_changed()
+        
+    def project_list(self) -> None:
+        self.ui.project.clear()
+        projects = self.db_manager.fetch_data(
+            f"SELECT project_name FROM projects WHERE user_id = {self.user_id}"
+        )
+        for row in projects:
+            self.ui.project.addItem(row[0])
+
+    def handle_project_change(self, index) -> None:
+        """Changes the name of a project."""
+        self.project_name = self.ui.project.itemText(index)
+        self.refresh_table()
+        if self.project_name != "Default":
+            self.ui.manage_project_btn.setEnabled(True)
+            self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
+            self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
+        else:
+            self.ui.manage_project_btn.setEnabled(False)
+            self.ui.manage_project_btn.setToolTip("You cannot edit the Default project.")
+
+    def open_add_project(self) -> None:
+        add_project = AddProjectDialog(self.user_id, self)
+        add_project.setFixedSize(330, 220)
+        add_project.show()
+
+    def rename_project(self):
+        rename_project = RenameProjectDialog(self.user_id, self.project_name, self)
+        rename_project.setFixedSize(330, 220)
+        rename_project.show()
+
+    def delete_project(self) -> None:
+        confirmation = QMessageBox()
+        confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+        confirmation.setWindowTitle("Confirmation")
+        confirmation.setText(
+            f'Are you sure you want to delete "{self.project_name}" project?'
+        )
+        confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        confirmation.setDefaultButton(QMessageBox.Cancel)
+        confirmation.setIcon(QMessageBox.Warning)
+        response = confirmation.exec()
+        if response == QMessageBox.Yes:
+            self.db_manager.execute_query(
+                f"DELETE FROM projects WHERE project_name = ? AND user_id = ?", (self.project_name, self.user_id)
+            )
+            index: int = self.ui.project.findText(self.project_name)
+            self.ui.project.removeItem(index)
+            self.ui.project.setCurrentIndex(0)
+            self.display_number_of_tasks()
+            self.display_filtered_tasks()
+
+    def open_task_dialog(self) -> None:
+        """Opens the dialog responsible for adding new tasks."""
+        add_task = AddTaskDialog(self.user_id, self.project_name, self)
+        add_task.setFixedSize(450, 450)
+        add_task.show()
 
     def record_clicked(self, index):
         """Opens the subtasks dialog to add subtasks to a given task when that task is double clicked."""
@@ -500,6 +493,7 @@ class MainWindow(QMainWindow):
         """Opens the edit dialog responsible for editing a given task."""
         task_id = model.index(row, 0).data()
         edit_task_window = EditTaskDialog(task_id, self)
+        edit_task_window.setFixedSize(450, 450)
         edit_task_window.show()
 
     def delete_label(self, label_name):

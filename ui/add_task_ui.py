@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_AddTask(object):
     def setupUi(self, AddTask):
         AddTask.setObjectName("AddTask")
-        AddTask.resize(457, 430)
+        AddTask.resize(450, 450)
         font = QtGui.QFont()
         font.setPointSize(10)
         AddTask.setFont(font)
@@ -131,12 +131,10 @@ class Ui_AddTask(object):
         self.description.setTabChangesFocus(True)
         self.description.setObjectName("description")
         self.verticalLayout.addWidget(self.description)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem6)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem7)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem6)
         self.reset_btn = QtWidgets.QPushButton(AddTask)
         self.reset_btn.setObjectName("reset_btn")
         self.horizontalLayout_6.addWidget(self.reset_btn)
