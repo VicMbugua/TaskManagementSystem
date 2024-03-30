@@ -16,6 +16,9 @@
   <property name="modal">
    <bool>true</bool>
   </property>
+  <property name="groupName" stdset="0">
+   <string/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QWidget" name="widget_2" native="true">
@@ -376,6 +379,9 @@
               <property name="text">
                <string>Reset</string>
               </property>
+              <property name="groupName" stdset="0">
+               <string>common_buttons</string>
+              </property>
              </widget>
             </item>
             <item>
@@ -391,6 +397,9 @@
               </property>
               <property name="text">
                <string>Change Username</string>
+              </property>
+              <property name="groupName" stdset="0">
+               <string>change_button</string>
               </property>
              </widget>
             </item>
@@ -633,6 +642,9 @@
               <property name="text">
                <string>Reset</string>
               </property>
+              <property name="groupName" stdset="0">
+               <string>common_buttons</string>
+              </property>
              </widget>
             </item>
             <item>
@@ -648,6 +660,9 @@
               </property>
               <property name="text">
                <string>Change Password</string>
+              </property>
+              <property name="groupName" stdset="0">
+               <string>change_buttons</string>
               </property>
              </widget>
             </item>
@@ -837,6 +852,9 @@
               <property name="text">
                <string>Reset</string>
               </property>
+              <property name="groupName" stdset="0">
+               <string>common_buttons</string>
+              </property>
              </widget>
             </item>
             <item>
@@ -852,6 +870,9 @@
               </property>
               <property name="text">
                <string>Delete Account</string>
+              </property>
+              <property name="groupName" stdset="0">
+               <string>change_buttons</string>
               </property>
              </widget>
             </item>

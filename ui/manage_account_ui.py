@@ -16,6 +16,7 @@ class Ui_ManageAccount(object):
         ManageAccount.setObjectName("ManageAccount")
         ManageAccount.resize(450, 325)
         ManageAccount.setModal(True)
+        ManageAccount.setProperty("groupName", "")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(ManageAccount)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.widget_2 = QtWidgets.QWidget(ManageAccount)
@@ -317,7 +318,7 @@ class Ui_ManageAccount(object):
         self.verticalLayout_2.addWidget(self.widget_3)
 
         self.retranslateUi(ManageAccount)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         self.exit_btn.clicked.connect(ManageAccount.close) # type: ignore
         self.new_username.returnPressed.connect(self.password.setFocus) # type: ignore
         self.password.returnPressed.connect(self.change_username_btn_2.click) # type: ignore
@@ -356,7 +357,9 @@ class Ui_ManageAccount(object):
         self.caps_lock.setText(_translate("ManageAccount", "Caps Lock"))
         self.error_message.setText(_translate("ManageAccount", "Error Message"))
         self.reset_btn.setText(_translate("ManageAccount", "Reset"))
+        self.reset_btn.setProperty("groupName", _translate("ManageAccount", "common_button"))
         self.change_username_btn_2.setText(_translate("ManageAccount", "Change Username"))
+        self.change_username_btn_2.setProperty("groupName", _translate("ManageAccount", "change_button"))
         self.label_3.setText(_translate("ManageAccount", "Change Password"))
         self.label_6.setText(_translate("ManageAccount", "Current Password:"))
         self.label_8.setText(_translate("ManageAccount", "New Password:"))
@@ -364,11 +367,15 @@ class Ui_ManageAccount(object):
         self.caps_lock_2.setText(_translate("ManageAccount", "Caps Lock"))
         self.error_message_2.setText(_translate("ManageAccount", "Error Message"))
         self.reset_btn_2.setText(_translate("ManageAccount", "Reset"))
+        self.reset_btn_2.setProperty("groupName", _translate("ManageAccount", "common_buttons"))
         self.change_password_btn_2.setText(_translate("ManageAccount", "Change Password"))
+        self.change_password_btn_2.setProperty("groupName", _translate("ManageAccount", "change_buttons"))
         self.label_4.setText(_translate("ManageAccount", "Delete Account"))
         self.label_9.setText(_translate("ManageAccount", "To delete your account input your password"))
         self.label_10.setText(_translate("ManageAccount", "Password:"))
         self.caps_lock_3.setText(_translate("ManageAccount", "Caps Lock"))
         self.error_message_3.setText(_translate("ManageAccount", "Error message"))
         self.reset_btn_3.setText(_translate("ManageAccount", "Reset"))
+        self.reset_btn_3.setProperty("groupName", _translate("ManageAccount", "common_buttons"))
         self.delete_account_btn_2.setText(_translate("ManageAccount", "Delete Account"))
+        self.delete_account_btn_2.setProperty("groupName", _translate("ManageAccount", "change_buttons"))

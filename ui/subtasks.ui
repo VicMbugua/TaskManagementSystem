@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>554</width>
-    <height>376</height>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,6 +89,9 @@
        <property name="text">
         <string>Add SubTask</string>
        </property>
+       <property name="groupName" stdset="0">
+        <string>common_buttons</string>
+       </property>
       </widget>
      </item>
     </layout>
@@ -154,6 +157,9 @@
        </property>
        <property name="text">
         <string>Cancel</string>
+       </property>
+       <property name="groupName" stdset="0">
+        <string>close_buttons</string>
        </property>
       </widget>
      </item>

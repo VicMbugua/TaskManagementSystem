@@ -23,9 +23,9 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     # Loading stylesheet file
-    # with open("ui/style.qss", "r") as style_file:
-    #     style_str = style_file.read()
-    # app.setStyleSheet(style_str)
+    with open("ui/style.qss", "r") as style_file:
+        style_str = style_file.read()
+    app.setStyleSheet(style_str)
 
     window = MyApp()
     sys.exit(app.exec())

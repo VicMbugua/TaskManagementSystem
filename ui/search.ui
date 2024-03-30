@@ -50,6 +50,9 @@
        <property name="text">
         <string>Search</string>
        </property>
+       <property name="groupName" stdset="0">
+        <string>common_buttons</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -62,6 +65,9 @@
        </property>
        <property name="text">
         <string>Show all</string>
+       </property>
+       <property name="groupName" stdset="0">
+        <string>common_buttons</string>
        </property>
       </widget>
      </item>
@@ -273,6 +279,9 @@
        </property>
        <property name="text">
         <string>Cancel</string>
+       </property>
+       <property name="groupName" stdset="0">
+        <string>cancel_buttons</string>
        </property>
       </widget>
      </item>

@@ -272,4 +272,6 @@ class Ui_ScheduleDialog(object):
         self.label_11.setText(_translate("ScheduleDialog", "Fri"))
         self.label_12.setText(_translate("ScheduleDialog", "Sat"))
         self.save_btn.setText(_translate("ScheduleDialog", "Save"))
+        self.save_btn.setProperty("groupName", _translate("ScheduleDialog", "common_buttons"))
         self.cancel_btn.setText(_translate("ScheduleDialog", "Cancel"))
+        self.cancel_btn.setProperty("groupName", _translate("ScheduleDialog", "cancel_buttons"))

@@ -80,4 +80,6 @@ class Ui_AddProject(object):
         self.label.setText(_translate("AddProject", "Project Name:"))
         self.error_message.setText(_translate("AddProject", "Error Message"))
         self.save_btn.setText(_translate("AddProject", "Save"))
+        self.save_btn.setProperty("groupName", _translate("AddProject", "common_buttons"))
         self.cancel_btn.setText(_translate("AddProject", "Cancel"))
+        self.cancel_btn.setProperty("groupName", _translate("AddProject", "cancel_buttons"))

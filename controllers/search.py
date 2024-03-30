@@ -73,6 +73,7 @@ class SearchDialog(QDialog):
     def display_tasks(self):
         """Shows a list of all uncompleted tasks present."""
         self.tasks_table = self.ui.tasks_list
+        self.tasks_table.verticalHeader().setDefaultSectionSize(40)
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started')"""
         result = self.db_manager.fetch_data(query)
@@ -120,6 +121,7 @@ class SearchDialog(QDialog):
         )
         for row in range(self.tasks_model.rowCount()):
             button = QPushButton("Options")
+            button.setProperty("groupName", "options")
             button.setFocusPolicy(Qt.TabFocus)
             button.setToolTip("Click to manage the task.")
             button.setAutoDefault(True)
@@ -172,6 +174,7 @@ class SearchDialog(QDialog):
 
     def display_tasks_by(self, result):
         self.tasks_table = self.ui.tasks_list
+        self.tasks_table.verticalHeader().setDefaultSectionSize(40)
         headers = [
             "Task ID",
             "Tasks Name",
@@ -208,6 +211,7 @@ class SearchDialog(QDialog):
         )
         for row in range(self.grouped_tasks_model.rowCount()):
             button = QPushButton("Options")
+            button.setProperty("groupName", "options")
             button.setFocusPolicy(Qt.TabFocus)
             button.setToolTip("Click to manage the task.")
             button.setAutoDefault(True)
@@ -420,6 +424,7 @@ class SearchDialog(QDialog):
         row = index.row()
         task_id = self.tasks_model.index(row, 0).data()
         subtask = SubtasksDialog(task_id, self)
+        subtask.setFixedSize(550, 400)
         subtask.show()
         
     def record_clicked_2(self, index):
@@ -427,6 +432,7 @@ class SearchDialog(QDialog):
         row = index.row()
         task_id = self.grouped_tasks_model.index(row, 0).data()
         subtask = SubtasksDialog(task_id, self)
+        subtask.setFixedSize(550, 400)
         subtask.show()
 
     def handle_schedule(self, row, model):

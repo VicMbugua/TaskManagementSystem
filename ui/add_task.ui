@@ -403,6 +403,9 @@
        <property name="text">
         <string>Reset</string>
        </property>
+       <property name="groupName" stdset="0">
+        <string>common_buttons</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -413,6 +416,9 @@
        <property name="text">
         <string>Save</string>
        </property>
+       <property name="groupName" stdset="0">
+        <string>common_buttons</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -422,6 +428,9 @@
        </property>
        <property name="text">
         <string>Cancel</string>
+       </property>
+       <property name="groupName" stdset="0">
+        <string>cancel_buttons</string>
        </property>
       </widget>
      </item>

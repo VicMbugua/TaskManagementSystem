@@ -1,3 +1,4 @@
+from ast import Delete
 from datetime import date, datetime
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItem, QStandardItemModel, QIcon
@@ -173,6 +174,7 @@ class MainWindow(QMainWindow):
     def display_filtered_tasks(self):
         """Shows a list of tasks based on their importance."""
         self.filtered_table = self.ui.filtered_tasks
+        self.filtered_table.verticalHeader().setDefaultSectionSize(40)
         schedule = Arrange(self.user_id)
         result = schedule.arrange_tasks()
         headers = [
@@ -204,6 +206,7 @@ class MainWindow(QMainWindow):
         self.setFocusPolicy(Qt.NoFocus)
         for row in range(self.filtered_tasks_model.rowCount()):
             button = QPushButton("Options")
+            button.setProperty("groupName", "options")
             button.setToolTip("Click to manage the task.")
             button.setFocusPolicy(Qt.TabFocus)
             button.setAutoDefault(True)
@@ -268,6 +271,7 @@ class MainWindow(QMainWindow):
         row = index.row()
         task_id = self.filtered_tasks_model.index(row, 0).data()
         subtask = SubtasksDialog(task_id, self)
+        subtask.setFixedSize(550, 400)
         subtask.show()
 
     def handle_started(self, row, model):
@@ -293,6 +297,7 @@ class MainWindow(QMainWindow):
     def display_tasks(self):
         """Shows a list of all uncompleted tasks present."""
         self.tasks_table = self.ui.tasks_list
+        self.tasks_table.verticalHeader().setDefaultSectionSize(40)
         project_id = self.db_manager.fetch_data(
             f"SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (self.user_id, self.project_name)
         )
@@ -338,6 +343,7 @@ class MainWindow(QMainWindow):
         )
         for row in range(self.tasks_model.rowCount()):
             button = QPushButton("Options")
+            button.setProperty("groupName", "options")
             button.setToolTip("Click to manage the task.")
             button.setFocusPolicy(Qt.TabFocus)
             button.setAutoDefault(True)
@@ -459,6 +465,7 @@ class MainWindow(QMainWindow):
         row = index.row()
         task_id = self.tasks_model.index(row, 0).data()
         subtask = SubtasksDialog(task_id, self)
+        subtask.setFixedSize(550, 400)
         subtask.show()
 
     def handle_schedule(self, row, model):
@@ -536,6 +543,7 @@ class MainWindow(QMainWindow):
     def display_completed_tasks(self):
         """Shows a list of all completed tasks present."""
         table = self.ui.completed_tasks
+        table.verticalHeader().setDefaultSectionSize(40)
         query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
         FROM tasks WHERE status = 'Completed' AND user_id = {self.user_id}"""
         result = self.db_manager.fetch_data(query)
@@ -567,6 +575,7 @@ class MainWindow(QMainWindow):
         )
         for row in range(self.completed_tasks_model.rowCount()):
             button = QPushButton("Options")
+            button.setProperty("groupName", "options")
             button.setToolTip("Click to manage the task.")
             button.setFocusPolicy(Qt.TabFocus)
             menu = QMenu()

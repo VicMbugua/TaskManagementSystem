@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_SubtaskWindow(object):
     def setupUi(self, SubtaskWindow):
         SubtaskWindow.setObjectName("SubtaskWindow")
-        SubtaskWindow.resize(554, 376)
+        SubtaskWindow.resize(554, 314)
         SubtaskWindow.setModal(True)
         self.verticalLayout = QtWidgets.QVBoxLayout(SubtaskWindow)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -97,5 +97,7 @@ class Ui_SubtaskWindow(object):
         self.task_name.setText(_translate("SubtaskWindow", "Task Name"))
         self.label.setText(_translate("SubtaskWindow", "Enter Subtask Name"))
         self.add_subtask_btn.setText(_translate("SubtaskWindow", "Add SubTask"))
+        self.add_subtask_btn.setProperty("groupName", _translate("SubtaskWindow", "common_buttons"))
         self.label_2.setText(_translate("SubtaskWindow", "Subtasks List:"))
         self.cancel_btn.setText(_translate("SubtaskWindow", "Cancel"))
+        self.cancel_btn.setProperty("groupName", _translate("SubtaskWindow", "close_buttons"))

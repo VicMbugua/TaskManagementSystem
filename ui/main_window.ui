@@ -93,6 +93,9 @@
             <property name="autoDefault">
              <bool>true</bool>
             </property>
+            <property name="groupName" stdset="0">
+             <string/>
+            </property>
            </widget>
           </item>
           <item>
@@ -170,6 +173,9 @@
                <property name="autoDefault">
                 <bool>true</bool>
                </property>
+               <property name="groupName" stdset="0">
+                <string/>
+               </property>
               </widget>
              </item>
              <item>
@@ -198,6 +204,9 @@
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
+               </property>
+               <property name="groupName" stdset="0">
+                <string/>
                </property>
               </widget>
              </item>
@@ -228,6 +237,9 @@
                <property name="autoDefault">
                 <bool>true</bool>
                </property>
+               <property name="groupName" stdset="0">
+                <string/>
+               </property>
               </widget>
              </item>
              <item>
@@ -256,6 +268,9 @@
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
+               </property>
+               <property name="groupName" stdset="0">
+                <string/>
                </property>
               </widget>
              </item>
@@ -289,6 +304,9 @@
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
+               </property>
+               <property name="groupName" stdset="0">
+                <string/>
                </property>
               </widget>
              </item>
@@ -343,6 +361,9 @@
                <property name="autoDefault">
                 <bool>true</bool>
                </property>
+               <property name="groupName" stdset="0">
+                <string/>
+               </property>
               </widget>
              </item>
              <item>
@@ -368,6 +389,9 @@
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
+               </property>
+               <property name="groupName" stdset="0">
+                <string/>
                </property>
               </widget>
              </item>
@@ -398,6 +422,9 @@
                <property name="autoDefault">
                 <bool>true</bool>
                </property>
+               <property name="groupName" stdset="0">
+                <string/>
+               </property>
               </widget>
              </item>
              <item>
@@ -423,6 +450,9 @@
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
+               </property>
+               <property name="groupName" stdset="0">
+                <string/>
                </property>
               </widget>
              </item>
@@ -453,6 +483,9 @@
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
+               </property>
+               <property name="groupName" stdset="0">
+                <string/>
                </property>
               </widget>
              </item>
@@ -541,6 +574,9 @@
             <property name="autoDefault">
              <bool>true</bool>
             </property>
+            <property name="groupName" stdset="0">
+             <string>top_buttons</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -561,6 +597,9 @@
             <property name="autoDefault">
              <bool>true</bool>
             </property>
+            <property name="groupName" stdset="0">
+             <string>top_buttons</string>
+            </property>
            </widget>
           </item>
          </layout>
@@ -569,7 +608,10 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
+         </property>
+         <property name="groupName" stdset="0">
+          <string/>
          </property>
          <widget class="QWidget" name="home_page">
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -689,7 +731,16 @@
              <property name="focusPolicy">
               <enum>Qt::TabFocus</enum>
              </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
              <property name="tabKeyNavigation">
+              <bool>false</bool>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="showGrid">
               <bool>false</bool>
              </property>
             </widget>
@@ -751,6 +802,9 @@
                 <property name="autoDefault">
                  <bool>true</bool>
                 </property>
+                <property name="groupName" stdset="0">
+                 <string>project_buttons</string>
+                </property>
                </widget>
               </item>
               <item>
@@ -763,6 +817,9 @@
                 </property>
                 <property name="autoDefault">
                  <bool>true</bool>
+                </property>
+                <property name="groupName" stdset="0">
+                 <string>project_buttons</string>
                 </property>
                </widget>
               </item>
@@ -826,6 +883,9 @@
              <property name="alternatingRowColors">
               <bool>true</bool>
              </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -863,6 +923,9 @@
                 </property>
                 <property name="autoDefault">
                  <bool>true</bool>
+                </property>
+                <property name="groupName" stdset="0">
+                 <string>common_buttons</string>
                 </property>
                </widget>
               </item>
@@ -945,6 +1008,15 @@
              <property name="tabKeyNavigation">
               <bool>false</bool>
              </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -975,6 +1047,9 @@
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
+               </property>
+               <property name="groupName" stdset="0">
+                <string>cancel_buttons</string>
                </property>
               </widget>
              </item>
