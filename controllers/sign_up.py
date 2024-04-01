@@ -1,5 +1,6 @@
 import ctypes
 import re
+import hashlib
 from PyQt5.QtCore import QEvent, Qt, QRegExp
 from PyQt5.QtGui import QIcon, QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
@@ -78,7 +79,9 @@ class SignUpWindow(QMainWindow):
             self.ui.error_message.setText("Passwords don't match")
             self.ui.password.setFocus()
         else:
-            self.db_manager.add_user(username, password)
+            bytes_password = password.encode()
+            hashed_password = hashlib.sha256(bytes_password).hexdigest()
+            self.db_manager.add_user(username, hashed_password)
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             information.setIcon(QMessageBox.Information)

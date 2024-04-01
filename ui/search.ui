@@ -40,7 +40,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="task_search"/>
+      <widget class="QLineEdit" name="task_search">
+       <property name="placeholderText">
+        <string>Type here to search...</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="search_btn_2">

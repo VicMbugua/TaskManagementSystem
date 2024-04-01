@@ -1,17 +1,38 @@
 /* QMainWindow, QWidget{
     background-color: rgb(174, 208, 252);
 } */
+
+QPushButton[groupName="top_login"]{
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(41, 99, 224);
+    color: white;
+}
+QPushButton[groupName="top_login"]:hover{
+    background-color: rgb(0, 255, 255);
+    color: black;
+}
+QPushButton[groupName="bottom_login"]{
+    border: 1px solid rgb(41, 99, 224);
+    border-radius: 5px;
+    background-color: white;
+}
+QPushButton[groupName="bottom_login"]:hover{
+    background-color: rgb(0, 255, 255);
+    color: black;
+    border: none;
+}
 QLineEdit {
     background-color: white;
     border-radius: 2px;
     border: 1px solid black;
     height: 20px;
 }
-QPushButton.search-btn {
+/* QPushButton.search-btn {
     background-color: blue;
     border-radius: 2px;
     height: 24px;
-}
+} */
 QWidget#navbar_widget QPushButton{
 	background-color: lightblue;
 	min-height: 25;
@@ -43,14 +64,14 @@ QWidget#full_name_widget QPushButton{
     text-align: left;
 }
 QPushButton[groupName="top_buttons"]{
-    background-color: blue;
+    background-color: rgb(25, 94, 255);
     border: none;
     height: 28px;
     width: 28px;
     border-radius: 2px;
 }
 QPushButton[groupName="common_buttons"], QPushButton[groupName="cancel_buttons"], QPushButton[groupName="options"]{
-    background-color: blue;
+    background-color: rgb(25, 94, 255);
     border: none;
     height: 25px;
     width: 75px;
@@ -70,7 +91,7 @@ QPushButton[groupName="cancel_buttons"]:hover{
     background-color: rgba(255, 0, 0, 0.719);
 }
 QPushButton[groupName="project_buttons"]{
-    background-color: blue;
+    background-color: rgb(25, 94, 255);
     border: none;
     height: 25px;
     width: 100px;

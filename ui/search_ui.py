@@ -128,6 +128,7 @@ class Ui_SearchDialog(object):
         _translate = QtCore.QCoreApplication.translate
         SearchDialog.setWindowTitle(_translate("SearchDialog", "Search"))
         self.label.setText(_translate("SearchDialog", "Search tasks:"))
+        self.task_search.setPlaceholderText(_translate("SearchDialog", "Type here to search..."))
         self.search_btn_2.setText(_translate("SearchDialog", "Search"))
         self.search_btn_2.setProperty("groupName", _translate("SearchDialog", "common_buttons"))
         self.show_all_btn.setToolTip(_translate("SearchDialog", "Show all tasks"))

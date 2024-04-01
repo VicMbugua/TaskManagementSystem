@@ -108,31 +108,11 @@ class Ui_LogIn(object):
         self.login_btn = QtWidgets.QPushButton(self.centralwidget)
         self.login_btn.setMinimumSize(QtCore.QSize(0, 25))
         self.login_btn.setFocusPolicy(QtCore.Qt.TabFocus)
-        self.login_btn.setStyleSheet("QPushButton{\n"
-"border: none;\n"
-"border-radius: 5px;\n"
-"background-color: rgb(41, 99, 224);\n"
-"color: white;\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(0, 255, 255);\n"
-"color: black;\n"
-"}")
         self.login_btn.setAutoDefault(True)
         self.login_btn.setObjectName("login_btn")
         self.verticalLayout.addWidget(self.login_btn)
         self.sign_up_btn = QtWidgets.QPushButton(self.centralwidget)
         self.sign_up_btn.setMinimumSize(QtCore.QSize(65, 20))
-        self.sign_up_btn.setStyleSheet("QPushButton{\n"
-"border: 1px solid rgb(41, 99, 224);\n"
-"border-radius: 5px;\n"
-"background-color: white;\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(0, 255, 255);\n"
-"color: black;\n"
-"border: none;\n"
-"}")
         self.sign_up_btn.setAutoDefault(True)
         self.sign_up_btn.setObjectName("sign_up_btn")
         self.verticalLayout.addWidget(self.sign_up_btn)
@@ -155,5 +135,7 @@ class Ui_LogIn(object):
         self.error_message.setText(_translate("LogIn", "Error message"))
         self.caps_lock.setText(_translate("LogIn", "Cap locks"))
         self.login_btn.setText(_translate("LogIn", "Login"))
+        self.login_btn.setProperty("groupName", _translate("LogIn", "top_login"))
         self.sign_up_btn.setToolTip(_translate("LogIn", "<html><head/><body><p>Create a new account.</p></body></html>"))
         self.sign_up_btn.setText(_translate("LogIn", "Sign Up"))
+        self.sign_up_btn.setProperty("groupName", _translate("LogIn", "bottom_login"))

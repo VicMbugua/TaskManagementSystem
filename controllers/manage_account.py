@@ -1,3 +1,4 @@
+import hashlib
 from ui.manage_account_ui import Ui_ManageAccount
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from PyQt5.QtCore import QEvent, Qt, QRegExp
@@ -79,8 +80,10 @@ class ManageAccountDialog(QDialog):
         new_username = self.ui.new_username.text()
         username_exists = self.db_manager.check_user(new_username)
         password = self.ui.password.text()
+        bytes_password = password.encode()
+        hashed_password = hashlib.sha256(bytes_password).hexdigest()
         valid_username = self.valid_username(new_username)
-        valid_password = self.db_manager.check_password(self.username, password)
+        valid_password = self.db_manager.check_password(self.username, hashed_password)
         if new_username == "" or password == "":
             self.ui.error_message.setText(
                 "Please fill all the fields before continuing."
@@ -134,7 +137,9 @@ class ManageAccountDialog(QDialog):
         current_password = self.ui.current_password.text()
         new_password = self.ui.new_password.text()
         confirm_new_password = self.ui.confirm_new_password.text()
-        valid_password = self.db_manager.check_password(self.username, current_password)
+        bytes_password = current_password.encode()
+        hashed_password = hashlib.sha256(bytes_password).hexdigest()
+        valid_password = self.db_manager.check_password(self.username, hashed_password)
         valid_new_password = self.valid_new_password(new_password)
         if current_password == "" or new_password == "" or confirm_new_password == "":
             self.ui.error_message_2.setText(
@@ -157,8 +162,10 @@ class ManageAccountDialog(QDialog):
             self.ui.confirm_new_password.setText("")
             self.ui.new_password.setFocus()
         else:
+            bytes_password = new_password.encode()
+            hashed_password = hashlib.sha256(bytes_password).hexdigest()
             self.db_manager.execute_query(
-                f"UPDATE users SET password = '{new_password}' WHERE user_id = {self.user_id}"
+                f"UPDATE users SET password = ? WHERE user_id = ?", (hashed_password, self.user_id)
             )
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
@@ -181,7 +188,9 @@ class ManageAccountDialog(QDialog):
     def delete_account(self):
         """Deletes the user's account."""
         password = self.ui.password_2.text()
-        valid_password = self.db_manager.check_password(self.username, password)
+        bytes_password = password.encode()
+        hashed_password = hashlib.sha256(bytes_password).hexdigest()
+        valid_password = self.db_manager.check_password(self.username, hashed_password)
         if password == "":
             self.ui.error_message_3.setText("Please enter your password.")
         elif valid_password is False:

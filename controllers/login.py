@@ -1,4 +1,5 @@
 import ctypes
+import hashlib
 from PyQt5.QtCore import QEvent, Qt, QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow
@@ -52,9 +53,11 @@ class LoginWindow(QMainWindow):
         """Checks if the username and password are correct then logins the user if they are correct."""
         username: str = self.ui.username.text().lower().strip()
         password: str = self.ui.password.text()
+        bytes_password = password.encode()
+        hashed_password = hashlib.sha256(bytes_password).hexdigest()
 
         valid_user: bool = self.db_manager.check_user(username)
-        valid_password: bool = self.db_manager.check_password(username, password)
+        valid_password: bool = self.db_manager.check_password(username, hashed_password)
         if username == "" or password == "":
             self.ui.error_message.setText(
                 "Please fill all the fields before continuing."
