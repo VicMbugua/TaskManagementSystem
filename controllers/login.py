@@ -55,7 +55,6 @@ class LoginWindow(QMainWindow):
         password: str = self.ui.password.text()
         bytes_password = password.encode()
         hashed_password = hashlib.sha256(bytes_password).hexdigest()
-
         valid_user: bool = self.db_manager.check_user(username)
         valid_password: bool = self.db_manager.check_password(username, hashed_password)
         if username == "" or password == "":
@@ -73,7 +72,7 @@ class LoginWindow(QMainWindow):
         else:
             self.widget.close()
             self.user_id = self.db_manager.fetch_data(
-                f"SELECT user_id FROM users WHERE username = '{username}'"
+                f"SELECT user_id FROM users WHERE username = ?", (username, )
             )
             self.user_id = int(self.user_id[0][0])
             window = MainWindow(self.user_id, self.widget)
