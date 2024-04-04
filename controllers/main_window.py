@@ -1,16 +1,7 @@
-from ast import Delete
 from datetime import date, datetime
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItem, QStandardItemModel, QIcon
-from PyQt5.QtWidgets import (
-    QMainWindow,
-    QMessageBox,
-    QAbstractItemView,
-    QMenu,
-    QAction,
-    QPushButton,
-)
-
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QAbstractItemView, QMenu, QAction, QPushButton
 from controllers.add_project import AddProjectDialog, RenameProjectDialog
 from controllers.arrange import Arrange
 from controllers.add_tasks import AddTaskDialog, EditTaskDialog
@@ -61,12 +52,12 @@ class MainWindow(QMainWindow):
         project_button.setMenu(project_menu)
         project_button.setEnabled(False)
         project_button.setToolTip("You cannot edit the Default project.")
-        
 
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
-        self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
+        self.ui.add_task_btn.setToolTip(
+            f"Add new task to {self.project_name} project")
         self.ui.clear_all_btn.clicked.connect(self.handle_clear_all)
         self.display_day_tasks(date=date.today())
         self.installEventFilter(self)
@@ -97,7 +88,7 @@ class MainWindow(QMainWindow):
     def open_search(self):
         search_dialog = SearchDialog(self.user_id, self)
         search_dialog.show()
-        
+
     def open_manage_account(self) -> None:
         """Opens the dialog responsible for managing the user's account."""
         manage_account = ManageAccountDialog(self.user_id, self.widget, self)
@@ -146,19 +137,22 @@ class MainWindow(QMainWindow):
         if overdue_tasks == 0:
             self.ui.no_of_overdue_tasks.setText("You have no overdue tasks")
         else:
-            self.ui.no_of_overdue_tasks.setText(f"Number of overdue tasks: {overdue_tasks}")
-        query = f"SELECT COUNT(*) FROM tasks WHERE user_id = {self.user_id} AND status = 'Completed'"
+            self.ui.no_of_overdue_tasks.setText(
+                f"Number of overdue tasks: {overdue_tasks}")
+        query = f"SELECT COUNT(*) FROM tasks WHERE user_id = {
+            self.user_id} AND status = 'Completed'"
         completed_tasks = self.db_manager.fetch_data(query)
         completed_tasks = completed_tasks[0][0]
         if completed_tasks == 0:
-            self.ui.number_of_completed_tasks.setText("You have no completed task.")
+            self.ui.number_of_completed_tasks.setText(
+                "You have no completed task.")
         else:
-            self.ui.number_of_completed_tasks.setText(f"Number of completed tasks: {completed_tasks}")
-            
+            self.ui.number_of_completed_tasks.setText(
+                f"Number of completed tasks: {completed_tasks}")
 
     def passed_tasks(self):
         today = date.today().strftime("%Y-%m-%d")
-        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
+        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at
         FROM tasks WHERE user_id = {self.user_id} AND (status = 'Not Started' OR status = 'Started')"""
         result = self.db_manager.fetch_data(query)
         result.pop(0)
@@ -188,12 +182,14 @@ class MainWindow(QMainWindow):
             "Created At",
             "Options",
         ]
-        self.filtered_tasks_model = QStandardItemModel(len(result), len(headers))
+        self.filtered_tasks_model = QStandardItemModel(
+            len(result), len(headers))
         self.filtered_tasks_model.setHorizontalHeaderLabels(headers)
         for row_num, row_data in enumerate(result):
             for col_num, col_data in enumerate(row_data):
                 item = QStandardItem(str(col_data))
-                item.setToolTip(f"Double click to add subtasks for {row_data[1]}.")
+                item.setToolTip(
+                    f"Double click to add subtasks for {row_data[1]}.")
                 self.filtered_tasks_model.setItem(row_num, col_num, item)
         self.filtered_table.setModel(self.filtered_tasks_model)
         self.filtered_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -219,23 +215,24 @@ class MainWindow(QMainWindow):
             not_started_action = QAction("Not Started", self)
             status = self.filtered_tasks_model.index(row, 5).data()
             schedule_action.triggered.connect(
-                lambda index, row=row: self.handle_schedule(row, self.filtered_tasks_model)
+                lambda index, row=row: self.handle_schedule(
+                    row, self.filtered_tasks_model)
             )
             done_action.triggered.connect(
-                lambda index, row=row: self.handle_done(row, self.filtered_tasks_model)
+                lambda index, row=row: self.handle_done(
+                    row, self.filtered_tasks_model)
             )
             edit_action.triggered.connect(
-                lambda index, row=row: self.handle_edit(row, self.filtered_tasks_model)
+                lambda index, row=row: self.handle_edit(
+                    row, self.filtered_tasks_model)
             )
             delete_action.triggered.connect(
                 lambda index, row=row: self.handle_delete(
-                    row, self.filtered_tasks_model
-                )
+                    row, self.filtered_tasks_model)
             )
             started_action.triggered.connect(
                 lambda index, row=row: self.handle_started(
-                    row, self.filtered_tasks_model
-                )
+                    row, self.filtered_tasks_model)
             )
             not_started_action.triggered.connect(
                 lambda index, row=row: self.handle_not_started(
@@ -256,7 +253,8 @@ class MainWindow(QMainWindow):
             edit_action.setToolTip("Edit the given task.")
             delete_action.setToolTip("Delete the given task.")
             started_action.setToolTip("Mark the given task as started.")
-            not_started_action.setToolTip("Mark the given task as not started.")
+            not_started_action.setToolTip(
+                "Mark the given task as not started.")
             button.setMenu(menu)
             self.filtered_table.setIndexWidget(
                 self.filtered_tasks_model.index(
@@ -286,7 +284,8 @@ class MainWindow(QMainWindow):
         """Changes the status of a task to not started."""
         task_id = model.index(row, 0).data()
         self.db_manager.execute_query(
-            f"UPDATE tasks SET status = 'Not Started' WHERE task_id = {task_id}"
+            f"UPDATE tasks SET status = 'Not Started' WHERE task_id = {
+                task_id}"
         )
         self.refresh_table()
 
@@ -299,10 +298,11 @@ class MainWindow(QMainWindow):
         self.tasks_table = self.ui.tasks_list
         self.tasks_table.verticalHeader().setDefaultSectionSize(40)
         project_id = self.db_manager.fetch_data(
-            f"SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (self.user_id, self.project_name)
+            f"SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (
+                self.user_id, self.project_name)
         )
         project_id = project_id[0][0]
-        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
+        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at
         FROM tasks WHERE user_id = {self.user_id} AND project_id = {project_id} AND (status = 'Not Started' OR status = 'Started')"""
         result = self.db_manager.fetch_data(query)
         default_task = True
@@ -325,7 +325,8 @@ class MainWindow(QMainWindow):
         for row_num, row_data in enumerate(result):
             for col_num, col_data in enumerate(row_data):
                 item = QStandardItem(str(col_data))
-                item.setToolTip(f"Double click to add subtasks for {row_data[1]}.")
+                item.setToolTip(
+                    f"Double click to add subtasks for {row_data[1]}.")
                 self.tasks_model.setItem(row_num, col_num, item)
         self.tasks_table.setModel(self.tasks_model)
         self.tasks_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -335,7 +336,8 @@ class MainWindow(QMainWindow):
         else:
             self.tasks_table.setRowHidden(0, False)
         self.tasks_table.resizeColumnsToContents()
-        self.tasks_table.setColumnWidth(self.tasks_model.columnCount() - 1, 100)
+        self.tasks_table.setColumnWidth(
+            self.tasks_model.columnCount() - 1, 100)
         self.tasks_table.setSortingEnabled(True)
         self.tasks_table.doubleClicked.connect(self.record_clicked)
         self.tasks_table.sortByColumn(
@@ -355,7 +357,8 @@ class MainWindow(QMainWindow):
             started_action = QAction("Started", self)
             not_started_action = QAction("Not Started", self)
             schedule_action.triggered.connect(
-                lambda index, row=row: self.handle_schedule(row, self.tasks_model)
+                lambda index, row=row: self.handle_schedule(
+                    row, self.tasks_model)
             )
             done_action.triggered.connect(
                 lambda index, row=row: self.handle_done(row, self.tasks_model)
@@ -364,13 +367,16 @@ class MainWindow(QMainWindow):
                 lambda index, row=row: self.handle_edit(row, self.tasks_model)
             )
             delete_action.triggered.connect(
-                lambda index, row=row: self.handle_delete(row, self.tasks_model)
+                lambda index, row=row: self.handle_delete(
+                    row, self.tasks_model)
             )
             started_action.triggered.connect(
-                lambda index, row=row: self.handle_started(row, self.tasks_model)
+                lambda index, row=row: self.handle_started(
+                    row, self.tasks_model)
             )
             not_started_action.triggered.connect(
-                lambda index, row=row: self.handle_not_started(row, self.tasks_model)
+                lambda index, row=row: self.handle_not_started(
+                    row, self.tasks_model)
             )
             menu.addAction(schedule_action)
             status = self.tasks_model.index(row, 5).data()
@@ -387,11 +393,13 @@ class MainWindow(QMainWindow):
             edit_action.setToolTip("Edit the given task.")
             delete_action.setToolTip("Delete the given task.")
             started_action.setToolTip("Mark the given task as started.")
-            not_started_action.setToolTip("Mark the given task as not started.")
+            not_started_action.setToolTip(
+                "Mark the given task as not started.")
             button.setMenu(menu)
-            
+
             self.tasks_table.setIndexWidget(
-                self.tasks_model.index(row, self.tasks_model.columnCount() - 1), button
+                self.tasks_model.index(
+                    row, self.tasks_model.columnCount() - 1), button
             )
         self.show()
 
@@ -402,7 +410,7 @@ class MainWindow(QMainWindow):
         self.display_filtered_tasks()
         self.display_tasks()
         self.date_changed()
-        
+
     def project_list(self) -> None:
         self.ui.project.clear()
         projects = self.db_manager.fetch_data(
@@ -417,11 +425,14 @@ class MainWindow(QMainWindow):
         self.refresh_table()
         if self.project_name != "Default":
             self.ui.manage_project_btn.setEnabled(True)
-            self.ui.manage_project_btn.setToolTip(f"Rename or delete {self.project_name} project")
-            self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project")
+            self.ui.manage_project_btn.setToolTip(
+                f"Rename or delete {self.project_name} project")
+            self.ui.add_task_btn.setToolTip(
+                f"Add new task to {self.project_name} project")
         else:
             self.ui.manage_project_btn.setEnabled(False)
-            self.ui.manage_project_btn.setToolTip("You cannot edit the Default project.")
+            self.ui.manage_project_btn.setToolTip(
+                "You cannot edit the Default project.")
 
     def open_add_project(self) -> None:
         add_project = AddProjectDialog(self.user_id, self)
@@ -429,7 +440,8 @@ class MainWindow(QMainWindow):
         add_project.show()
 
     def rename_project(self):
-        rename_project = RenameProjectDialog(self.user_id, self.project_name, self)
+        rename_project = RenameProjectDialog(
+            self.user_id, self.project_name, self)
         rename_project.setFixedSize(330, 220)
         rename_project.show()
 
@@ -446,7 +458,8 @@ class MainWindow(QMainWindow):
         response = confirmation.exec()
         if response == QMessageBox.Yes:
             self.db_manager.execute_query(
-                f"DELETE FROM projects WHERE project_name = ? AND user_id = ?", (self.project_name, self.user_id)
+                f"DELETE FROM projects WHERE project_name = ? AND user_id = ?", (
+                    self.project_name, self.user_id)
             )
             index: int = self.ui.project.findText(self.project_name)
             self.ui.project.removeItem(index)
@@ -483,13 +496,15 @@ class MainWindow(QMainWindow):
         confirmation = QMessageBox()
         confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
         confirmation.setWindowTitle("Confirmation")
-        confirmation.setText(f"Are you sure you want to mark {tasks_name} as done?")
+        confirmation.setText(f"Are you sure you want to mark {
+                             tasks_name} as done?")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
         confirmation.setIcon(QMessageBox.Warning)
         response = confirmation.exec()
         if response == QMessageBox.Yes:
-            query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {task_id}"
+            query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {
+                task_id}"
             self.db_manager.execute_query(query)
             self.db_manager.delete_schedules(task_id)
             self.refresh_table()
@@ -528,7 +543,8 @@ class MainWindow(QMainWindow):
         confirmation.setIcon(QMessageBox.Warning)
         response = confirmation.exec()
         if response == QMessageBox.Yes:
-            label_name = self.db_manager.fetch_data(f"SELECT label_name FROM tasks WHERE task_id = {task_id}")
+            label_name = self.db_manager.fetch_data(
+                f"SELECT label_name FROM tasks WHERE task_id = {task_id}")
             label_name = label_name[0][0]
             self.db_manager.remove_task(task_id)
             self.delete_label(label_name)
@@ -544,7 +560,7 @@ class MainWindow(QMainWindow):
         """Shows a list of all completed tasks present."""
         table = self.ui.completed_tasks
         table.verticalHeader().setDefaultSectionSize(40)
-        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at 
+        query = f"""SELECT task_id, task_name, priority, due_date, label_name, status, description, created_at
         FROM tasks WHERE status = 'Completed' AND user_id = {self.user_id}"""
         result = self.db_manager.fetch_data(query)
         headers = [
@@ -558,7 +574,8 @@ class MainWindow(QMainWindow):
             "Created At",
             "Options",
         ]
-        self.completed_tasks_model = QStandardItemModel(len(result), len(headers))
+        self.completed_tasks_model = QStandardItemModel(
+            len(result), len(headers))
         self.completed_tasks_model.setHorizontalHeaderLabels(headers)
         for row_num, row_data in enumerate(result):
             for col_num, col_data in enumerate(row_data):
@@ -612,28 +629,33 @@ class MainWindow(QMainWindow):
         tasks_name = tasks_name[0][0]
         confirmation = QMessageBox()
         confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
-        confirmation.setText(f"Are you sure you want to mark {tasks_name} as not done")
+        confirmation.setText(f"Are you sure you want to mark {
+                             tasks_name} as not done")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
         confirmation.setIcon(QMessageBox.Warning)
         confirmation.setWindowTitle("Confirmation")
         response = confirmation.exec()
         if response == QMessageBox.Yes:
-            query = f"UPDATE tasks SET status = 'Started' WHERE task_id = {task_id}"
+            query = f"UPDATE tasks SET status = 'Started' WHERE task_id = {
+                task_id}"
             self.db_manager.execute_query(query)
             self.refresh_table()
             self.display_completed_tasks()
             self.display_number_of_tasks()
-            
+
     def handle_clear_all(self):
-        query = f"SELECT COUNT(*) FROM tasks WHERE user_id = {self.user_id} AND status = 'Completed'"
+        query = f"SELECT COUNT(*) FROM tasks WHERE user_id = {
+            self.user_id} AND status = 'Completed'"
         completed_tasks = self.db_manager.fetch_data(query)
         completed_tasks = completed_tasks[0][0]
         if completed_tasks != 0:
             confirmation = QMessageBox()
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
-            confirmation.setText(f"Are you sure you want to delete all completed tasks?")
-            confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            confirmation.setText(
+                f"Are you sure you want to delete all completed tasks?")
+            confirmation.setStandardButtons(
+                QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
             confirmation.setIcon(QMessageBox.Warning)
             confirmation.setWindowTitle("Confirmation")
@@ -664,16 +686,19 @@ class MainWindow(QMainWindow):
     def display_day_tasks(self, date):
         """Shows a list of tasks scheduled for that day."""
         self.calendar_table = self.ui.calendar_table
-        query = f"""SELECT task_id, start_time, end_time FROM schedules WHERE date = '{date}' and user_id={self.user_id}"""
+        query = f"""SELECT task_id, start_time, end_time FROM schedules WHERE date = '{
+            date}' and user_id={self.user_id}"""
         result = self.db_manager.fetch_data(query)
         headers = ["Task Name", "Start Time", "End Time"]
-        self.calendar_tasks_model = QStandardItemModel(len(result), len(headers))
+        self.calendar_tasks_model = QStandardItemModel(
+            len(result), len(headers))
         self.calendar_tasks_model.setHorizontalHeaderLabels(headers)
         for row_num, row_data in enumerate(result):
             for col_num, col_data in enumerate(row_data):
                 if col_num == 0:
                     task_name = self.db_manager.fetch_data(
-                        f"SELECT task_name FROM tasks WHERE task_id = {col_data}"
+                        f"SELECT task_name FROM tasks WHERE task_id = {
+                            col_data}"
                     )
                     item = QStandardItem(task_name[0][0])
                 else:

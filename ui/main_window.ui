@@ -94,7 +94,7 @@
              <bool>true</bool>
             </property>
             <property name="groupName" stdset="0">
-             <string/>
+             <string>nav_icon_buttons</string>
             </property>
            </widget>
           </item>
@@ -174,7 +174,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_icon_buttons</string>
                </property>
               </widget>
              </item>
@@ -206,7 +206,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_icon_buttons</string>
                </property>
               </widget>
              </item>
@@ -238,7 +238,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_icon_buttons</string>
                </property>
               </widget>
              </item>
@@ -270,7 +270,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_icon_buttons</string>
                </property>
               </widget>
              </item>
@@ -306,7 +306,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_icon_buttons</string>
                </property>
               </widget>
              </item>
@@ -362,7 +362,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_buttons</string>
                </property>
               </widget>
              </item>
@@ -391,7 +391,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_buttons</string>
                </property>
               </widget>
              </item>
@@ -423,7 +423,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_buttons</string>
                </property>
               </widget>
              </item>
@@ -452,7 +452,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_buttons</string>
                </property>
               </widget>
              </item>
@@ -485,7 +485,7 @@
                 <bool>true</bool>
                </property>
                <property name="groupName" stdset="0">
-                <string/>
+                <string>nav_buttons</string>
                </property>
               </widget>
              </item>
@@ -608,7 +608,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="groupName" stdset="0">
           <string/>
@@ -1092,9 +1092,6 @@
             <widget class="QCalendarWidget" name="calendar">
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="toolTip">
-              <string>Click to see tasks scheduled for this date</string>
              </property>
             </widget>
            </item>

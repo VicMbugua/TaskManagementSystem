@@ -110,6 +110,9 @@
            <property name="autoDefault">
             <bool>false</bool>
            </property>
+           <property name="groupName" stdset="0">
+            <string>nav_buttons</string>
+           </property>
           </widget>
          </item>
          <item>
@@ -132,6 +135,9 @@
            <property name="autoDefault">
             <bool>false</bool>
            </property>
+           <property name="groupName" stdset="0">
+            <string>nav_buttons</string>
+           </property>
           </widget>
          </item>
          <item>
@@ -153,6 +159,9 @@
            </property>
            <property name="autoDefault">
             <bool>false</bool>
+           </property>
+           <property name="groupName" stdset="0">
+            <string>nav_buttons</string>
            </property>
           </widget>
          </item>
@@ -179,6 +188,9 @@
            </property>
            <property name="autoDefault">
             <bool>true</bool>
+           </property>
+           <property name="groupName" stdset="0">
+            <string>nav_buttons</string>
            </property>
           </widget>
          </item>
@@ -241,9 +253,15 @@
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QLabel" name="label_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
-                <width>90</width>
+                <width>92</width>
                 <height>0</height>
                </size>
               </property>
@@ -258,7 +276,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="new_username"/>
+             <widget class="QLineEdit" name="new_username">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
             <item>
              <spacer name="horizontalSpacer_3">
@@ -277,8 +302,17 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_5">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>90</width>
@@ -297,8 +331,21 @@
             </item>
             <item>
              <widget class="QLineEdit" name="password">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="echoMode">
                <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string/>
               </property>
              </widget>
             </item>
@@ -359,7 +406,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <spacer name="horizontalSpacer_6">
+             <spacer name="horizontalSpacer_5">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -373,9 +420,6 @@
             </item>
             <item>
              <widget class="QPushButton" name="reset_btn">
-              <property name="focusPolicy">
-               <enum>Qt::TabFocus</enum>
-              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -386,20 +430,11 @@
             </item>
             <item>
              <widget class="QPushButton" name="change_username_btn_2">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="focusPolicy">
-               <enum>Qt::TabFocus</enum>
-              </property>
               <property name="text">
                <string>Change Username</string>
               </property>
               <property name="groupName" stdset="0">
-               <string>change_button</string>
+               <string>change_buttons</string>
               </property>
              </widget>
             </item>
@@ -893,8 +928,6 @@
   <tabstop>delete_account_btn</tabstop>
   <tabstop>new_username</tabstop>
   <tabstop>password</tabstop>
-  <tabstop>reset_btn</tabstop>
-  <tabstop>change_username_btn_2</tabstop>
   <tabstop>current_password</tabstop>
   <tabstop>new_password</tabstop>
   <tabstop>confirm_new_password</tabstop>
@@ -936,22 +969,6 @@
     <hint type="destinationlabel">
      <x>349</x>
      <y>171</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>password</sender>
-   <signal>returnPressed()</signal>
-   <receiver>change_username_btn_2</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>349</x>
-     <y>171</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>430</x>
-     <y>303</y>
     </hint>
    </hints>
   </connection>
