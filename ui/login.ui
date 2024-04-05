@@ -54,6 +54,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="bottomMargin">
        <number>10</number>
       </property>
@@ -114,6 +117,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="bottomMargin">
        <number>10</number>
       </property>
@@ -166,6 +172,26 @@
         </property>
         <property name="clearButtonEnabled">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="view_password_btn">
+        <property name="focusPolicy">
+         <enum>Qt::TabFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string>View Password</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

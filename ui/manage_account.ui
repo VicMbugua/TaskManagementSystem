@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>325</height>
+    <width>495</width>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -251,6 +251,9 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_2">
               <property name="sizePolicy">
@@ -261,7 +264,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>92</width>
+                <width>95</width>
                 <height>0</height>
                </size>
               </property>
@@ -278,7 +281,7 @@
             <item>
              <widget class="QLineEdit" name="new_username">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -305,23 +308,26 @@
             <property name="spacing">
              <number>0</number>
             </property>
+            <property name="bottomMargin">
+             <number>10</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_5">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>90</width>
+                <width>95</width>
                 <height>0</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
+                <pointsize>10</pointsize>
                </font>
               </property>
               <property name="text">
@@ -337,15 +343,34 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="inputMethodHints">
+               <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+              </property>
               <property name="echoMode">
                <enum>QLineEdit::Password</enum>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="view_password_btn">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>View Password</string>
+              </property>
               <property name="text">
                <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+              </property>
+              <property name="autoDefault">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -357,7 +382,7 @@
               <property name="sizeHint" stdset="0">
                <size>
                 <width>40</width>
-                <height>20</height>
+                <height>17</height>
                </size>
               </property>
              </spacer>
@@ -491,6 +516,9 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_6">
               <property name="minimumSize">
@@ -533,6 +561,9 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_8">
               <property name="minimumSize">
@@ -559,6 +590,26 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="view_password_btn_2">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>View Password</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+              </property>
+              <property name="autoDefault">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_8">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -575,6 +626,9 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_7">
               <property name="minimumSize">
@@ -597,6 +651,26 @@
              <widget class="QLineEdit" name="confirm_new_password">
               <property name="echoMode">
                <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="view_password_btn_3">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>View Password</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+              </property>
+              <property name="autoDefault">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -783,8 +857,17 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_10">
+              <property name="minimumSize">
+               <size>
+                <width>68</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -799,6 +882,26 @@
              <widget class="QLineEdit" name="password_2">
               <property name="echoMode">
                <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="view_password_btn_4">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>View Password</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+              </property>
+              <property name="autoDefault">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -927,7 +1030,6 @@
   <tabstop>change_password_btn</tabstop>
   <tabstop>delete_account_btn</tabstop>
   <tabstop>new_username</tabstop>
-  <tabstop>password</tabstop>
   <tabstop>current_password</tabstop>
   <tabstop>new_password</tabstop>
   <tabstop>confirm_new_password</tabstop>
@@ -953,22 +1055,6 @@
     <hint type="destinationlabel">
      <x>82</x>
      <y>324</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>new_username</sender>
-   <signal>returnPressed()</signal>
-   <receiver>password</receiver>
-   <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>349</x>
-     <y>137</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>349</x>
-     <y>171</y>
     </hint>
    </hints>
   </connection>

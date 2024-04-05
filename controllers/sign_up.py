@@ -3,7 +3,7 @@ import re
 import hashlib
 from PyQt5.QtCore import QEvent, Qt, QRegExp
 from PyQt5.QtGui import QIcon, QRegExpValidator
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QLineEdit
 from ui.sign_up_ui import Ui_SignUp
 from data.database_manager import DatabaseManager
 
@@ -16,6 +16,8 @@ class SignUpWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.widget = widget
+        self.ui.view_password_btn.clicked.connect(lambda: self.handle_view_password(self.ui.password, self.ui.view_password_btn))
+        self.ui.view_password_btn_2.clicked.connect(lambda: self.handle_view_password(self.ui.confirm_password, self.ui.view_password_btn_2))
         self.ui.error_message.setText("")
         self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
         self.ui.login_btn.clicked.connect(self.handle_login)
@@ -37,6 +39,12 @@ class SignUpWindow(QMainWindow):
         self.ui.password.setText("")
         self.ui.confirm_password.setText("")
         self.ui.error_message.setText("")
+        self.ui.password.setEchoMode(QLineEdit.Password)
+        self.ui.confirm_password.setEchoMode(QLineEdit.Password)
+        self.ui.view_password_btn.setIcon(QIcon("icons/hidden_eye_icon.svg"))
+        self.ui.view_password_btn.setToolTip("View Password")
+        self.ui.view_password_btn_2.setIcon(QIcon("icons/hidden_eye_icon.svg"))
+        self.ui.view_password_btn_2.setToolTip("View Password")
             
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
@@ -50,6 +58,16 @@ class SignUpWindow(QMainWindow):
             self.ui.caps_lock.setText("Caps lock is on")
         else:
             self.ui.caps_lock.setText("")
+            
+    def handle_view_password(self, line_edit, push_button):
+        if line_edit.echoMode() == 2:
+            line_edit.setEchoMode(QLineEdit.Normal)
+            push_button.setIcon(QIcon("icons/eye_icon.svg"))
+            push_button.setToolTip("Hide Password")
+        else:
+            line_edit.setEchoMode(QLineEdit.Password)
+            push_button.setIcon(QIcon("icons/hidden_eye_icon.svg"))
+            push_button.setToolTip("View Password")
 
     def handle_sign_up(self):
         """Creates a new user if the username is available."""

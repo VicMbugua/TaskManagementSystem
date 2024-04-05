@@ -48,6 +48,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="bottomMargin">
        <number>9</number>
       </property>
@@ -55,7 +58,7 @@
        <widget class="QLabel" name="label_2">
         <property name="minimumSize">
          <size>
-          <width>110</width>
+          <width>115</width>
           <height>0</height>
          </size>
         </property>
@@ -96,6 +99,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="bottomMargin">
        <number>9</number>
       </property>
@@ -103,7 +109,7 @@
        <widget class="QLabel" name="label_3">
         <property name="minimumSize">
          <size>
-          <width>110</width>
+          <width>115</width>
           <height>0</height>
          </size>
         </property>
@@ -134,6 +140,26 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="view_password_btn">
+        <property name="focusPolicy">
+         <enum>Qt::TabFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string>View Password</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -150,6 +176,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="bottomMargin">
        <number>9</number>
       </property>
@@ -157,7 +186,7 @@
        <widget class="QLabel" name="label_4">
         <property name="minimumSize">
          <size>
-          <width>110</width>
+          <width>115</width>
           <height>0</height>
          </size>
         </property>
@@ -184,6 +213,26 @@
         </property>
         <property name="clearButtonEnabled">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="view_password_btn_2">
+        <property name="focusPolicy">
+         <enum>Qt::TabFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string>View Password</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

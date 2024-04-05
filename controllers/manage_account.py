@@ -1,6 +1,6 @@
 import hashlib
 from ui.manage_account_ui import Ui_ManageAccount
-from PyQt5.QtWidgets import QDialog, QMessageBox
+from PyQt5.QtWidgets import QDialog, QMessageBox, QLineEdit
 from PyQt5.QtCore import QEvent, Qt, QRegExp
 from PyQt5.QtGui import QIcon, QRegExpValidator
 from data.database_manager import DatabaseManager
@@ -24,6 +24,11 @@ class ManageAccountDialog(QDialog):
         username = self.db_manager.fetch_data(
             f"SELECT username FROM users WHERE user_id = {self.user_id}"
         )
+        self.ui.view_password_btn.clicked.connect(lambda: self.handle_view_password(self.ui.password, self.ui.view_password_btn))
+        self.ui.view_password_btn_2.clicked.connect(lambda: self.handle_view_password(self.ui.new_password, self.ui.view_password_btn_2))
+        self.ui.view_password_btn_3.clicked.connect(lambda: self.handle_view_password(self.ui.confirm_new_password, self.ui.view_password_btn_3))
+        self.ui.view_password_btn_4.clicked.connect(lambda: self.handle_view_password(self.ui.password_2, self.ui.view_password_btn_4))
+        self.show_password = False
         self.username = username[0][0]
         self.ui.current_username.setText(f"Change username {self.username}.")
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -69,6 +74,16 @@ class ManageAccountDialog(QDialog):
                 self.toggle_caps_lock_label()
         return super().eventFilter(obj, event)
 
+    def handle_view_password(self, line_edit, push_button):
+        if line_edit.echoMode() == 2:
+            line_edit.setEchoMode(QLineEdit.Normal)
+            push_button.setIcon(QIcon("icons/eye_icon.svg"))
+            push_button.setToolTip("Hide Password")
+        else:
+            line_edit.setEchoMode(QLineEdit.Password)
+            push_button.setIcon(QIcon("icons/hidden_eye_icon.svg"))
+            push_button.setToolTip("View Password")
+        
     def handle_reset(self):
         """Clears the fields in the change username page."""
         self.ui.new_username.setText("")

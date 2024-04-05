@@ -1,8 +1,8 @@
 import ctypes
 import hashlib
 from PyQt5.QtCore import QEvent, Qt, QRegExp
-from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtGui import QRegExpValidator, QIcon
+from PyQt5.QtWidgets import QMainWindow, QLineEdit
 from ui.login_ui import Ui_LogIn
 from data.database_manager import DatabaseManager
 from controllers.main_window import MainWindow
@@ -16,6 +16,8 @@ class LoginWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.widget = widget
+        self.ui.view_password_btn.clicked.connect(self.handle_view_password)
+        self.show_password = False
         self.ui.error_message.setText("")
         self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
         self.ui.login_btn.clicked.connect(self.handle_login)
@@ -35,6 +37,9 @@ class LoginWindow(QMainWindow):
         self.ui.username.setText("")
         self.ui.password.setText("")
         self.ui.error_message.setText("")
+        self.ui.password.setEchoMode(QLineEdit.Password)
+        self.ui.view_password_btn.setIcon(QIcon("icons/hidden_eye_icon.svg"))
+        self.ui.view_password_btn.setToolTip("View Password")
         
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
@@ -48,6 +53,18 @@ class LoginWindow(QMainWindow):
             self.ui.caps_lock.setText("Caps lock is on")
         else:
             self.ui.caps_lock.setText("")
+            
+    def handle_view_password(self):
+        self.show_password = not self.show_password
+        if self.show_password:
+            self.ui.password.setEchoMode(QLineEdit.Normal)
+            self.ui.view_password_btn.setIcon(QIcon("icons/eye_icon.svg"))
+            self.ui.view_password_btn.setToolTip("Hide Password")
+        else:
+            self.ui.password.setEchoMode(QLineEdit.Password)
+            self.ui.view_password_btn.setIcon(QIcon("icons/hidden_eye_icon.svg"))
+            self.ui.view_password_btn.setToolTip("View Password")
+            
 
     def handle_login(self) -> None:
         """Checks if the username and password are correct then logins the user if they are correct."""
