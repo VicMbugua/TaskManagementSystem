@@ -9,7 +9,7 @@ class MyApp(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         widget = QStackedWidget()
-        widget.setFixedSize(343, 272)
+        widget.setFixedSize(343, 300)
         login_window = LoginWindow(widget)
         sign_up_window = SignUpWindow(widget)
         widget.addWidget(login_window)

@@ -24,16 +24,15 @@ class ManageAccountDialog(QDialog):
         username = self.db_manager.fetch_data(
             f"SELECT username FROM users WHERE user_id = {self.user_id}"
         )
+        self.username = username[0][0]
         self.ui.view_password_btn.clicked.connect(lambda: self.handle_view_password(self.ui.password, self.ui.view_password_btn))
         self.ui.view_password_btn_2.clicked.connect(lambda: self.handle_view_password(self.ui.new_password, self.ui.view_password_btn_2))
         self.ui.view_password_btn_3.clicked.connect(lambda: self.handle_view_password(self.ui.confirm_new_password, self.ui.view_password_btn_3))
         self.ui.view_password_btn_4.clicked.connect(lambda: self.handle_view_password(self.ui.password_2, self.ui.view_password_btn_4))
-        self.show_password = False
-        self.username = username[0][0]
+        self.ui.view_password_btn_5.clicked.connect(lambda: self.handle_view_password(self.ui.current_password, self.ui.view_password_btn_5))
         self.ui.current_username.setText(f"Change username {self.username}.")
-        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        self.validator = QRegExpValidator(regex, self.ui.new_username)
-        self.ui.new_username.setValidator(self.validator)
+        self.ui.new_username.textChanged.connect(self.handle_key_press)
+
         self.ui.error_message.setText("")
         self.ui.error_message_2.setText("")
         self.ui.error_message_3.setText("")
@@ -56,6 +55,19 @@ class ManageAccountDialog(QDialog):
 
     def on_delete_account_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(2)
+        
+    def handle_key_press(self, input):
+        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
+        if input == "":
+            self.ui.error_message.setText("")
+        elif not regex.exactMatch(input):
+            self.ui.error_message.setText("Usernames can only start with a letter and can only contain\nletters, numbers and underscores.")
+            self.text_deleted = True
+            self.ui.new_username.textChanged.disconnect()
+            self.ui.new_username.setText(input[:-1])
+            self.ui.new_username.textChanged.connect(self.handle_key_press)
+        else:
+            self.ui.error_message.setText("")
 
     def toggle_caps_lock_label(self):
         if self.caps_lock_on:

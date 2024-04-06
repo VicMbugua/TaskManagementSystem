@@ -175,9 +175,35 @@ class Ui_ManageAccount(object):
         spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem7)
         self.reset_btn = QtWidgets.QPushButton(self.page)
+        self.reset_btn.setFocusPolicy(QtCore.Qt.TabFocus)
+        self.reset_btn.setStyleSheet("QPushButton{\n"
+"    background-color: rgb(25, 94, 255);\n"
+"    border: none;\n"
+"    height: 25px;\n"
+"    width: 75px;\n"
+"    border-radius: 2px;\n"
+"    color: white;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(33, 159, 255);\n"
+"    color: black;\n"
+"}")
         self.reset_btn.setObjectName("reset_btn")
         self.horizontalLayout_3.addWidget(self.reset_btn)
         self.change_username_btn_2 = QtWidgets.QPushButton(self.page)
+        self.change_username_btn_2.setFocusPolicy(QtCore.Qt.TabFocus)
+        self.change_username_btn_2.setStyleSheet("QPushButton{\n"
+"    background-color: rgb(25, 94, 255);\n"
+"    border: none;\n"
+"    height: 25px;\n"
+"    width: 100px;\n"
+"    border-radius: 2px;\n"
+"    color: white;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(33, 159, 255);\n"
+"    color: black;\n"
+"}")
         self.change_username_btn_2.setObjectName("change_username_btn_2")
         self.horizontalLayout_3.addWidget(self.change_username_btn_2)
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
@@ -213,6 +239,13 @@ class Ui_ManageAccount(object):
         self.current_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.current_password.setObjectName("current_password")
         self.horizontalLayout_8.addWidget(self.current_password)
+        self.view_password_btn_5 = QtWidgets.QPushButton(self.page_2)
+        self.view_password_btn_5.setFocusPolicy(QtCore.Qt.TabFocus)
+        self.view_password_btn_5.setText("")
+        self.view_password_btn_5.setIcon(icon)
+        self.view_password_btn_5.setAutoDefault(True)
+        self.view_password_btn_5.setObjectName("view_password_btn_5")
+        self.horizontalLayout_8.addWidget(self.view_password_btn_5)
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem10)
         self.verticalLayout_4.addLayout(self.horizontalLayout_8)
@@ -375,7 +408,7 @@ class Ui_ManageAccount(object):
         self.verticalLayout_2.addWidget(self.widget_3)
 
         self.retranslateUi(ManageAccount)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.exit_btn.clicked.connect(ManageAccount.close) # type: ignore
         self.password_2.returnPressed.connect(self.delete_account_btn_2.click) # type: ignore
         self.current_password.returnPressed.connect(self.new_password.setFocus) # type: ignore
@@ -385,15 +418,22 @@ class Ui_ManageAccount(object):
         ManageAccount.setTabOrder(self.change_username_btn, self.change_password_btn)
         ManageAccount.setTabOrder(self.change_password_btn, self.delete_account_btn)
         ManageAccount.setTabOrder(self.delete_account_btn, self.new_username)
-        ManageAccount.setTabOrder(self.new_username, self.current_password)
+        ManageAccount.setTabOrder(self.new_username, self.password)
+        ManageAccount.setTabOrder(self.password, self.change_username_btn_2)
+        ManageAccount.setTabOrder(self.change_username_btn_2, self.reset_btn)
+        ManageAccount.setTabOrder(self.reset_btn, self.view_password_btn)
+        ManageAccount.setTabOrder(self.view_password_btn, self.current_password)
         ManageAccount.setTabOrder(self.current_password, self.new_password)
         ManageAccount.setTabOrder(self.new_password, self.confirm_new_password)
-        ManageAccount.setTabOrder(self.confirm_new_password, self.reset_btn_2)
-        ManageAccount.setTabOrder(self.reset_btn_2, self.change_password_btn_2)
-        ManageAccount.setTabOrder(self.change_password_btn_2, self.password_2)
-        ManageAccount.setTabOrder(self.password_2, self.reset_btn_3)
-        ManageAccount.setTabOrder(self.reset_btn_3, self.delete_account_btn_2)
-        ManageAccount.setTabOrder(self.delete_account_btn_2, self.exit_btn)
+        ManageAccount.setTabOrder(self.confirm_new_password, self.change_password_btn_2)
+        ManageAccount.setTabOrder(self.change_password_btn_2, self.reset_btn_2)
+        ManageAccount.setTabOrder(self.reset_btn_2, self.view_password_btn_2)
+        ManageAccount.setTabOrder(self.view_password_btn_2, self.view_password_btn_3)
+        ManageAccount.setTabOrder(self.view_password_btn_3, self.password_2)
+        ManageAccount.setTabOrder(self.password_2, self.delete_account_btn_2)
+        ManageAccount.setTabOrder(self.delete_account_btn_2, self.reset_btn_3)
+        ManageAccount.setTabOrder(self.reset_btn_3, self.view_password_btn_4)
+        ManageAccount.setTabOrder(self.view_password_btn_4, self.exit_btn)
 
     def retranslateUi(self, ManageAccount):
         _translate = QtCore.QCoreApplication.translate
@@ -419,6 +459,7 @@ class Ui_ManageAccount(object):
         self.change_username_btn_2.setProperty("groupName", _translate("ManageAccount", "change_buttons"))
         self.label_3.setText(_translate("ManageAccount", "Change Password"))
         self.label_6.setText(_translate("ManageAccount", "Current Password:"))
+        self.view_password_btn_5.setToolTip(_translate("ManageAccount", "View Password"))
         self.label_8.setText(_translate("ManageAccount", "New Password:"))
         self.view_password_btn_2.setToolTip(_translate("ManageAccount", "View Password"))
         self.label_7.setText(_translate("ManageAccount", "Confirm New Password:"))

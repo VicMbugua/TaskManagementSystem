@@ -200,7 +200,7 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -445,6 +445,23 @@
             </item>
             <item>
              <widget class="QPushButton" name="reset_btn">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
+	background-color: rgb(25, 94, 255);
+    border: none;
+    height: 25px;
+    width: 75px;
+    border-radius: 2px;
+    color: white;
+}
+QPushButton:hover{
+	background-color: rgb(33, 159, 255);
+    color: black;
+}</string>
+              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -455,6 +472,23 @@
             </item>
             <item>
              <widget class="QPushButton" name="change_username_btn_2">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
+	background-color: rgb(25, 94, 255);
+    border: none;
+    height: 25px;
+    width: 100px;
+    border-radius: 2px;
+    color: white;
+}
+QPushButton:hover{
+	background-color: rgb(33, 159, 255);
+    color: black;
+}</string>
+              </property>
               <property name="text">
                <string>Change Username</string>
               </property>
@@ -541,6 +575,26 @@
              <widget class="QLineEdit" name="current_password">
               <property name="echoMode">
                <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="view_password_btn_5">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>View Password</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../icons/hidden_eye_icon.svg</normaloff>../icons/hidden_eye_icon.svg</iconset>
+              </property>
+              <property name="autoDefault">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -1030,14 +1084,21 @@
   <tabstop>change_password_btn</tabstop>
   <tabstop>delete_account_btn</tabstop>
   <tabstop>new_username</tabstop>
+  <tabstop>password</tabstop>
+  <tabstop>change_username_btn_2</tabstop>
+  <tabstop>reset_btn</tabstop>
+  <tabstop>view_password_btn</tabstop>
   <tabstop>current_password</tabstop>
   <tabstop>new_password</tabstop>
   <tabstop>confirm_new_password</tabstop>
-  <tabstop>reset_btn_2</tabstop>
   <tabstop>change_password_btn_2</tabstop>
+  <tabstop>reset_btn_2</tabstop>
+  <tabstop>view_password_btn_2</tabstop>
+  <tabstop>view_password_btn_3</tabstop>
   <tabstop>password_2</tabstop>
-  <tabstop>reset_btn_3</tabstop>
   <tabstop>delete_account_btn_2</tabstop>
+  <tabstop>reset_btn_3</tabstop>
+  <tabstop>view_password_btn_4</tabstop>
   <tabstop>exit_btn</tabstop>
  </tabstops>
  <resources/>

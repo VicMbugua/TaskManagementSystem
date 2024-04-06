@@ -21,10 +21,11 @@ class SignUpWindow(QMainWindow):
         self.ui.error_message.setText("")
         self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
         self.ui.login_btn.clicked.connect(self.handle_login)
-        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        self.validator = QRegExpValidator(regex, self.ui.username)
-        self.ui.username.setValidator(self.validator)
-
+        # regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
+        # self.validator = QRegExpValidator(regex, self.ui.username)
+        # self.ui.username.setValidator(self.validator)
+        self.ui.username.textChanged.connect(self.handle_key_press)
+        
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
@@ -46,6 +47,19 @@ class SignUpWindow(QMainWindow):
         self.ui.view_password_btn_2.setIcon(QIcon("icons/hidden_eye_icon.svg"))
         self.ui.view_password_btn_2.setToolTip("View Password")
             
+    def handle_key_press(self, input):
+        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
+        if input == "":
+            self.ui.error_message.setText("")
+        elif not regex.exactMatch(input):
+            self.ui.error_message.setText("Usernames can only start with a letter and can only contain\nletters, numbers and underscores.")
+            self.text_deleted = True
+            self.ui.username.textChanged.disconnect()
+            self.ui.username.setText(input[:-1])
+            self.ui.username.textChanged.connect(self.handle_key_press)
+        else:
+            self.ui.error_message.setText("")
+    
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
             if event.key() == Qt.Key_CapsLock:
