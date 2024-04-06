@@ -2,7 +2,7 @@ import hashlib
 from ui.manage_account_ui import Ui_ManageAccount
 from PyQt5.QtWidgets import QDialog, QMessageBox, QLineEdit
 from PyQt5.QtCore import QEvent, Qt, QRegExp
-from PyQt5.QtGui import QIcon, QRegExpValidator
+from PyQt5.QtGui import QIcon
 from data.database_manager import DatabaseManager
 import ctypes
 
@@ -25,11 +25,31 @@ class ManageAccountDialog(QDialog):
             f"SELECT username FROM users WHERE user_id = {self.user_id}"
         )
         self.username = username[0][0]
-        self.ui.view_password_btn.clicked.connect(lambda: self.handle_view_password(self.ui.password, self.ui.view_password_btn))
-        self.ui.view_password_btn_2.clicked.connect(lambda: self.handle_view_password(self.ui.new_password, self.ui.view_password_btn_2))
-        self.ui.view_password_btn_3.clicked.connect(lambda: self.handle_view_password(self.ui.confirm_new_password, self.ui.view_password_btn_3))
-        self.ui.view_password_btn_4.clicked.connect(lambda: self.handle_view_password(self.ui.password_2, self.ui.view_password_btn_4))
-        self.ui.view_password_btn_5.clicked.connect(lambda: self.handle_view_password(self.ui.current_password, self.ui.view_password_btn_5))
+        self.ui.view_password_btn.clicked.connect(
+            lambda: self.handle_view_password(
+                self.ui.password, self.ui.view_password_btn
+            )
+        )
+        self.ui.view_password_btn_2.clicked.connect(
+            lambda: self.handle_view_password(
+                self.ui.new_password, self.ui.view_password_btn_2
+            )
+        )
+        self.ui.view_password_btn_3.clicked.connect(
+            lambda: self.handle_view_password(
+                self.ui.confirm_new_password, self.ui.view_password_btn_3
+            )
+        )
+        self.ui.view_password_btn_4.clicked.connect(
+            lambda: self.handle_view_password(
+                self.ui.password_2, self.ui.view_password_btn_4
+            )
+        )
+        self.ui.view_password_btn_5.clicked.connect(
+            lambda: self.handle_view_password(
+                self.ui.current_password, self.ui.view_password_btn_5
+            )
+        )
         self.ui.current_username.setText(f"Change username {self.username}.")
         self.ui.new_username.textChanged.connect(self.handle_key_press)
 
@@ -55,13 +75,15 @@ class ManageAccountDialog(QDialog):
 
     def on_delete_account_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(2)
-        
+
     def handle_key_press(self, input):
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
         if input == "":
             self.ui.error_message.setText("")
         elif not regex.exactMatch(input):
-            self.ui.error_message.setText("Usernames can only start with a letter and can only contain\nletters, numbers and underscores.")
+            self.ui.error_message.setText(
+                "Usernames can only start with a letter and can only contain\nletters, numbers and underscores."
+            )
             self.text_deleted = True
             self.ui.new_username.textChanged.disconnect()
             self.ui.new_username.setText(input[:-1])
@@ -95,7 +117,7 @@ class ManageAccountDialog(QDialog):
             line_edit.setEchoMode(QLineEdit.Password)
             push_button.setIcon(QIcon("icons/hidden_eye_icon.svg"))
             push_button.setToolTip("View Password")
-        
+
     def handle_reset(self):
         """Clears the fields in the change username page."""
         self.ui.new_username.setText("")
@@ -118,9 +140,11 @@ class ManageAccountDialog(QDialog):
         elif valid_username is not True:
             self.ui.error_message.setText(valid_username)
             self.ui.new_username.setText("")
-            self.ui.new_username.setFocus() 
+            self.ui.new_username.setFocus()
         elif username_exists is True:
-            self.ui.error_message.setText("Username already exists. Enter another name.")
+            self.ui.error_message.setText(
+                "Username already exists. Enter another name."
+            )
             self.ui.new_username.setText("")
             self.ui.password.setText("")
             self.ui.new_username.setFocus()
@@ -144,7 +168,7 @@ class ManageAccountDialog(QDialog):
             self.ui.new_username.setText("")
             self.ui.password.setText("")
             self.ui.error_message.setText("")
-            
+
     def valid_username(self, username):
         if len(username) < 3:
             return "Username has to be 3 characters long or longer."
@@ -192,7 +216,8 @@ class ManageAccountDialog(QDialog):
             bytes_password = new_password.encode()
             hashed_password = hashlib.sha256(bytes_password).hexdigest()
             self.db_manager.execute_query(
-                f"UPDATE users SET password = ? WHERE user_id = ?", (hashed_password, self.user_id)
+                f"UPDATE users SET password = ? WHERE user_id = ?",
+                (hashed_password, self.user_id),
             )
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
@@ -211,7 +236,7 @@ class ManageAccountDialog(QDialog):
         if all(password.count(char) == len(password) for char in password):
             return "The new password cannot have only one character repeated."
         return True
-    
+
     def delete_account(self):
         """Deletes the user's account."""
         password = self.ui.password_2.text()
@@ -228,7 +253,9 @@ class ManageAccountDialog(QDialog):
             confirmation = QMessageBox()
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             confirmation.setWindowTitle("Confirmation")
-            confirmation.setText(f"Are you sure you want to delete your account? This action cannot be undone.")
+            confirmation.setText(
+                f"Are you sure you want to delete your account? This action cannot be undone."
+            )
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
             confirmation.setIcon(QMessageBox.Warning)

@@ -1,8 +1,7 @@
 import ctypes
-import re
 import hashlib
 from PyQt5.QtCore import QEvent, Qt, QRegExp
-from PyQt5.QtGui import QIcon, QRegExpValidator
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QLineEdit
 from ui.sign_up_ui import Ui_SignUp
 from data.database_manager import DatabaseManager
@@ -21,9 +20,6 @@ class SignUpWindow(QMainWindow):
         self.ui.error_message.setText("")
         self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
         self.ui.login_btn.clicked.connect(self.handle_login)
-        # regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        # self.validator = QRegExpValidator(regex, self.ui.username)
-        # self.ui.username.setValidator(self.validator)
         self.ui.username.textChanged.connect(self.handle_key_press)
         
         self.db_manager = DatabaseManager()
@@ -46,7 +42,7 @@ class SignUpWindow(QMainWindow):
         self.ui.view_password_btn.setToolTip("View Password")
         self.ui.view_password_btn_2.setIcon(QIcon("icons/hidden_eye_icon.svg"))
         self.ui.view_password_btn_2.setToolTip("View Password")
-            
+    
     def handle_key_press(self, input):
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
         if input == "":

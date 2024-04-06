@@ -1,38 +1,12 @@
 import ctypes
 import hashlib
 from PyQt5.QtCore import QEvent, Qt, QRegExp
-from PyQt5.QtGui import QInputMethodEvent, QKeyEvent, QRegExpValidator, QIcon, QValidator
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QLineEdit
 from ui.login_ui import Ui_LogIn
 from data.database_manager import DatabaseManager
 from controllers.main_window import MainWindow
 
-class ValidatingUsername(QLineEdit):
-    def __init__(self, line_edit, parent=None):
-        super().__init__(parent)
-        self.line_edit = line_edit
-        regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        self.validator = QRegExpValidator(regex, line_edit)
-        # self.line_edit.setValidator(self.validator)
-        self.ui = Ui_LogIn()
-        # self.ui.setupUi(self)
-        
-    def keyPressEvent(self, event) -> None:
-        key = event.key()
-        if self.validator.validate(self.line_edit.text() + chr(key), pos=0)[0] == QValidator.Acceptable:
-            return super().keyPressEvent(event)
-        else:
-            print("wrong")
-            
-    # def inputMethodEvent(self, event):
-    #     if not self.validator.validate(event.text(), pos=0)[0] == QValidator.Acceptable:
-    #         print("wrong")
-    #         self.ui.error_message.setText("Wrong")
-    #     else:
-    #         self.ui.error_message.setText("rrrr")
-            
-    #     return super().inputMethodEvent(event)
-    
 class LoginWindow(QMainWindow):
     def __init__(self, widget):
         super(LoginWindow, self).__init__()
@@ -48,14 +22,22 @@ class LoginWindow(QMainWindow):
         self.ui.login_btn.clicked.connect(self.handle_login)
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
-        # regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        # self.validator = QRegExpValidator(regex, self.ui.username)
-        # self.ui.username.setValidator(self.validator)
-        # validator = ValidatingUsername(self.ui.username)
         
         self.ui.username.textChanged.connect(self.handle_key_press)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
         self.toggle_caps_lock_label()
+        
+    def showEvent(self, event) -> None:
+        super().showEvent(event)
+        self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
+        self.toggle_caps_lock_label()
+        self.ui.username.setFocus()
+        self.ui.username.setText("")
+        self.ui.password.setText("")
+        self.ui.error_message.setText("")
+        self.ui.password.setEchoMode(QLineEdit.Password)
+        self.ui.view_password_btn.setIcon(QIcon("icons/hidden_eye_icon.svg"))
+        self.ui.view_password_btn.setToolTip("View Password")
         
     def handle_key_press(self, input):
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -69,18 +51,6 @@ class LoginWindow(QMainWindow):
             self.ui.username.textChanged.connect(self.handle_key_press)
         else:
             self.ui.error_message.setText("")
-        
-    def showEvent(self, event) -> None:
-        super().showEvent(event)
-        self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
-        self.toggle_caps_lock_label()
-        self.ui.username.setFocus()
-        self.ui.username.setText("")
-        self.ui.password.setText("")
-        self.ui.error_message.setText("")
-        self.ui.password.setEchoMode(QLineEdit.Password)
-        self.ui.view_password_btn.setIcon(QIcon("icons/hidden_eye_icon.svg"))
-        self.ui.view_password_btn.setToolTip("View Password")
         
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
