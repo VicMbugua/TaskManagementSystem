@@ -269,6 +269,16 @@
      </layout>
     </item>
     <item>
+     <widget class="QLabel" name="caps_lock">
+      <property name="text">
+       <string>Cap locks</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="error_message">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -298,16 +308,6 @@
       </property>
       <property name="margin">
        <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="caps_lock">
-      <property name="text">
-       <string>Cap locks</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>

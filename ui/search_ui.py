@@ -144,5 +144,5 @@ class Ui_SearchDialog(object):
         self.status.setItemText(1, _translate("SearchDialog", "Started"))
         self.status.setItemText(2, _translate("SearchDialog", "Not Started"))
         self.label_4.setText(_translate("SearchDialog", "Task List:"))
-        self.cancel_btn.setText(_translate("SearchDialog", "Cancel"))
+        self.cancel_btn.setText(_translate("SearchDialog", "Close"))
         self.cancel_btn.setProperty("groupName", _translate("SearchDialog", "cancel_buttons"))

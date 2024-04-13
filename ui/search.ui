@@ -282,7 +282,7 @@
         <enum>Qt::TabFocus</enum>
        </property>
        <property name="text">
-        <string>Cancel</string>
+        <string>Close</string>
        </property>
        <property name="groupName" stdset="0">
         <string>cancel_buttons</string>

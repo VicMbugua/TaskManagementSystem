@@ -1,6 +1,3 @@
-/* QMainWindow, QWidget{
-    background-color: rgb(174, 208, 252);
-} */
 
 QPushButton[groupName="top_login"]{
     border: none;
@@ -28,24 +25,6 @@ QLineEdit {
     border: 1px solid black;
     height: 20px;
 }
-/* QPushButton.search-btn {
-    background-color: blue;
-    border-radius: 2px;
-    height: 24px;
-} */
-/* QWidget#navbar_widget QPushButton{
-	background-color: lightblue;
-	min-height: 25;
-	border: none;
-}
-QWidget#navbar_widget QPushButton:hover{
-	background-color: rgb(33, 159, 255);
-}
-QWidget#navbar_widget QPushButton:checked{
-	outline: none;
-	background-color: rgb(25, 94, 255);
-    color: white;
-} */
 QPushButton#menu_btn {
 	min-width: 25;
 }
@@ -79,12 +58,6 @@ QPushButton[groupName=nav_icon_buttons]{
 QPushButton#exit_btn:hover, QPushButton#exit_btn_1:hover, QPushButton#exit_btn_2:hover{
     background-color: rgba(255, 0, 0, 0.719);
 }
-/* QWidget#icons_only_widget QPushButton{
-	background-color: rgb(15, 255, 255);
-	min-width: 25;
-	min-height: 25;
-	border: none;
-} */
 QWidget#full_name_widget QPushButton{
 	border: none;
 	padding-left: 5px;
@@ -112,9 +85,16 @@ QPushButton[groupName="change_buttons"]:hover{
     background-color: rgb(33, 159, 255);
     color: black;
 }
-QPushButton[groupName="common_buttons"]:focus{
-    /* background-color: rgb(33, 159, 255); */
+QPushButton[groupName="common_buttons"]:focus, QPushButton[groupName="project_buttons"]:focus, 
+QPushButton[groupName="top_buttons"]:focus, QPushButton[groupName="options"]:focus,
+QPushButton[groupName="change_buttons"]:focus{
+    background-color: rgb(33, 159, 255);
     border: 2px solid darkblue;
+    outline: none;
+}
+QPushButton[groupName="cancel_buttons"]:focus{
+    background-color: rgba(255, 0, 0, 0.719);
+    border: 2px solid darkred;
     outline: none;
 }
 QPushButton[groupName="cancel_buttons"]:hover{

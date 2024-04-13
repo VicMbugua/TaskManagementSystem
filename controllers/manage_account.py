@@ -16,7 +16,7 @@ class ManageAccountDialog(QDialog):
 
         self.parent = parent
 
-        self.ui.stackedWidget.setCurrentIndex(0)
+        self.ui.stackedWidget.setCurrentIndex(1)
         self.ui.change_username_btn.setChecked(True)
         self.widget = widget
         self.db_manager = DatabaseManager()
@@ -68,13 +68,13 @@ class ManageAccountDialog(QDialog):
         self.clearFocus()
 
     def on_change_username_btn_toggled(self):
-        self.ui.stackedWidget.setCurrentIndex(0)
-
-    def on_change_password_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(1)
 
-    def on_delete_account_btn_toggled(self):
+    def on_change_password_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(2)
+
+    def on_delete_account_btn_toggled(self):
+        self.ui.stackedWidget.setCurrentIndex(3)
 
     def handle_key_press(self, input):
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -137,23 +137,27 @@ class ManageAccountDialog(QDialog):
             self.ui.error_message.setText(
                 "Please fill all the fields before continuing."
             )
+        elif valid_password is False:
+            self.ui.error_message.setText("Wrong password. Please try again.")
+            self.ui.password.setText("")
         elif valid_username is not True:
             self.ui.error_message.setText(valid_username)
+            self.ui.new_username.textChanged.disconnect()
             self.ui.new_username.setText("")
+            self.ui.new_username.textChanged.connect(self.handle_key_press)
             self.ui.new_username.setFocus()
         elif username_exists is True:
             self.ui.error_message.setText(
                 "Username already exists. Enter another name."
             )
+            self.ui.new_username.textChanged.disconnect()
             self.ui.new_username.setText("")
+            self.ui.new_username.textChanged.connect(self.handle_key_press)
             self.ui.password.setText("")
             self.ui.new_username.setFocus()
-        elif valid_password is False:
-            self.ui.error_message.setText("Wrong password. Please try again.")
-            self.ui.password.setText("")
         else:
             self.db_manager.execute_query(
-                f"UPDATE users SET username = '{new_username}' WHERE user_id = {self.user_id}"
+                f"UPDATE users SET username = ? WHERE user_id = ?", (new_username, self.user_id)
             )
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))

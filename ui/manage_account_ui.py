@@ -77,10 +77,13 @@ class Ui_ManageAccount(object):
         self.horizontalLayout_2.addWidget(self.widget)
         self.stackedWidget = QtWidgets.QStackedWidget(self.widget_3)
         self.stackedWidget.setObjectName("stackedWidget")
+        self.page_4 = QtWidgets.QWidget()
+        self.page_4.setObjectName("page_4")
+        self.stackedWidget.addWidget(self.page_4)
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.page)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.page)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.horizontalLayout_16 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_16.setObjectName("horizontalLayout_16")
         self.current_username = QtWidgets.QLabel(self.page)
@@ -91,9 +94,9 @@ class Ui_ManageAccount(object):
         self.horizontalLayout_16.addWidget(self.current_username)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_16.addItem(spacerItem2)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_16)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_16)
         spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_3.addItem(spacerItem3)
+        self.verticalLayout_6.addItem(spacerItem3)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
@@ -119,7 +122,7 @@ class Ui_ManageAccount(object):
         self.horizontalLayout_4.addWidget(self.new_username)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem4)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setContentsMargins(-1, -1, -1, 10)
         self.horizontalLayout_5.setSpacing(0)
@@ -158,55 +161,31 @@ class Ui_ManageAccount(object):
         self.horizontalLayout_5.addWidget(self.view_password_btn)
         spacerItem5 = QtWidgets.QSpacerItem(40, 17, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem5)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_5)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_5)
         self.caps_lock = QtWidgets.QLabel(self.page)
         self.caps_lock.setAlignment(QtCore.Qt.AlignCenter)
         self.caps_lock.setObjectName("caps_lock")
-        self.verticalLayout_3.addWidget(self.caps_lock)
+        self.verticalLayout_6.addWidget(self.caps_lock)
         self.error_message = QtWidgets.QLabel(self.page)
         self.error_message.setStyleSheet("color: red;")
         self.error_message.setAlignment(QtCore.Qt.AlignCenter)
         self.error_message.setObjectName("error_message")
-        self.verticalLayout_3.addWidget(self.error_message)
+        self.verticalLayout_6.addWidget(self.error_message)
         spacerItem6 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_3.addItem(spacerItem6)
+        self.verticalLayout_6.addItem(spacerItem6)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem7)
         self.reset_btn = QtWidgets.QPushButton(self.page)
         self.reset_btn.setFocusPolicy(QtCore.Qt.TabFocus)
-        self.reset_btn.setStyleSheet("QPushButton{\n"
-"    background-color: rgb(25, 94, 255);\n"
-"    border: none;\n"
-"    height: 25px;\n"
-"    width: 75px;\n"
-"    border-radius: 2px;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover{\n"
-"    background-color: rgb(33, 159, 255);\n"
-"    color: black;\n"
-"}")
         self.reset_btn.setObjectName("reset_btn")
         self.horizontalLayout_3.addWidget(self.reset_btn)
         self.change_username_btn_2 = QtWidgets.QPushButton(self.page)
         self.change_username_btn_2.setFocusPolicy(QtCore.Qt.TabFocus)
-        self.change_username_btn_2.setStyleSheet("QPushButton{\n"
-"    background-color: rgb(25, 94, 255);\n"
-"    border: none;\n"
-"    height: 25px;\n"
-"    width: 100px;\n"
-"    border-radius: 2px;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover{\n"
-"    background-color: rgb(33, 159, 255);\n"
-"    color: black;\n"
-"}")
         self.change_username_btn_2.setObjectName("change_username_btn_2")
         self.horizontalLayout_3.addWidget(self.change_username_btn_2)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_3)
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
@@ -408,7 +387,7 @@ class Ui_ManageAccount(object):
         self.verticalLayout_2.addWidget(self.widget_3)
 
         self.retranslateUi(ManageAccount)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         self.exit_btn.clicked.connect(ManageAccount.close) # type: ignore
         self.password_2.returnPressed.connect(self.delete_account_btn_2.click) # type: ignore
         self.current_password.returnPressed.connect(self.new_password.setFocus) # type: ignore

@@ -200,10 +200,11 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
+        <widget class="QWidget" name="page_4"/>
         <widget class="QWidget" name="page">
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_16">
             <item>
@@ -448,20 +449,6 @@
               <property name="focusPolicy">
                <enum>Qt::TabFocus</enum>
               </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton{
-	background-color: rgb(25, 94, 255);
-    border: none;
-    height: 25px;
-    width: 75px;
-    border-radius: 2px;
-    color: white;
-}
-QPushButton:hover{
-	background-color: rgb(33, 159, 255);
-    color: black;
-}</string>
-              </property>
               <property name="text">
                <string>Reset</string>
               </property>
@@ -474,20 +461,6 @@ QPushButton:hover{
              <widget class="QPushButton" name="change_username_btn_2">
               <property name="focusPolicy">
                <enum>Qt::TabFocus</enum>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton{
-	background-color: rgb(25, 94, 255);
-    border: none;
-    height: 25px;
-    width: 100px;
-    border-radius: 2px;
-    color: white;
-}
-QPushButton:hover{
-	background-color: rgb(33, 159, 255);
-    color: black;
-}</string>
               </property>
               <property name="text">
                <string>Change Username</string>
