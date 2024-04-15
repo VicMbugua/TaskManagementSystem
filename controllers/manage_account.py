@@ -84,7 +84,6 @@ class ManageAccountDialog(QDialog):
             self.ui.error_message.setText(
                 "Usernames can only start with a letter and can only contain\nletters, numbers and underscores."
             )
-            self.text_deleted = True
             self.ui.new_username.textChanged.disconnect()
             self.ui.new_username.setText(input[:-1])
             self.ui.new_username.textChanged.connect(self.handle_key_press)
@@ -126,7 +125,7 @@ class ManageAccountDialog(QDialog):
 
     def handle_change_username(self):
         """Change the username if the new username is available."""
-        new_username = self.ui.new_username.text()
+        new_username = self.ui.new_username.text().lower().strip()
         username_exists = self.db_manager.check_user(new_username)
         password = self.ui.password.text()
         bytes_password = password.encode()
@@ -232,6 +231,7 @@ class ManageAccountDialog(QDialog):
             self.ui.current_password.setText("")
             self.ui.new_password.setText("")
             self.ui.confirm_new_password.setText("")
+            self.ui.current_password.setFocus()
             self.ui.error_message_2.setText("")
 
     def valid_new_password(self, password):
@@ -254,6 +254,8 @@ class ManageAccountDialog(QDialog):
             self.ui.password_2.setText("")
             self.ui.password_2.setFocus()
         else:
+            self.ui.error_message_3.setText("")
+            self.ui.password_2.setText("")
             confirmation = QMessageBox()
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             confirmation.setWindowTitle("Confirmation")

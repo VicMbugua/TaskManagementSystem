@@ -414,6 +414,9 @@ class Ui_MainWindow(object):
         spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_11.addItem(spacerItem12)
         self.verticalLayout_8.addLayout(self.horizontalLayout_11)
+        self.label_7 = QtWidgets.QLabel(self.calendar_page)
+        self.label_7.setObjectName("label_7")
+        self.verticalLayout_8.addWidget(self.label_7)
         self.calendar = QtWidgets.QCalendarWidget(self.calendar_page)
         self.calendar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.calendar.setObjectName("calendar")
@@ -534,5 +537,6 @@ class Ui_MainWindow(object):
         self.clear_all_btn.setText(_translate("MainWindow", "Clear All"))
         self.clear_all_btn.setProperty("groupName", _translate("MainWindow", "cancel_buttons"))
         self.label_4.setText(_translate("MainWindow", "Calendar View"))
+        self.label_7.setText(_translate("MainWindow", "Click on a date to see a list of tasks scheduled for that date."))
         self.schedules_for.setText(_translate("MainWindow", "Schedules on this day"))
 import ui.resources_rc

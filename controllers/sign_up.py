@@ -49,7 +49,6 @@ class SignUpWindow(QMainWindow):
             self.ui.error_message.setText("")
         elif not regex.exactMatch(input):
             self.ui.error_message.setText("Usernames can only start with a letter and can only contain\nletters, numbers and underscores.")
-            self.text_deleted = True
             self.ui.username.textChanged.disconnect()
             self.ui.username.setText(input[:-1])
             self.ui.username.textChanged.connect(self.handle_key_press)

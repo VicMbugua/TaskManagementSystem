@@ -97,8 +97,19 @@ class MainWindow(QMainWindow):
 
     def logout(self) -> None:
         """It logs you out of the application."""
-        self.widget.show()
-        self.close()
+        confirmation = QMessageBox()
+        confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
+        confirmation.setWindowTitle("Confirmation")
+        confirmation.setText(
+            f"Are you sure you want to log out?"
+        )
+        confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        confirmation.setDefaultButton(QMessageBox.Cancel)
+        confirmation.setIcon(QMessageBox.Warning)
+        response = confirmation.exec()
+        if response == QMessageBox.Yes:
+            self.widget.show()
+            self.close()
 
     def on_home_btn_1_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(0)

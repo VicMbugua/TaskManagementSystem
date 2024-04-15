@@ -1089,6 +1089,13 @@
             </layout>
            </item>
            <item>
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Click on a date to see a list of tasks scheduled for that date.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QCalendarWidget" name="calendar">
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>
