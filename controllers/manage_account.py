@@ -1,10 +1,12 @@
-import hashlib
-from ui.manage_account_ui import Ui_ManageAccount
-from PyQt5.QtWidgets import QDialog, QMessageBox, QLineEdit
-from PyQt5.QtCore import QEvent, Qt, QRegExp
-from PyQt5.QtGui import QIcon
-from data.database_manager import DatabaseManager
 import ctypes
+import hashlib
+
+from PyQt5.QtCore import QEvent, QRegExp, Qt
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QDialog, QLineEdit, QMessageBox
+
+from data.database_manager import DatabaseManager
+from ui.manage_account_ui import Ui_ManageAccount
 
 
 class ManageAccountDialog(QDialog):
@@ -76,16 +78,16 @@ class ManageAccountDialog(QDialog):
     def on_delete_account_btn_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(3)
 
-    def handle_key_press(self, input):
+    def handle_key_press(self, text):
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        if input == "":
+        if text == "":
             self.ui.error_message.setText("")
-        elif not regex.exactMatch(input):
+        elif not regex.exactMatch(text):
             self.ui.error_message.setText(
                 "Usernames can only start with a letter and can only contain\nletters, numbers and underscores."
             )
             self.ui.new_username.textChanged.disconnect()
-            self.ui.new_username.setText(input[:-1])
+            self.ui.new_username.setText(text[:-1])
             self.ui.new_username.textChanged.connect(self.handle_key_press)
         else:
             self.ui.error_message.setText("")
@@ -156,7 +158,7 @@ class ManageAccountDialog(QDialog):
             self.ui.new_username.setFocus()
         else:
             self.db_manager.execute_query(
-                f"UPDATE users SET username = ? WHERE user_id = ?", (new_username, self.user_id)
+                "UPDATE users SET username = ? WHERE user_id = ?", (new_username, self.user_id)
             )
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
@@ -219,13 +221,13 @@ class ManageAccountDialog(QDialog):
             bytes_password = new_password.encode()
             hashed_password = hashlib.sha256(bytes_password).hexdigest()
             self.db_manager.execute_query(
-                f"UPDATE users SET password = ? WHERE user_id = ?",
+                "UPDATE users SET password = ? WHERE user_id = ?",
                 (hashed_password, self.user_id),
             )
             information = QMessageBox()
             information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             information.setIcon(QMessageBox.Information)
-            information.setText(f"Successfully changed your password.")
+            information.setText("Successfully changed your password.")
             information.setWindowTitle("Success")
             information.exec()
             self.ui.current_password.setText("")
@@ -260,7 +262,7 @@ class ManageAccountDialog(QDialog):
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             confirmation.setWindowTitle("Confirmation")
             confirmation.setText(
-                f"Are you sure you want to delete your account? This action cannot be undone."
+                "Are you sure you want to delete your account? This action cannot be undone."
             )
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)

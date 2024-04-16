@@ -21,7 +21,6 @@ class SignUpWindow(QMainWindow):
         self.ui.sign_up_btn.clicked.connect(self.handle_sign_up)
         self.ui.login_btn.clicked.connect(self.handle_login)
         self.ui.username.textChanged.connect(self.handle_key_press)
-        
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
@@ -42,15 +41,15 @@ class SignUpWindow(QMainWindow):
         self.ui.view_password_btn.setToolTip("View Password")
         self.ui.view_password_btn_2.setIcon(QIcon("icons/hidden_eye_icon.svg"))
         self.ui.view_password_btn_2.setToolTip("View Password")
-    
-    def handle_key_press(self, input):
+
+    def handle_key_press(self, text):
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        if input == "":
+        if text == "":
             self.ui.error_message.setText("")
-        elif not regex.exactMatch(input):
+        elif not regex.exactMatch(text):
             self.ui.error_message.setText("Usernames can only start with a letter and can only contain\nletters, numbers and underscores.")
             self.ui.username.textChanged.disconnect()
-            self.ui.username.setText(input[:-1])
+            self.ui.username.setText(text[:-1])
             self.ui.username.textChanged.connect(self.handle_key_press)
         else:
             self.ui.error_message.setText("")
@@ -67,7 +66,7 @@ class SignUpWindow(QMainWindow):
             self.ui.caps_lock.setText("Caps lock is on")
         else:
             self.ui.caps_lock.setText("")
-            
+
     def handle_view_password(self, line_edit, push_button):
         if line_edit.echoMode() == 2:
             line_edit.setEchoMode(QLineEdit.Normal)
@@ -116,14 +115,14 @@ class SignUpWindow(QMainWindow):
             information.setWindowTitle("Success")
             information.exec()
             self.handle_login()
-            
+
     def valid_username(self, username):
         if len(username) < 3:
             return "Username has to be 3 characters long or longer."
         if all(username.count(char) == len(username) for char in username):
             return "Username cannot have only one letter repeated."
         return True
-    
+
     def valid_password(self, password):
         if len(password) < 5:
             return "Password has to be 5 characters or longer."

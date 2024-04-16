@@ -182,7 +182,7 @@ COMMIT;
         """Checks if the username given already exists in the database."""
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
-        cursor.execute(f"SELECT COUNT(*) FROM users WHERE username = ?", (username, ))
+        cursor.execute("SELECT COUNT(*) FROM users WHERE username = ?", (username, ))
         result = cursor.fetchone()
         if result[0] == 1:
             return True
@@ -247,7 +247,7 @@ COMMIT;
         cursor.execute(f"DELETE FROM tasks WHERE task_id = {task_id}")
         connection.commit()
         connection.close()
-        
+
     def delete_completed_tasks(self, user_id):
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
@@ -311,7 +311,7 @@ COMMIT;
                        (user_id, task_id, date, start_time, end_time))
         connection.commit()
         connection.close()
-        
+
     def delete_schedules(self, task_id):
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
@@ -329,6 +329,6 @@ COMMIT;
     def delete_label(self, user_id, label_name):
         connection = sqlite3.connect(self.db_file)
         cursor = connection.cursor()
-        cursor.execute(f"DELETE FROM labels WHERE user_id = ? AND label_name = ?", (user_id, label_name))
+        cursor.execute("DELETE FROM labels WHERE user_id = ? AND label_name = ?", (user_id, label_name))
         connection.commit()
         connection.close()

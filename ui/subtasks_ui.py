@@ -84,8 +84,8 @@ class Ui_SubtaskWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(SubtaskWindow)
-        self.cancel_btn.clicked.connect(SubtaskWindow.close) # type: ignore
         self.subtask_name.returnPressed.connect(self.add_subtask_btn.click) # type: ignore
+        self.cancel_btn.clicked.connect(SubtaskWindow.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(SubtaskWindow)
         SubtaskWindow.setTabOrder(self.subtask_name, self.add_subtask_btn)
         SubtaskWindow.setTabOrder(self.add_subtask_btn, self.subtasks_table)
@@ -95,9 +95,9 @@ class Ui_SubtaskWindow(object):
         _translate = QtCore.QCoreApplication.translate
         SubtaskWindow.setWindowTitle(_translate("SubtaskWindow", "Subtasks"))
         self.task_name.setText(_translate("SubtaskWindow", "Task Name"))
-        self.label.setText(_translate("SubtaskWindow", "Enter Subtask Name"))
+        self.label.setText(_translate("SubtaskWindow", "Enter Subtask Name:"))
         self.add_subtask_btn.setText(_translate("SubtaskWindow", "Add SubTask"))
         self.add_subtask_btn.setProperty("groupName", _translate("SubtaskWindow", "common_buttons"))
         self.label_2.setText(_translate("SubtaskWindow", "Subtasks List:"))
         self.cancel_btn.setText(_translate("SubtaskWindow", "Cancel"))
-        self.cancel_btn.setProperty("groupName", _translate("SubtaskWindow", "close_buttons"))
+        self.cancel_btn.setProperty("groupName", _translate("SubtaskWindow", "cancel_buttons"))

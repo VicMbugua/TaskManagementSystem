@@ -1,4 +1,3 @@
-from math import inf
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtWidgets import QDialog, QMessageBox
@@ -17,7 +16,8 @@ class AddTaskDialog(QDialog):
         self.parent = parent
         self.db_manager = DatabaseManager()
         project_id = self.db_manager.fetch_data(
-            f"SELECT project_id FROM projects WHERE user_id = {user_id} AND project_name = '{project_name}'")
+            "SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?",
+            (user_id, project_name))
         self.project_id: int = project_id[0][0]
         self.user_id = user_id
         self.ui.task_name.setFocus()
@@ -81,7 +81,7 @@ class AddTaskDialog(QDialog):
             self.ui.task_name.setFocus()
 
     def add_label(self, label_name):
-        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = ? AND label_name = ?", (self.user_id, label_name))
+        labels = self.db_manager.fetch_data("SELECT COUNT(*) FROM labels WHERE user_id = ? AND label_name = ?", (self.user_id, label_name))
         label_exists = False
         if labels[0][0] == 1:
             label_exists = True
@@ -95,7 +95,7 @@ class AddTaskDialog(QDialog):
             confirmation = QMessageBox()
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             confirmation.setWindowTitle("Confirmation")
-            confirmation.setText(f"Are you sure you want to cancel?")
+            confirmation.setText("Are you sure you want to cancel?")
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
             confirmation.setIcon(QMessageBox.Warning)
@@ -178,7 +178,7 @@ class EditTaskDialog(QDialog):
             self.ui.task_name.setFocus()
 
     def add_label(self, label_name):
-        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM labels WHERE user_id = ? AND label_name = ?", (self.user_id, label_name))
+        labels = self.db_manager.fetch_data("SELECT COUNT(*) FROM labels WHERE user_id = ? AND label_name = ?", (self.user_id, label_name))
         label_exists = False
         if labels[0][0] == 1:
             label_exists = True
@@ -186,7 +186,7 @@ class EditTaskDialog(QDialog):
             self.db_manager.add_label(self.user_id, label_name)
     
     def delete_label(self, label_name):
-        labels = self.db_manager.fetch_data(f"SELECT COUNT(*) FROM tasks WHERE user_id = ? AND label_name = ? AND status != 'Completed'", (self.user_id, label_name))
+        labels = self.db_manager.fetch_data("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND label_name = ? AND status != 'Completed'", (self.user_id, label_name))
         label_exists = False
         if labels[0][0] == 1:
             label_exists = True
@@ -218,7 +218,7 @@ class EditTaskDialog(QDialog):
             confirmation = QMessageBox()
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             confirmation.setWindowTitle("Confirmation")
-            confirmation.setText(f"Are you sure you want to cancel?")
+            confirmation.setText("Are you sure you want to cancel?")
             confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
             confirmation.setIcon(QMessageBox.Warning)
@@ -227,5 +227,3 @@ class EditTaskDialog(QDialog):
                 self.close()
         else:
             self.close()
-
-

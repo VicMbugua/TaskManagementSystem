@@ -78,7 +78,7 @@
              <enum>Qt::TabFocus</enum>
             </property>
             <property name="toolTip">
-             <string>Collapse menu</string>
+             <string>Collapse menu (Alt+M)</string>
             </property>
             <property name="text">
              <string/>
@@ -293,7 +293,7 @@
                 <enum>Qt::TabFocus</enum>
                </property>
                <property name="toolTip">
-                <string>Exit</string>
+                <string>Exit (Alt+F4)</string>
                </property>
                <property name="text">
                 <string/>
@@ -342,6 +342,9 @@
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
                </property>
+               <property name="toolTip">
+                <string>Home (Alt+H)</string>
+               </property>
                <property name="text">
                 <string>Home</string>
                </property>
@@ -371,6 +374,9 @@
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
                </property>
+               <property name="toolTip">
+                <string>Tasks (Alt+T)</string>
+               </property>
                <property name="text">
                 <string>Tasks</string>
                </property>
@@ -399,6 +405,9 @@
               <widget class="QPushButton" name="completed_tasks_btn_2">
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>Completed Tasks (Alt+C)</string>
                </property>
                <property name="layoutDirection">
                 <enum>Qt::LeftToRight</enum>
@@ -431,6 +440,9 @@
               <widget class="QPushButton" name="calendar_btn_2">
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>Calendar (Alt+L)</string>
                </property>
                <property name="text">
                 <string>Calendar</string>
@@ -473,6 +485,9 @@
               <widget class="QPushButton" name="exit_btn_2">
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>Exit (Alt+F4)</string>
                </property>
                <property name="text">
                 <string>Exit</string>
@@ -535,7 +550,7 @@
            <widget class="QLabel" name="label_3">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -562,7 +577,7 @@
              <enum>Qt::TabFocus</enum>
             </property>
             <property name="toolTip">
-             <string>Search for tasks</string>
+             <string>Search for tasks (Alt+S)</string>
             </property>
             <property name="text">
              <string/>
@@ -570,6 +585,9 @@
             <property name="icon">
              <iconset resource="resources.qrc">
               <normaloff>:/icons/icons/3844432_magnifier_search_zoom_icon.svg</normaloff>:/icons/icons/3844432_magnifier_search_zoom_icon.svg</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Alt+S</string>
             </property>
             <property name="autoDefault">
              <bool>true</bool>
@@ -585,7 +603,7 @@
              <enum>Qt::TabFocus</enum>
             </property>
             <property name="toolTip">
-             <string>Click to see user options</string>
+             <string>Click to see user options (Alt+U)</string>
             </property>
             <property name="text">
              <string/>
@@ -593,6 +611,9 @@
             <property name="icon">
              <iconset resource="resources.qrc">
               <normaloff>:/icons/icons/1564534_customer_man_user_account_profile_icon.svg</normaloff>:/icons/icons/1564534_customer_man_user_account_profile_icon.svg</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Alt+U</string>
             </property>
             <property name="autoDefault">
              <bool>true</bool>
@@ -608,7 +629,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <property name="groupName" stdset="0">
           <string/>
@@ -707,7 +728,7 @@
                 </font>
                </property>
                <property name="text">
-                <string>Recommended tasks</string>
+                <string>Recommended tasks:</string>
                </property>
               </widget>
              </item>
@@ -796,8 +817,14 @@
                 <property name="focusPolicy">
                  <enum>Qt::TabFocus</enum>
                 </property>
+                <property name="toolTip">
+                 <string>Add new project (Alt+P)</string>
+                </property>
                 <property name="text">
                  <string>Add Project</string>
+                </property>
+                <property name="shortcut">
+                 <string>Alt+P</string>
                 </property>
                 <property name="autoDefault">
                  <bool>true</bool>
@@ -814,6 +841,9 @@
                 </property>
                 <property name="text">
                  <string>Manage Project</string>
+                </property>
+                <property name="shortcut">
+                 <string>Alt+N</string>
                 </property>
                 <property name="autoDefault">
                  <bool>true</bool>
@@ -845,14 +875,14 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="tasks_in">
                 <property name="font">
                  <font>
                   <pointsize>13</pointsize>
                  </font>
                 </property>
                 <property name="text">
-                 <string>Tasks List</string>
+                 <string>Tasks in the Default Project:</string>
                 </property>
                </widget>
               </item>
@@ -919,7 +949,7 @@
                  <string>Add Task</string>
                 </property>
                 <property name="shortcut">
-                 <string>Ctrl+T</string>
+                 <string>Alt+A</string>
                 </property>
                 <property name="autoDefault">
                  <bool>true</bool>
@@ -981,7 +1011,7 @@
                 </font>
                </property>
                <property name="text">
-                <string>Completed Tasks</string>
+                <string>Completed Tasks:</string>
                </property>
               </widget>
              </item>
@@ -1239,11 +1269,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>36</x>
-     <y>140</y>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>101</x>
-     <y>140</y>
+     <x>144</x>
+     <y>170</y>
     </hint>
    </hints>
   </connection>
@@ -1286,8 +1316,8 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>75</x>
-     <y>108</y>
+     <x>118</x>
+     <y>134</y>
     </hint>
     <hint type="destinationlabel">
      <x>34</x>
@@ -1302,8 +1332,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>151</x>
-     <y>498</y>
+     <x>167</x>
+     <y>458</y>
     </hint>
     <hint type="destinationlabel">
      <x>117</x>
@@ -1319,7 +1349,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>36</x>
-     <y>498</y>
+     <y>458</y>
     </hint>
     <hint type="destinationlabel">
      <x>23</x>
@@ -1334,12 +1364,12 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>135</y>
+     <x>139</x>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>22</x>
-     <y>138</y>
+     <x>31</x>
+     <y>170</y>
     </hint>
    </hints>
   </connection>

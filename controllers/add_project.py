@@ -22,7 +22,7 @@ class AddProjectDialog(QDialog):
     def handle_save(self):
         project_name = self.ui.project_name.text().capitalize().strip()
         result = self.db_manager.fetch_data(
-            f"SELECT COUNT(*) FROM projects WHERE project_name = ? AND user_id = ?", (project_name, self.user_id)
+            "SELECT COUNT(*) FROM projects WHERE project_name = ? AND user_id = ?", (project_name, self.user_id)
         )
         if result[0][0] == 1:
             valid_name = False
@@ -60,7 +60,7 @@ class RenameProjectDialog(QDialog):
         self.user_id = user_id
         self.project_name = project_name
         project_id = self.db_manager.fetch_data(
-            f"SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (self.user_id, self.project_name)
+            "SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (self.user_id, self.project_name)
         )
         self.project_id = project_id[0][0]
         self.ui.error_message.setText("")
@@ -73,7 +73,7 @@ class RenameProjectDialog(QDialog):
         project_name = self.ui.project_name.text().capitalize().strip()
         if project_name != self.project_name:
             result = self.db_manager.fetch_data(
-                f"SELECT COUNT(*) FROM projects WHERE user_id = ? AND project_name = ?", (self.user_id, project_name)
+                "SELECT COUNT(*) FROM projects WHERE user_id = ? AND project_name = ?", (self.user_id, project_name)
             )
             if result[0][0] == 1:
                 valid_name = False
@@ -86,7 +86,7 @@ class RenameProjectDialog(QDialog):
                 self.ui.project_name.setText("")
             else:
                 self.db_manager.execute_query(
-                    f"UPDATE projects SET project_name = ? WHERE project_id = ?", (project_name, self.project_id)
+                    "UPDATE projects SET project_name = ? WHERE project_id = ?", (project_name, self.project_id)
                 )
                 information = QMessageBox()
                 information.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))

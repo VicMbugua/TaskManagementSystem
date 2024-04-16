@@ -167,7 +167,7 @@ class ScheduleDialog(QDialog):
     def handle_cancel(self):
         confirmation = QMessageBox()
         confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
-        confirmation.setText(f"Are you sure you want to cancel?")
+        confirmation.setText("Are you sure you want to cancel?")
         confirmation.setWindowTitle("Warning")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)

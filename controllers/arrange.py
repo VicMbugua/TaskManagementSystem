@@ -1,5 +1,6 @@
+from datetime import date, datetime
+
 from data.database_manager import DatabaseManager
-from datetime import datetime, date
 
 
 class Arrange:

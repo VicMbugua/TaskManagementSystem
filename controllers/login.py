@@ -22,11 +22,11 @@ class LoginWindow(QMainWindow):
         self.ui.login_btn.clicked.connect(self.handle_login)
         self.db_manager = DatabaseManager()
         self.installEventFilter(self)
-        
+
         self.ui.username.textChanged.connect(self.handle_key_press)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
         self.toggle_caps_lock_label()
-        
+
     def showEvent(self, event) -> None:
         super().showEvent(event)
         self.caps_lock_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
@@ -38,32 +38,32 @@ class LoginWindow(QMainWindow):
         self.ui.password.setEchoMode(QLineEdit.Password)
         self.ui.view_password_btn.setIcon(QIcon("icons/hidden_eye_icon.svg"))
         self.ui.view_password_btn.setToolTip("View Password")
-        
-    def handle_key_press(self, input):
+
+    def handle_key_press(self, text_input):
         regex = QRegExp("^[a-zA-Z][a-zA-Z0-9_]*$")
-        if input == "":
+        if text_input == "":
             self.ui.error_message.setText("")
-        elif not regex.exactMatch(input):
+        elif not regex.exactMatch(text_input):
             self.ui.error_message.setText("Usernames can only start with a letter and can only contain\nletters, numbers and underscores.")
             self.ui.username.textChanged.disconnect()
-            self.ui.username.setText(input[:-1])
+            self.ui.username.setText(text_input[:-1])
             self.ui.username.textChanged.connect(self.handle_key_press)
         else:
             self.ui.error_message.setText("")
-        
+
     def eventFilter(self, obj, event) -> bool:
         if event.type() == QEvent.KeyPress:
             if event.key() == Qt.Key_CapsLock:
                 self.caps_lock_on = not self.caps_lock_on
                 self.toggle_caps_lock_label()
         return super().eventFilter(obj, event)
-    
+
     def toggle_caps_lock_label(self):
         if self.caps_lock_on:
             self.ui.caps_lock.setText("Caps lock is on")
         else:
             self.ui.caps_lock.setText("")
-            
+
     def handle_view_password(self):
         self.show_password = not self.show_password
         if self.show_password:
@@ -74,7 +74,6 @@ class LoginWindow(QMainWindow):
             self.ui.password.setEchoMode(QLineEdit.Password)
             self.ui.view_password_btn.setIcon(QIcon("icons/hidden_eye_icon.svg"))
             self.ui.view_password_btn.setToolTip("View Password")
-            
 
     def handle_login(self) -> None:
         """Checks if the username and password are correct then logins the user if they are correct."""
@@ -99,7 +98,7 @@ class LoginWindow(QMainWindow):
         else:
             self.widget.close()
             self.user_id = self.db_manager.fetch_data(
-                f"SELECT user_id FROM users WHERE username = ?", (username, )
+                "SELECT user_id FROM users WHERE username = ?", (username, )
             )
             self.user_id = int(self.user_id[0][0])
             window = MainWindow(self.user_id, self.widget)

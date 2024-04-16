@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QStandardItem, QStandardItemModel, QIcon
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QIcon, QKeySequence
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QAbstractItemView, QMenu, QAction, QPushButton
 from controllers.add_project import AddProjectDialog, RenameProjectDialog
 from controllers.arrange import Arrange
@@ -34,6 +34,8 @@ class MainWindow(QMainWindow):
         user_menu = QMenu()
         manage_account = user_menu.addAction("Manage Account")
         log_out = user_menu.addAction("Log Out")
+        manage_account.setShortcut(QKeySequence(Qt.ALT + Qt.Key_E))
+        log_out.setShortcut(QKeySequence(Qt.ALT + Qt.Key_G))
 
         manage_account.triggered.connect(self.open_manage_account)
         log_out.triggered.connect(self.logout)
@@ -46,20 +48,24 @@ class MainWindow(QMainWindow):
         project_menu = QMenu()
         rename_project = project_menu.addAction("Rename Project")
         delete_project = project_menu.addAction("Delete Project")
+        rename_project.setShortcut(QKeySequence(Qt.ALT + Qt.Key_R))
+        delete_project.setShortcut(QKeySequence(Qt.ALT + Qt.Key_D))
         rename_project.triggered.connect(self.rename_project)
         delete_project.triggered.connect(self.delete_project)
         project_button = self.ui.manage_project_btn
         project_button.setMenu(project_menu)
         project_button.setEnabled(False)
         project_button.setToolTip("You cannot edit the Default project.")
+        self.ui.add_task_btn.setToolTip(f"Add new task to {self.project_name} project (Alt+A)")
+        self.ui.manage_project_btn.setToolTip(
+                f"Rename or delete {self.project_name} project (Alt+N)")
 
         self.ui.project.currentIndexChanged.connect(self.handle_project_change)
         self.ui.add_project_btn.clicked.connect(self.open_add_project)
         self.ui.add_task_btn.clicked.connect(self.open_task_dialog)
-        self.ui.add_task_btn.setToolTip(
-            f"Add new task to {self.project_name} project")
+        
         self.ui.clear_all_btn.clicked.connect(self.handle_clear_all)
-        self.display_day_tasks(date=date.today())
+        self.display_day_tasks(date_selected=date.today())
         self.installEventFilter(self)
         self.ui.calendar.selectionChanged.connect(self.date_changed)
         today_date = datetime.today().strftime("%d %B %Y")
@@ -75,12 +81,12 @@ class MainWindow(QMainWindow):
 
     def on_menu_btn_pressed(self) -> None:
         if self.ui.full_name_widget.isVisible():
-            self.ui.menu_btn.setToolTip("Expand menu")
+            self.ui.menu_btn.setToolTip("Expand menu (Alt+M)")
             self.ui.full_name_widget.hide()
             self.ui.menu_label.hide()
             self.ui.icons_only_widget.show()
         else:
-            self.ui.menu_btn.setToolTip("Collapse menu")
+            self.ui.menu_btn.setToolTip("Collapse menu (Alt+M)")
             self.ui.full_name_widget.show()
             self.ui.menu_label.show()
             self.ui.icons_only_widget.hide()
@@ -101,7 +107,7 @@ class MainWindow(QMainWindow):
         confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
         confirmation.setWindowTitle("Confirmation")
         confirmation.setText(
-            f"Are you sure you want to log out?"
+            "Are you sure you want to log out?"
         )
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
@@ -219,6 +225,7 @@ class MainWindow(QMainWindow):
             button.setAutoDefault(True)
             menu = QMenu()
             schedule_action = QAction("Schedule", self)
+            subtasks_action = QAction("Add Subtasks", self)
             done_action = QAction("Done", self)
             edit_action = QAction("Edit", self)
             delete_action = QAction("Delete", self)
@@ -227,6 +234,10 @@ class MainWindow(QMainWindow):
             status = self.filtered_tasks_model.index(row, 5).data()
             schedule_action.triggered.connect(
                 lambda index, row=row: self.handle_schedule(
+                    row, self.filtered_tasks_model)
+            )
+            subtasks_action.triggered.connect(
+                lambda index, row=row: self.handle_subtasks(
                     row, self.filtered_tasks_model)
             )
             done_action.triggered.connect(
@@ -251,6 +262,7 @@ class MainWindow(QMainWindow):
                 )
             )
             menu.addAction(schedule_action)
+            menu.addAction(subtasks_action)
             if status == "Not Started":
                 menu.addAction(started_action)
             else:
@@ -260,6 +272,7 @@ class MainWindow(QMainWindow):
             menu.addAction(delete_action)
             menu.setToolTipsVisible(True)
             schedule_action.setToolTip("Schedule the given task.")
+            subtasks_action.setToolTip("Add subtasks for the given task.")
             done_action.setToolTip("Mark the given task as done/completed.")
             edit_action.setToolTip("Edit the given task.")
             delete_action.setToolTip("Delete the given task.")
@@ -309,7 +322,7 @@ class MainWindow(QMainWindow):
         self.tasks_table = self.ui.tasks_list
         self.tasks_table.verticalHeader().setDefaultSectionSize(40)
         project_id = self.db_manager.fetch_data(
-            f"SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (
+            "SELECT project_id FROM projects WHERE user_id = ? AND project_name = ?", (
                 self.user_id, self.project_name)
         )
         project_id = project_id[0][0]
@@ -362,6 +375,7 @@ class MainWindow(QMainWindow):
             button.setAutoDefault(True)
             menu = QMenu()
             schedule_action = QAction("Schedule", self)
+            subtasks_action = QAction("Add Subtasks", self)
             done_action = QAction("Done", self)
             edit_action = QAction("Edit", self)
             delete_action = QAction("Delete", self)
@@ -369,6 +383,10 @@ class MainWindow(QMainWindow):
             not_started_action = QAction("Not Started", self)
             schedule_action.triggered.connect(
                 lambda index, row=row: self.handle_schedule(
+                    row, self.tasks_model)
+            )
+            subtasks_action.triggered.connect(
+                lambda index, row=row: self.handle_subtasks(
                     row, self.tasks_model)
             )
             done_action.triggered.connect(
@@ -390,6 +408,7 @@ class MainWindow(QMainWindow):
                     row, self.tasks_model)
             )
             menu.addAction(schedule_action)
+            menu.addAction(subtasks_action)
             status = self.tasks_model.index(row, 5).data()
             if status == "Not Started":
                 menu.addAction(started_action)
@@ -400,6 +419,7 @@ class MainWindow(QMainWindow):
             menu.addAction(delete_action)
             menu.setToolTipsVisible(True)
             schedule_action.setToolTip("Schedule the given task.")
+            subtasks_action.setToolTip("Add subtasks for the given task.")
             done_action.setToolTip("Mark the given task as done/completed.")
             edit_action.setToolTip("Edit the given task.")
             delete_action.setToolTip("Delete the given task.")
@@ -434,16 +454,19 @@ class MainWindow(QMainWindow):
         """Changes the name of a project."""
         self.project_name = self.ui.project.itemText(index)
         self.refresh_table()
+        self.ui.tasks_in.setText(f"Tasks in the {self.project_name} Project:")
         if self.project_name != "Default":
             self.ui.manage_project_btn.setEnabled(True)
             self.ui.manage_project_btn.setToolTip(
-                f"Rename or delete {self.project_name} project")
+                f"Rename or delete {self.project_name} project (Alt+N)")
             self.ui.add_task_btn.setToolTip(
-                f"Add new task to {self.project_name} project")
+                f"Add new task to {self.project_name} project (Alt+A)")
         else:
             self.ui.manage_project_btn.setEnabled(False)
             self.ui.manage_project_btn.setToolTip(
                 "You cannot edit the Default project.")
+            self.ui.add_task_btn.setToolTip(
+                f"Add new task to {self.project_name} project (Alt+A)")
 
     def open_add_project(self) -> None:
         add_project = AddProjectDialog(self.user_id, self)
@@ -469,7 +492,7 @@ class MainWindow(QMainWindow):
         response = confirmation.exec()
         if response == QMessageBox.Yes:
             self.db_manager.execute_query(
-                f"DELETE FROM projects WHERE project_name = ? AND user_id = ?", (
+                "DELETE FROM projects WHERE project_name = ? AND user_id = ?", (
                     self.project_name, self.user_id)
             )
             index: int = self.ui.project.findText(self.project_name)
@@ -491,6 +514,12 @@ class MainWindow(QMainWindow):
         subtask = SubtasksDialog(task_id, self)
         subtask.setFixedSize(550, 400)
         subtask.show()
+        
+    def handle_subtasks(self, row, model):
+        task_id = model.index(row, 0).data()
+        subtask = SubtasksDialog(task_id, self)
+        subtask.setFixedSize(550, 400)
+        subtask.show()
 
     def handle_schedule(self, row, model):
         task_id = model.index(row, 0).data()
@@ -507,15 +536,13 @@ class MainWindow(QMainWindow):
         confirmation = QMessageBox()
         confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
         confirmation.setWindowTitle("Confirmation")
-        confirmation.setText(f"Are you sure you want to mark {
-                             tasks_name} as done?")
+        confirmation.setText(f"Are you sure you want to mark {tasks_name} as done?")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
         confirmation.setIcon(QMessageBox.Warning)
         response = confirmation.exec()
         if response == QMessageBox.Yes:
-            query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {
-                task_id}"
+            query = f"UPDATE tasks SET status = 'Completed' WHERE task_id = {task_id}"
             self.db_manager.execute_query(query)
             self.db_manager.delete_schedules(task_id)
             self.refresh_table()
@@ -640,8 +667,7 @@ class MainWindow(QMainWindow):
         tasks_name = tasks_name[0][0]
         confirmation = QMessageBox()
         confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
-        confirmation.setText(f"Are you sure you want to mark {
-                             tasks_name} as not done")
+        confirmation.setText(f"Are you sure you want to mark {tasks_name} as not done")
         confirmation.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         confirmation.setDefaultButton(QMessageBox.Cancel)
         confirmation.setIcon(QMessageBox.Warning)
@@ -664,7 +690,7 @@ class MainWindow(QMainWindow):
             confirmation = QMessageBox()
             confirmation.setWindowIcon(QIcon("icons/9054813_bx_task_icon.svg"))
             confirmation.setText(
-                f"Are you sure you want to delete all completed tasks?")
+                "Are you sure you want to delete all completed tasks?")
             confirmation.setStandardButtons(
                 QMessageBox.Yes | QMessageBox.Cancel)
             confirmation.setDefaultButton(QMessageBox.Cancel)
@@ -689,16 +715,16 @@ class MainWindow(QMainWindow):
 
     def date_changed(self):
         """Refreshes the calendar table when a different date is selected."""
-        date = self.ui.calendar.selectedDate().toString("yyyy-MM-dd")
-        self.display_day_tasks(date)
+        date_selected = self.ui.calendar.selectedDate().toString("yyyy-MM-dd")
+        self.display_day_tasks(date_selected)
         full_date = self.ui.calendar.selectedDate().toString("dd MMMM yyyy")
         self.ui.schedules_for.setText(f"Tasks scheduled for {full_date}")
 
-    def display_day_tasks(self, date):
+    def display_day_tasks(self, date_selected):
         """Shows a list of tasks scheduled for that day."""
         self.calendar_table = self.ui.calendar_table
         query = f"""SELECT task_id, start_time, end_time FROM schedules WHERE date = '{
-            date}' and user_id={self.user_id}"""
+            date_selected}' and user_id={self.user_id}"""
         result = self.db_manager.fetch_data(query)
         headers = ["Task Name", "Start Time", "End Time"]
         self.calendar_tasks_model = QStandardItemModel(
@@ -708,9 +734,7 @@ class MainWindow(QMainWindow):
             for col_num, col_data in enumerate(row_data):
                 if col_num == 0:
                     task_name = self.db_manager.fetch_data(
-                        f"SELECT task_name FROM tasks WHERE task_id = {
-                            col_data}"
-                    )
+                        f"SELECT task_name FROM tasks WHERE task_id = {col_data}")
                     item = QStandardItem(task_name[0][0])
                 else:
                     item = QStandardItem(str(col_data))
