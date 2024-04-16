@@ -443,7 +443,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(3)
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
         self.tasks_btn_1.toggled['bool'].connect(self.tasks_btn_2.setChecked) # type: ignore
         self.completed_tasks_btn_1.toggled['bool'].connect(self.completed_tasks_btn_2.setChecked) # type: ignore
@@ -543,8 +543,9 @@ class Ui_MainWindow(object):
         self.add_task_btn.setProperty("groupName", _translate("MainWindow", "common_buttons"))
         self.number_of_completed_tasks.setText(_translate("MainWindow", "Number of Completed Tasks"))
         self.label_2.setText(_translate("MainWindow", "Completed Tasks:"))
-        self.clear_all_btn.setToolTip(_translate("MainWindow", "Delete all completed tasks"))
+        self.clear_all_btn.setToolTip(_translate("MainWindow", "Delete all completed tasks (Alt+D)"))
         self.clear_all_btn.setText(_translate("MainWindow", "Clear All"))
+        self.clear_all_btn.setShortcut(_translate("MainWindow", "Alt+D"))
         self.clear_all_btn.setProperty("groupName", _translate("MainWindow", "cancel_buttons"))
         self.label_4.setText(_translate("MainWindow", "Calendar View"))
         self.label_7.setText(_translate("MainWindow", "Click on a date to see a list of tasks scheduled for that date."))
