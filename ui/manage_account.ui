@@ -95,11 +95,17 @@
            <property name="focusPolicy">
             <enum>Qt::TabFocus</enum>
            </property>
+           <property name="toolTip">
+            <string>Change Username (Alt+U)</string>
+           </property>
            <property name="styleSheet">
             <string notr="true">text-align: left;</string>
            </property>
            <property name="text">
             <string>Change Username</string>
+           </property>
+           <property name="shortcut">
+            <string>Alt+U</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -120,11 +126,17 @@
            <property name="focusPolicy">
             <enum>Qt::TabFocus</enum>
            </property>
+           <property name="toolTip">
+            <string>Change Password (Alt+P)</string>
+           </property>
            <property name="styleSheet">
             <string notr="true">text-align: left;</string>
            </property>
            <property name="text">
             <string>Change Password</string>
+           </property>
+           <property name="shortcut">
+            <string>Alt+P</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -145,11 +157,17 @@
            <property name="focusPolicy">
             <enum>Qt::TabFocus</enum>
            </property>
+           <property name="toolTip">
+            <string>Delete Account (Alt+D)</string>
+           </property>
            <property name="styleSheet">
             <string notr="true">text-align: left;</string>
            </property>
            <property name="text">
             <string>Delete Account</string>
+           </property>
+           <property name="shortcut">
+            <string>Alt+D</string>
            </property>
            <property name="checkable">
             <bool>true</bool>

@@ -97,11 +97,11 @@ class LoginWindow(QMainWindow):
             self.ui.error_message.setText("Wrong password. Please try again.")
         else:
             self.widget.close()
-            self.user_id = self.db_manager.fetch_data(
+            user_id = self.db_manager.fetch_data(
                 "SELECT user_id FROM users WHERE username = ?", (username, )
             )
-            self.user_id = int(self.user_id[0][0])
-            window = MainWindow(self.user_id, self.widget)
+            user_id = int(user_id[0][0])
+            window = MainWindow(user_id, self.widget)
             window.show()
 
     def handle_sign_up(self) -> None:
